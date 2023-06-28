@@ -4,6 +4,7 @@ import {Container} from "@/components/container";
 import {sprinkles} from "@/styles/sprinkles.css";
 import {FC} from "react";
 import {useNavigate} from "react-router-dom";
+import {ROUTES} from "@utils/router.ts";
 
 export const AppHeader: FC = () => {
     const navigate = useNavigate()
@@ -13,12 +14,12 @@ export const AppHeader: FC = () => {
             <div className={sprinkles({display: "flex", alignItems: "center", justifyContent: "space-between"})}>
                 <IconButton
                     onClick={() => setIsDarkScheme(prev => !prev)}
-                    icon={cog_6Tooth}
+                    icon={"SettingsIcon"}
                     variant={"outline"}
                 />
                 <IconButton
                     onClick={() => navigate(ROUTES.profile.path)}
-                    icon={user}
+                    icon={"UserIcon"}
                     variant={"outline"}
                 />
             </div>

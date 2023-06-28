@@ -1,13 +1,8 @@
 import {FC, useState} from "react";
-import {useParams} from "react-router-dom";
 import {Button, IconButton, Input, Modal, Stack} from "@components";
 
-interface Props {
-    onConfirm: () => void;
-}
 
-export const AddAccountModal: FC<Props> = ({onConfirm}) => {
-    const params = useParams()
+export const AddAccountModal: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [accountName, setAccountName] = useState("")
     const [accountValue, setAccountValue] = useState("")
@@ -19,7 +14,7 @@ export const AddAccountModal: FC<Props> = ({onConfirm}) => {
 
     const onSubmit = async () => {
         if (Number(accountValue) || Number(accountValue) === 0) {
-            onConfirm()
+
             setIsOpen(false)
             resetForm()
         }
