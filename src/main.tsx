@@ -4,19 +4,27 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Layout} from "@pages/layout/Layout.tsx";
 import {ROUTES} from "@utils/router.ts";
 import AccountPage from "@pages/accounts/AccountPage.tsx";
+import {Provider} from "react-redux";
+import {store} from "@/store";
+import ThemeProvider from "@components/theme-provider/ThemeProvider.tsx";
+import AccountsPage from "@pages/accounts/AccountsPage.tsx";
 
 
 const router = createBrowserRouter([{
     path: "/",
     element: <Layout/>,
     children: [{
-        path: ROUTES.accounts.account.relative,
-        element: <AccountPage/>
+        index: true,
+        element: <AccountsPage/>
     }]
 }])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <Provider store={store}>
+            <ThemeProvider>
+                <RouterProvider router={router}/>
+            </ThemeProvider>
+        </Provider>
     </React.StrictMode>,
 )

@@ -45,6 +45,9 @@
       ],
       "@icons/": [
         "src/icons/*"
+      ],
+      "@store/": [
+        "src/store/*"
       ]
     }
   },

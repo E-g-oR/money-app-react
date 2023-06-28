@@ -5,7 +5,7 @@ import {Stack} from "@/components/stack";
 import {Typography} from "@/components/typography";
 import {IconButton} from "@/components/button";
 import {FC, ReactNode} from "react";
-import {AnimatePresence, m} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 
 interface Props {
     onClose: () => void;
@@ -17,8 +17,8 @@ interface Props {
 
 const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
     return <AnimatePresence>
-        {isOpen && <m.div
-            key={"modal"}
+        {isOpen && <motion.div
+            // key={"modal"}
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             exit={{opacity: 0}}
@@ -45,8 +45,9 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
                 </Stack>
                 {children}
             </Card>
-        </m.div>}
+        </motion.div>}
     </AnimatePresence>
+
 }
 
 export default Modal;
