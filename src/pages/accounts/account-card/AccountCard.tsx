@@ -1,9 +1,10 @@
 import {FC} from "react";
-import * as styles from "./account-card.css"
-import {AccountInList} from "@types/accounts.ts";
 import {Link} from "react-router-dom";
+import * as styles from "./account-card.css"
+import {AccountInList} from "@/types/accounts.ts";
 import {Card, Container, Divider, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
+import {ROUTES} from "@utils/router.ts";
 
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
 
 export const AccountCard: FC<Props> = ({account}) =>
     <Link
-        to={""}
+        to={ROUTES.accounts.account.builder(account.id.toString())}
     >
         <Card>
             <Stack>

@@ -1,10 +1,12 @@
 import {settingsActions} from "@store/settings/settings.slice.ts";
 import {useDispatch} from "react-redux";
 import {bindActionCreators} from "@reduxjs/toolkit";
+import {authActions} from "@store/auth/auth.slice.ts";
 
 
 const actions = {
-    ...settingsActions
+    ...settingsActions,
+    ...authActions
 }
 
 /**

@@ -30,6 +30,7 @@ const depths = "depths"
 
 const paramAccountId = ":accountId"
 const createUrl = (...args: string[]): string => "/" + args.join("/")
+const createRelativePath = (...args: string[]): string => args.join("/")
 
 export const ROUTES: Router = {
     auth: {
@@ -57,7 +58,7 @@ export const ROUTES: Router = {
         },
         account: {
             path: createUrl(accounts, paramAccountId),
-            relative: paramAccountId,
+            relative: createRelativePath(accounts, paramAccountId),
             builder: (accountId: string) => createUrl(accounts, accountId)
         }
     },

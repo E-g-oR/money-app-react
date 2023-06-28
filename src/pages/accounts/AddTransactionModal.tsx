@@ -1,7 +1,7 @@
 import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@/components";
 import {FC, useCallback, useState} from "react";
 import {useParams} from "react-router-dom";
-import {OperationNew, OperationType} from "@types/accounts.ts";
+import {OperationNew, OperationType} from "@/types/accounts.ts";
 
 interface OperationTypeValue {
     label: string;

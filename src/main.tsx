@@ -15,7 +15,10 @@ const router = createBrowserRouter([{
     element: <Layout/>,
     children: [{
         index: true,
-        element: <AccountsPage/>
+        element: <AccountsPage/>,
+    }, {
+        path: ROUTES.accounts.account.relative,
+        element: <AccountPage/>,
     }]
 }])
 

@@ -4,7 +4,7 @@ import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
 import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
 import {TransactionList} from "@pages/accounts/transactions/TransactionList.tsx";
-import {Account, Operation, OperationType} from "@types/accounts.ts";
+import {Account, Operation, OperationType} from "@/types/accounts.ts";
 
 export const account: Account = {
     name: "test",

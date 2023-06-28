@@ -1,5 +1,4 @@
-import {Pageable} from "@types/api.ts";
-import {Operation} from "@types/accounts.ts";
+import {Operation} from "@/types/accounts.ts";
 import {FC} from "react";
 import {Stack} from "@components";
 import {TransactionCard} from "@components/transaction-card";

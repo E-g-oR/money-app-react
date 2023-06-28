@@ -1,6 +1,6 @@
 import {FC, useState} from "react";
 import {IconButton, Input, Stack, Typography} from "@components";
-import {Account} from "@types/accounts.ts";
+import {Account} from "@/types/accounts.ts";
 
 interface Props {
     account: Account,
