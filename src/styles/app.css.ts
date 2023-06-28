@@ -1,7 +1,7 @@
 import {globalStyle, style} from "@vanilla-extract/css";
 import {colorScheme} from "./colorScheme.css";
-import {sizeRelative} from "@/utils/etc";
-import {theme} from "@/styles/theme.css";
+import {theme} from "@styles/theme.css.ts";
+import {sizeRelative} from "@utils/etc.ts";
 
 export const app = style({
     backgroundColor: colorScheme.background.normal,

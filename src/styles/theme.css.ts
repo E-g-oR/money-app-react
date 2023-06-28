@@ -1,5 +1,6 @@
 import {createTheme, createThemeContract} from "@vanilla-extract/css";
-import {sizeRelative} from "../utils/etc";
+import {sizeRelative} from "@utils/etc.ts";
+// import {sizeRelative} from "../utils/etc";
 
 export const spacing = {
     xxs: "",
