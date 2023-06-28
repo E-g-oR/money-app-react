@@ -1,0 +1,55 @@
+import {FC} from "react";
+import * as styles from "./input.css"
+import {assignInlineVars} from "@vanilla-extract/dynamic";
+import {colorScheme} from "@styles/colorScheme.css.ts";
+import {clsx} from "@utils/etc.ts";
+
+type InputType = "text" | "password" | "email" | "number" | "search"
+
+interface Props {
+    type?: InputType
+    label?: string,
+    value: string,
+    onChange: (value: string) => void,
+    placeholder?: string
+    isError?: boolean,
+    fullWidth?: boolean
+    autofocus?: boolean
+}
+
+const Input: FC<Props> = ({
+                                     type = "text",
+                                     value,
+                                     onChange,
+                                     label,
+                                     placeholder,
+                                     isError = false,
+                                     fullWidth,
+                                     autofocus
+                                 }) => {
+    return <label
+        className={styles.label({fullWidth})}
+        style={assignInlineVars({
+            [styles.bg]: isError ? colorScheme.error.lightTransparent : colorScheme.background.light,
+            [styles.bgFocus]: isError ? colorScheme.error.darkTransparent : colorScheme.background.dark,
+            [styles.text]: isError ? colorScheme.error.normal : colorScheme.text.normal,
+            [styles.decoratorBg]: isError ? colorScheme.error.normal : colorScheme.primary.normal
+        })}>
+        {label}
+        <input
+            autoFocus={autofocus}
+            type={type}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            className={clsx(
+                styles.input,
+            )}
+
+        />
+        <div className={styles.decorator}/>
+    </label>
+}
+
+
+export default Input

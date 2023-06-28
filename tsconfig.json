@@ -25,6 +25,9 @@
       "@*": [
         "src/*"
       ],
+      "@assets/": [
+        "src/assets/*"
+      ],
       "@components/": [
         "src/components/*"
       ],
@@ -36,11 +39,18 @@
       ],
       "@utils/": [
         "src/utils/*"
+      ],
+      "@types/": [
+        "src/types/*"
+      ],
+      "@icons/": [
+        "src/icons/*"
       ]
     }
   },
   "include": [
-    "src"
+    "src",
+    "index.d.ts"
   ],
   "references": [
     {
