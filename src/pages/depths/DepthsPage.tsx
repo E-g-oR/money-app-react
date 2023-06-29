@@ -1,27 +1,15 @@
-import {Component, createEffect, createSignal, For, onMount} from "solid-js";
-import {Motion} from "@motionone/solid";
-import {Button, Stack, Typography} from "@/components";
-import DepthCard from "@/pages/depths/DepthCard";
-import {sprinkles} from "@/styles/sprinkles.css";
-import AddDepthModal from "@/pages/depths/AddDepthModal";
-import depths from "@/api/depths";
-import {Depth} from "@/types/depths";
-import {depthsStore} from "@/store/depthsStore";
-// import Depths from "@/api/depths";
+import {FC} from "react";
+import {Stack, Typography} from "@components";
+import AddDepthModal from "@pages/depths/AddDepthModal.tsx";
+import List from "@components/list/List.tsx";
+import DepthCard from "@pages/depths/DepthCard.tsx";
+import {useGetDepthsListQuery} from "@store/api.ts";
+import {motion} from "framer-motion";
 
-
-const DepthsPage: Component = () => {
-    onMount(() => {
-        depths.getDepths()
-    })
-
-    const [a, setA] = createSignal<ReadonlyArray<Depth> | undefined>(undefined)
-
-    createEffect(() => {
-       setA(depthsStore.data)
-    })
+const DepthsPage: FC = () => {
+    const {data: depthsList, isLoading: isLoadingDepths} = useGetDepthsListQuery(undefined)
     return <>
-        <Motion.div
+        <motion.div
             initial={{opacity: 0,}}
             animate={{opacity: 1}}
             exit={{opacity: 0}}
@@ -32,40 +20,13 @@ const DepthsPage: Component = () => {
                 </Typography>
                 <AddDepthModal/>
             </Stack>
-        </Motion.div>
-        <p>is Loading: {depthsStore.isLoading}</p>
-        <Button onClick={depths.getDepths}>Set enabled</Button>
-        <Stack
-            spacing={"xs"}
-            vertical
-            className={sprinkles({marginTop: "m"})}
-            alignItems={"stretch"}
-        >
-            {/*<Show when={!depthsStore.isLoading} fallback={"Loading..."}>*/}
-            {a()?.map(item => item.title)}
-            <For
-                each={a()}
-                fallback={<Typography as={"i"}>You dont have any depths. Congrats!</Typography>}
-            >
-                {(depth) => <DepthCard depth={depth}/>}
-            </For>
-            {/*</Show>*/}
-
-
-            {/*<Switch>*/}
-            {/*    <Match when={depthsResource.isLoading}>*/}
-            {/*        <Typography as={"i"}>Loading...</Typography>*/}
-            {/*    </Match>*/}
-            {/*    <Match when={depthsResource.data}>*/}
-            {/*        <For*/}
-            {/*            each={depthsResource.data}*/}
-            {/*            fallback={<Typography as={"i"}>You dont have any depths. Congrats!</Typography>}*/}
-            {/*        >*/}
-            {/*            {depth => <DepthCard depth={depth}/>}*/}
-            {/*        </For>*/}
-            {/*    </Match>*/}
-            {/*</Switch>*/}
-        </Stack>
+        </motion.div>
+        <List
+            data={depthsList}
+            isLoading={isLoadingDepths}
+            renderItem={item => <DepthCard depth={item}/>}
+            fallback={"You dont have any depths. Congratulations!"}
+        />
     </>
 }
 

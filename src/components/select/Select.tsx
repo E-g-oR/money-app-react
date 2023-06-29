@@ -32,7 +32,7 @@ function Select<T>({variants, renderVariants, value, onChange}: Props<T>): React
                 })}>
                 {renderVariants(value)}
                 <IconComponent
-                    icon={"BackIcon"}
+                    icon={"ArrowDropdown"}
                     className={styles.chevron({isOpen})}
                 />
             </div>

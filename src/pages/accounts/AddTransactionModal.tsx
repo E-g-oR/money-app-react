@@ -46,7 +46,10 @@ const AddTransactionModal: FC = () => {
     }, [setIsOpen, resetForm])
 
     return <>
-        <IconButton onClick={() => setIsOpen(true)} icon={"UserIcon"}/>
+        <IconButton
+            onClick={() => setIsOpen(true)}
+            icon={"Add"}
+        />
         <Modal
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}

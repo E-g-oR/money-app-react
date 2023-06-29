@@ -1,15 +1,12 @@
-import {Component, createSignal} from "solid-js";
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
-import {plus} from "solid-heroicons/outline";
-import {DepthNew} from "@/types/depths";
-import depths from "@/api/depths";
+import {FC, useState} from "react";
 
-const AddDepthModal: Component = () => {
-    const [isOpen, setIsOpen] = createSignal(false)
-    const [depthName, setDepthName] = createSignal("")
-    const [depthValue, setDepthValue] = createSignal("")
-    const [depthValueCovered, setDepthValueCovered] = createSignal("")
-    const [depthDescription, setDepthDescription] = createSignal("")
+const AddDepthModal: FC = () => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [depthName, setDepthName] = useState("")
+    const [depthValue, setDepthValue] = useState("")
+    const [depthValueCovered, setDepthValueCovered] = useState("")
+    const [depthDescription, setDepthDescription] = useState("")
     const onClose = () => {
         setDepthName("")
         setDepthValue("")
@@ -18,23 +15,7 @@ const AddDepthModal: Component = () => {
         setIsOpen(false)
     }
 
-    const onSubmit = async (e: Event & { submitter: HTMLElement } & {
-        currentTarget: HTMLFormElement,
-        target: Element
-    }) => {
-        e.preventDefault()
 
-        const newDepth: DepthNew = {
-            title: depthName(),
-            value: Number(depthValue()),
-            valueCovered: Number(depthValueCovered()),
-            description: depthDescription(),
-            deadline: new Date().toISOString()
-        }
-
-        await depths.createDepth(newDepth)
-        onClose()
-    }
 
     return <>
         <Modal
@@ -42,7 +23,7 @@ const AddDepthModal: Component = () => {
             isOpen={isOpen}
             title={"Add Depth"}
         >
-            <form onSubmit={onSubmit}>
+            <form >
                 <Stack vertical spacing={"s"}>
                     <Input
                         placeholder={"Title"}
@@ -68,7 +49,7 @@ const AddDepthModal: Component = () => {
                     />
                     <Button
                         type={"submit"}
-                        onClick={onSubmit}
+                        onClick={()=> {}}
                     >Confirm</Button>
                 </Stack>
             </form>
@@ -78,7 +59,7 @@ const AddDepthModal: Component = () => {
             onClick={() => {
                 setIsOpen(true)
             }}
-            icon={plus}
+            icon={"Add"}
         />
     </>
 }

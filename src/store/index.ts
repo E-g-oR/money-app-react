@@ -6,6 +6,7 @@ import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist"
 import * as process from "process";
 import {APIAuth} from "@store/auth/auth.api.ts";
+import {accountsReducer} from "@store/accounts/accounts.slice.ts";
 
 const persistConfig = {
     storage,
@@ -15,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     settings: settingsReducer,
     auth: authReducer,
+    accounts: accountsReducer,
     [APISecure.reducerPath]: APISecure.reducer,
     [APIAuth.reducerPath]: APIAuth.reducer
 })

@@ -10,7 +10,7 @@ interface Props<T> {
 }
 
 function List<T>({renderItem, isLoading, data, fallback}: Props<T>) {
-    return <Stack vertical spacing={"m"}>
+    return <Stack vertical spacing={"s"}>
         <AnimatePresence>
             {isLoading && <motion.div
                 initial={{opacity: 0, scale: 0.8}}

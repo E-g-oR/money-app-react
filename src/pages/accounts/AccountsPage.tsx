@@ -1,9 +1,7 @@
 import {FC} from "react";
 import {Stack, Typography} from "@components";
-import {Link} from "react-router-dom";
 import {AddAccountModal} from "@pages/accounts/AddAccountModal.tsx";
 import {motion} from "framer-motion"
-import {ROUTES} from "@utils/router.ts";
 import {useGetAccountsListQuery} from "@store/api.ts";
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
@@ -11,7 +9,6 @@ import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
 const AccountsPage: FC = () => {
     const {data: accountsList, isLoading: isLoadingAccountsList} = useGetAccountsListQuery("")
     return <Stack vertical spacing={"m"}>
-        <Link to={ROUTES.depths.path}>Depths</Link>
         <motion.div
             initial={{opacity: 0}}
             animate={{opacity: 1}}

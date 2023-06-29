@@ -1,7 +1,8 @@
-import {Component, createEffect, createSignal, Show} from "solid-js";
-import {Button, Input, Modal, Select, Stack, Typography} from "@/components";
+import {Button, Input, Modal, Select, Stack, Typography} from "@components";
 import {Depth} from "@/types/depths";
-import accountsStore from "@/store/accountsStore";
+import {FC, useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {getAccounts} from "@store/accounts/accounts.selector.ts";
 
 interface Props {
     depth: Depth
@@ -12,37 +13,49 @@ const getAmountToPay = (accountValue: number, depth: Depth): number => {
     return amountToPay > accountValue ? accountValue : amountToPay
 }
 
-const PayDepthModal: Component<Props> = ({depth}) => {
-    const [isOpen, setIsOpen] = createSignal(false)
+const PayDepthModal: FC<Props> = ({depth}) => {
+    const accountsList = useSelector(getAccounts)
 
-    const [accountToPayFrom, setAccountToPayFrom] = createSignal(accountsStore.accountsStore.accountsList[0])
-    const [valueToPay, setValueToPay] = createSignal(
-        getAmountToPay(accountToPayFrom()?.value ?? 0, depth).toString()
+    const [isOpen, setIsOpen] = useState(false)
+
+    const [accountToPayFrom, setAccountToPayFrom] = useState(accountsList?.[0])
+    const [valueToPay, setValueToPay] = useState(
+        getAmountToPay(accountToPayFrom?.value ?? 0, depth).toString()
     )
-    createEffect(()=>{
-        setValueToPay(getAmountToPay(accountToPayFrom()?.value ?? 0, depth).toString())
-    })
-    return <Show when={depth}>
-        <Modal
-            onClose={() => setIsOpen(false)}
-            isOpen={isOpen}
-            title={`Pay for ${depth.title}`}
-        >
-            <Stack vertical spacing={"s"}>
+    useEffect(() => {
+        setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, depth).toString())
+    }, [setValueToPay, accountToPayFrom?.value, depth])
+    return depth &&
+        <>
+            <Modal
+                onClose={() => setIsOpen(false)}
+                isOpen={isOpen}
+                title={`Pay for "${depth.title}"`}
+            >
+                <Stack vertical spacing={"s"}>
+                    <Typography>
+                        Needs
+                        <Typography as={"span"} fontWeight={"700"}>
+                            {depth.value - depth.valueCovered}
+                        </Typography>
+                        to close the depth.
+                    </Typography>
+                    <Input value={valueToPay} onChange={setValueToPay}/>
+                    <Select
+                        value={accountToPayFrom}
+                        variants={accountsList ?? []}
+                        renderVariants={(account) => <span>{account?.name} - {account?.value}</span>}
+                        onChange={setAccountToPayFrom}
+                    />
+                </Stack>
 
-            <Typography>{`Needs ${depth.value - depth.valueCovered} to close the depth.`}</Typography>
-            <Input value={valueToPay} onChange={setValueToPay}/>
-            <Select
-                value={accountToPayFrom}
-                variants={accountsStore.accountsStore.accountsList}
-                renderVariants={(account) => <span>{account.name} - {account.value}</span>}
-                onChange={setAccountToPayFrom}
-            />
-            </Stack>
-
-        </Modal>
-        <Button onClick={() => setIsOpen(true)}>Pay</Button>
-    </Show>
+            </Modal>
+            <Button
+                variant={"outline"}
+                color={"secondary"}
+                onClick={() => setIsOpen(true)}
+            >Pay</Button>
+        </>
 }
 
 export default PayDepthModal

@@ -1,15 +1,15 @@
-import {Component} from "solid-js";
-import {Button, Card, Stack, Typography} from "@/components";
+import {Card, Stack, Typography} from "@components";
 import {Depth} from "@/types/depths";
-import Progress from "@/components/progress/Progress";
 import * as styles from "./depths.css"
-import PayDepthModal from "@/pages/depths/PayDepthModal";
+import {FC} from "react";
+import PayDepthModal from "@pages/depths/PayDepthModal.tsx";
+import Progress from "@components/progress/Progress.tsx";
 
 interface Props {
     depth: Depth
 }
 
-const DepthCard: Component<Props> = ({depth}) => {
+const DepthCard: FC<Props> = ({depth}) => {
     return <Card padding={"s"}>
         <Stack spacing={"m"} justifyContent={"space-between"} alignItems={"flex-start"}>
             <Stack vertical spacing={"xs"}>

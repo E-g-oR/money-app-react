@@ -47,7 +47,7 @@ export const AddAccountModal: FC = () => {
         </Modal>
         <IconButton
             onClick={() => setIsOpen(true)}
-            icon={"CloseIcon"}
+            icon={"Add"}
         />
     </>
 }
