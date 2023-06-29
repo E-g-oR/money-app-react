@@ -1,17 +1,20 @@
-import React from 'react'
+import React, {lazy, Suspense} from 'react'
 import ReactDOM from 'react-dom/client'
+import {PersistGate} from "redux-persist/es/integration/react"
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Layout} from "@pages/layout/Layout.tsx";
 import {ROUTES} from "@utils/router.ts";
-import AccountPage from "@pages/accounts/AccountPage.tsx";
 import {Provider} from "react-redux";
 import {persistor, store} from "@/store";
 import ThemeProvider from "@components/theme-provider/ThemeProvider.tsx";
-import AccountsPage from "@pages/accounts/AccountsPage.tsx";
-import {PersistGate} from "redux-persist/es/integration/react"
-import AuthLayout from "@pages/auth/auth-layout/AuthLayout.tsx";
-import LoginForm from "@pages/auth/LoginForm.tsx";
-import RegisterForm from "@pages/auth/RegisterForm.tsx";
+import {Typography} from "@components";
+
+const
+    LoginForm = lazy(() => import("@pages/auth/LoginForm.tsx")),
+    RegisterForm = lazy(() => import( "@pages/auth/RegisterForm.tsx")),
+    AccountPage = lazy(() => import("@pages/accounts/AccountPage.tsx")),
+    AccountsPage = lazy(() => import("@pages/accounts/AccountsPage.tsx")),
+    AuthLayout = lazy(() => import("@pages/auth/auth-layout/AuthLayout.tsx"))
 
 const router = createBrowserRouter([{
     path: "/",
@@ -41,7 +44,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <ThemeProvider>
-                    <RouterProvider router={router}/>
+                    <Suspense fallback={<Typography as={"i"}>Loading...</Typography>}>
+                        <RouterProvider router={router}/>
+                    </Suspense>
                 </ThemeProvider>
             </PersistGate>
         </Provider>

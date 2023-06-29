@@ -3,23 +3,22 @@ import {Link} from "react-router-dom";
 import {ROUTES} from "@utils/router.ts";
 import {Button, Input, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
-import {useLoginMutation} from "@store/api.ts";
 import {AuthDto} from "@/types/api.ts";
+import {useLoginMutation} from "@store/auth/auth.api.ts";
 
 
 const LoginForm: FC = () => {
-    // const navigate = useNavigate()
-
     const [loginMutation, {isLoading}] = useLoginMutation()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const sendLogin = useCallback((authDto: AuthDto) => {
+    const sendLogin = useCallback(async (authDto: AuthDto) => {
         if (authDto.email && authDto.password) {
             loginMutation(authDto)
         }
     }, [loginMutation])
+
 
     return <Stack vertical spacing={"s"}>
         <Typography as={"h4"}>Login</Typography>

@@ -4,22 +4,34 @@ import {authReducer} from "@store/auth/auth.slice.ts";
 import {APISecure} from "@store/api.ts";
 import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist"
+import * as process from "process";
+import {APIAuth} from "@store/auth/auth.api.ts";
 
 const persistConfig = {
     storage,
-    key: "Vzor-SPO",
+    key: "money-app-react",
 };
 
 const rootReducer = combineReducers({
     settings: settingsReducer,
     auth: authReducer,
-    [APISecure.reducerPath]: APISecure.reducer
+    [APISecure.reducerPath]: APISecure.reducer,
+    [APIAuth.reducerPath]: APIAuth.reducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
-    reducer: persistedReducer
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+            immutableCheck: false,
+        }).prepend([
+            APIAuth.middleware,
+            APISecure.middleware,
+        ]),
+    devTools: process.env.NODE_ENV !== "production"
 })
 
 export const persistor = persistStore(store)

@@ -3,47 +3,36 @@ import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
 import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
-import {TransactionList} from "@pages/accounts/transactions/TransactionList.tsx";
-import {Account, Operation, OperationType} from "@/types/accounts.ts";
+import {useGetAccountQuery, useGetTransactionsListQuery} from "@store/api.ts";
+import {useParams} from "react-router-dom";
+import List from "@components/list/List.tsx";
+import {TransactionCard} from "@components/transaction-card";
 
-export const account: Account = {
-    name: "test",
-    value: 125,
-    description: "asdfasdf",
-    userId: 1,
-    id: 1,
-    expenses: 134,
-    income: 1234,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-}
-
-const transactions: ReadonlyArray<Operation> = [{
-    type: OperationType.INCOME,
-    value: 1324,
-    description: "asdfasdf",
-    userId: 1,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    id: 1,
-    accountId: 1,
-    title: "title"
-}]
 
 const AccountPage: FC = () => {
+    const params = useParams()
+    const {data: account} = useGetAccountQuery(Number(params.accountId))
+
+    const {
+        data: pageableTransactions,
+        isLoading: isLoadingTransactions
+    } = useGetTransactionsListQuery(Number(params.accountId))
 
     return <Stack vertical spacing={"s"} alignItems={"stretch"}>
 
 
         <AnimatePresence>
-            <motion.div
-                animate={{opacity: [0, 1]}}
-                transition={{duration: 0.3, easing: "ease-in"}}
-            >
-                <AccountNameHeader
-                    account={account}
-                />
-            </motion.div>
+            {
+                account && <motion.div
+                    animate={{opacity: [0, 1]}}
+                    transition={{duration: 0.3, easing: "ease-in"}}
+                >
+                    <AccountNameHeader
+                        account={account}
+                    />
+                </motion.div>
+            }
+
         </AnimatePresence>
 
         <Stack spacing={"xl"} justifyContent={"space-between"} alignItems={"center"}>
@@ -57,7 +46,12 @@ const AccountPage: FC = () => {
             <Typography>Recent transactions</Typography>
             <AddTransactionModal/>
         </Stack>
-        <TransactionList transactions={transactions}/>
+        <List
+            data={pageableTransactions?.data}
+            isLoading={isLoadingTransactions}
+            renderItem={transaction => <TransactionCard operation={transaction}/>}
+            fallback={"You dont have any transactions for this account."}
+        />
     </Stack>
 }
 

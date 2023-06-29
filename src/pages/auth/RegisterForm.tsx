@@ -14,16 +14,7 @@ const RegisterForm: FC = () => {
 
     const registerFn = async () => {
         if (password === confirmPassword) {
-            // const tokens = await auth.register({
-            //     password: password,
-            //     email: email,
-            //     firstName: firstName,
-            //     lastName: lastName,
-            // })
-            // if (tokens.access_token) {
-            //     authStore.setAuthStore(tokens)
-            //     navigate(ROUTES.main.path)
-            // }
+
         }
     }
 
