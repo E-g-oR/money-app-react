@@ -1,5 +1,6 @@
 import {Tokens} from "@/types/api.ts";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {APISecure} from "@store/api.ts";
 
 
 const initialState: Tokens = {
@@ -11,10 +12,18 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setTokens: (state, action: PayloadAction<Tokens>)=>{
+        setTokens: (state, action: PayloadAction<Tokens>) => {
             state.access_token = action.payload.access_token
             state.refresh_token = action.payload.refresh_token
         }
+    },
+    extraReducers: builder => {
+        builder.addMatcher(
+            APISecure.endpoints.login.matchFulfilled,
+            (state, action) => {
+                state.access_token = action.payload.access_token
+                state.refresh_token = action.payload.refresh_token
+            })
     }
 })
 

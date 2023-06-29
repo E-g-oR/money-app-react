@@ -1,35 +1,50 @@
-import {Component, createSignal} from "solid-js";
-import {A, useNavigate} from "@solidjs/router";
-import {ROUTES} from "@/utils/router";
-import {sprinkles} from "@/styles/sprinkles.css";
-import auth from "@/api/auth";
-import authStore from "@/store/authStore";
-import {Button, Input, Stack, Typography} from "@/components";
+import {FC, useCallback, useState} from "react";
+import {Link} from "react-router-dom";
+import {ROUTES} from "@utils/router.ts";
+import {Button, Input, Stack, Typography} from "@components";
+import {sprinkles} from "@styles/sprinkles.css.ts";
+import {useLoginMutation} from "@store/api.ts";
+import {AuthDto} from "@/types/api.ts";
 
 
-const LoginForm: Component = () => {
-    const navigate = useNavigate()
-    const [email, setEmail] = createSignal("")
-    const [password, setPassword] = createSignal("")
+const LoginForm: FC = () => {
+    // const navigate = useNavigate()
 
-    const sendLogin = async () => {
-        const tokens = await auth.login({email: email(), password: password()})
-        if (tokens.access_token) {
-            authStore.setAuthStore(() => tokens)
-            navigate(ROUTES.main.path)
+    const [loginMutation, {isLoading}] = useLoginMutation()
+
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const sendLogin = useCallback((authDto: AuthDto) => {
+        if (authDto.email && authDto.password) {
+            loginMutation(authDto)
         }
-    }
+    }, [loginMutation])
 
     return <Stack vertical spacing={"s"}>
         <Typography as={"h4"}>Login</Typography>
-        <Input placeholder={"example@email.com"} value={email} onChange={setEmail}/>
-        <Input placeholder={"Your password"} type={"password"} value={password}
-               onChange={setPassword}/>
-        <Button
-            onClick={() => sendLogin()}
-            className={sprinkles({alignSelf: "flex-end"})}
-        >Login</Button>
-        <Typography>Dont have an account? <A href={ROUTES.auth.register.path}>Register</A> </Typography>
+        <form onSubmit={(e) => {
+            e.preventDefault()
+            sendLogin({email, password})
+        }}>
+            <Stack vertical spacing={"s"}>
+                <Input placeholder={"example@email.com"} value={email} onChange={setEmail}/>
+                <Input placeholder={"Your password"} type={"password"} value={password}
+                       onChange={setPassword}/>
+                <Button
+                    type={"submit"}
+                    onClick={() => sendLogin({
+                        email,
+                        password
+                    })}
+                    className={sprinkles({alignSelf: "flex-end"})}
+                    isLoading={isLoading}
+                >Login</Button>
+            </Stack>
+
+        </form>
+
+        <Typography>Dont have an account? <Link to={ROUTES.auth.register.path}>Register</Link> </Typography>
     </Stack>
 }
 

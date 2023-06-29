@@ -1,31 +1,29 @@
-import {Component, createSignal} from "solid-js";
-import {A, useNavigate} from "@solidjs/router";
-import {ROUTES} from "@/utils/router";
-import {Button, Input, Stack, Typography} from "@/components";
-import auth from "@/api/auth";
-import authStore from "@/store/authStore";
+import {FC, useState} from "react";
+import {Link} from "react-router-dom";
+import {Button, Input, Stack, Typography} from "@components";
+import {ROUTES} from "@utils/router.ts";
 
-const RegisterForm: Component = () => {
-    const navigate = useNavigate()
+const RegisterForm: FC = () => {
+    // const navigate = useNavigate()
 
-    const [firstName, setFirstName] = createSignal("")
-    const [lastName, setLastName] = createSignal("")
-    const [email, setEmail] = createSignal("")
-    const [password, setPassword] = createSignal("")
-    const [confirmPassword, setConfirmPassword] = createSignal("")
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
 
     const registerFn = async () => {
-        if (password() === confirmPassword()) {
-            const tokens = await auth.register({
-                password: password(),
-                email: email(),
-                firstName: firstName(),
-                lastName: lastName(),
-            })
-            if (tokens.access_token) {
-                authStore.setAuthStore(tokens)
-                navigate(ROUTES.main.path)
-            }
+        if (password === confirmPassword) {
+            // const tokens = await auth.register({
+            //     password: password,
+            //     email: email,
+            //     firstName: firstName,
+            //     lastName: lastName,
+            // })
+            // if (tokens.access_token) {
+            //     authStore.setAuthStore(tokens)
+            //     navigate(ROUTES.main.path)
+            // }
         }
     }
 
@@ -62,7 +60,7 @@ const RegisterForm: Component = () => {
         <Button
             onClick={registerFn}
         >Register</Button>
-        <Typography>Already got an account? <A href={ROUTES.auth.login.path}>Login</A></Typography>
+        <Typography>Already got an account? <Link to={ROUTES.auth.login.path}>Login</Link></Typography>
     </Stack>
 }
 
