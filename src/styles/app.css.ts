@@ -29,6 +29,9 @@ globalStyle("body", {
 globalStyle("#root", {
     flex: 1
 })
+globalStyle("svg", {
+    fill: "currentcolor"
+})
 
 globalStyle("*", {
     padding: 0,

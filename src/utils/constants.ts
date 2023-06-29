@@ -1,47 +1,20 @@
-export interface MenuItem {
-    label: string,
-    name: string
-    url: string
-}
+import {BottomNavigationList} from "@components/bottom-navigation/BottomNavigation.tsx";
+import {ROUTES} from "@utils/router.ts";
 
-export const sideMenu: ReadonlyArray<MenuItem> = [{
-    label: 'Оценка способности сил и средств, к выполнению задач инженерного обеспечения',
-    name: 'Оценка способности сил и средств',
-    url: 'abilityAssessment'
-}, {
-    label: 'Инженерная разведка противника, местности и объектов',
-    name: 'Разведка противника',
-    url: 'reconnaissance'
-}, {
-    label: 'Фортификационное оборудование позиций и районов расположения войск',
-    name: 'Оборудование позиций и районов',
-    url: 'equipmentOfPositions'
-}, {
-    label: 'Устройство и содержание инженерных заграждений',
-    name: 'Инженерные заграждения',
-    url: 'engineeringBarriers'
-}, {
-    label: 'Подготовка и содержание путей движения и маневра войск',
-    name: 'Пути движения и маневра войск',
-    url: 'trafficPaths'
-}, {
-    label: 'Оборудование и содержание переправ через водные преграды',
-    name: 'Переправы через водные преграды',
-    url: 'waterBarriers'
-}, {
-    label: 'Проделывание и содержание проходов в заграждениях и разрушениях, разминирование местности и объектов',
-    name: 'Проходы в заграждениях, разминирование',
-    url: 'passagesInTheBarriers'
-}, {
-    label: 'Инженерные мероприятия по маскировке',
-    name: 'Маскировка',
-    url: 'disguise'
-}, {
-    label: 'Обеспечение войск водой',
-    name: 'Обеспечение войск водой',
-    url: 'water'
-}, {
-    label: 'Рациональный вариант инженерного обеспечения действий Вооруженных Сил',
-    name: 'Инженерное обеспечение',
-    url: 'ensuringActions'
+export const bottomNavigationItems: BottomNavigationList = [{
+    label: "Home",
+    icon: "UserIcon",
+    path: ROUTES.main.path,
+},{
+    label: "Depths",
+    icon: "UserIcon",
+    path: ROUTES.depths.path,
+},{
+    label: "Depths",
+    icon: "UserIcon",
+    path: ROUTES.depths.path,
+},{
+    label: "settings",
+    icon: "UserIcon",
+    path: ROUTES.depths.path,
 },] as const

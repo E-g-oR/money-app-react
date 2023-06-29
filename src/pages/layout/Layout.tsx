@@ -1,11 +1,12 @@
-import {FC, useEffect} from "react";
-import {AppHeader, Container} from "@components";
-import {sprinkles} from "@styles/sprinkles.css.ts";
+import {FC, Suspense, useEffect} from "react";
+import {AppHeader, Container, Stack} from "@components";
 import {Outlet, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getTokens} from "@store/auth/auth.selector.ts";
 import {useRefreshQuery} from "@store/auth/auth.api.ts";
 import {ROUTES} from "@utils/router.ts";
+import BottomNavigation from "@components/bottom-navigation";
+import * as styles from "./layout.css.ts"
 
 export const Layout: FC = () => {
     const navigate = useNavigate()
@@ -19,12 +20,15 @@ export const Layout: FC = () => {
         }
     }, [tokens.access_token, navigate])
 
-    return <div>
+    return <Stack vertical className={styles.layout}>
         <AppHeader/>
-        <Container>
-            <div className={sprinkles({paddingTop: "xxl"})}>
-                <Outlet/>
-            </div>
-        </Container>
-    </div>
+        <div className={styles.layoutContent}>
+            <Container>
+                <Suspense fallback={"Loading..."}>
+                    <Outlet/>
+                </Suspense>
+            </Container>
+        </div>
+        <BottomNavigation/>
+    </Stack>
 }
