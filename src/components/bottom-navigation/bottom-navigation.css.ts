@@ -5,7 +5,12 @@ import {colorScheme} from "@styles/colorScheme.css.ts";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 
 export const bottomNavigation = style([{
-    backdropFilter: `blur(${theme.spacing.xl})`
+    backdropFilter: `blur(${theme.spacing.m})`,
+    position: "sticky",
+    bottom: 0,
+    borderTopStyle: "solid",
+    borderTopWidth: 2,
+    borderTopColor: colorScheme.divider
 }])
 
 export const item = recipe({

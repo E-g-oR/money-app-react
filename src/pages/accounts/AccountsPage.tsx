@@ -24,6 +24,7 @@ const AccountsPage: FC = () => {
             isLoading={isLoadingAccountsList}
             renderItem={account => <AccountCard account={account}/>}
             fallback={"You dont have any accounts."}
+            getKey={item => item.id}
         />
     </Stack>
 }

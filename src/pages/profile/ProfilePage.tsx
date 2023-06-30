@@ -1,11 +1,10 @@
-import {Component, createSignal, Show} from "solid-js";
 import {IconButton, Input, Stack, Typography} from "@/components";
-import {checkCircle, pencil} from "solid-heroicons/outline"
+import {FC, useState} from "react";
 
-const ProfilePage: Component = () => {
-    const [firstName, setFirstName] = createSignal("John")
-    const [secondName, setSecondName] = createSignal("Wick")
-    const [email, setEmail] = createSignal("j.wick@gmail.com")
+const ProfilePage: FC = () => {
+    const [firstName, setFirstName] = useState("John")
+    const [secondName, setSecondName] = useState("Wick")
+    const [email, setEmail] = useState("j.wick@gmail.com")
 
     return <Stack
         vertical
@@ -14,17 +13,17 @@ const ProfilePage: Component = () => {
         <Typography as={"h3"}>Profile</Typography>
         <ProfileField
             title={"First name"}
-            value={firstName()}
+            value={firstName}
             onSave={setFirstName}
         />
         <ProfileField
             title={"Second name"}
-            value={secondName()}
+            value={secondName}
             onSave={setSecondName}
         />
         <ProfileField
             title={"Email"}
-            value={email()}
+            value={email}
             onSave={setEmail}
         />
     </Stack>
@@ -38,9 +37,9 @@ interface ProfileFieldProps {
     title: string,
 }
 
-const ProfileField: Component<ProfileFieldProps> = ({value, onSave, title}) => {
-    const [newValue, setNewValue] = createSignal(value)
-    const [isEdit, setIsEdit] = createSignal(false)
+const ProfileField: FC<ProfileFieldProps> = ({value, onSave, title}) => {
+    const [newValue, setNewValue] = useState(value)
+    const [isEdit, setIsEdit] = useState(false)
 
     return <Stack vertical spacing={"xs"}>
         <Typography as={"h5"}>{title}</Typography>
@@ -49,26 +48,32 @@ const ProfileField: Component<ProfileFieldProps> = ({value, onSave, title}) => {
             alignItems={"center"}
             justifyContent={"space-between"}
         >
-            <Show
-                when={isEdit()}
-                fallback={<>
-                    <Typography><span>{newValue()}</span></Typography>
-                    <IconButton onClick={() => setIsEdit(true)} icon={pencil}/>
+            {isEdit
+                ? <>
+                    <Input
+                        fullWidth
+                        value={newValue}
+                        onChange={setNewValue}
+                    />
+                    <IconButton
+                        variant={"outline"}
+                        color={"success"}
+                        onClick={() => {
+                            onSave(newValue)
+                            setIsEdit(false)
+                        }}
+                        icon={"DoneIcon"}
+                    />
+                </>
+                : <>
+                    <Typography><span>{newValue}</span></Typography>
+                    <IconButton
+                        variant={"soft"}
+                        color={"secondary"}
+                        onClick={() => setIsEdit(true)}
+                        icon={"Pencil"}
+                    />
                 </>}
-            >
-                <Input
-                    fullWidth
-                    value={newValue}
-                    onChange={setNewValue}
-                />
-                <IconButton
-                    onClick={() => {
-                        onSave(newValue())
-                        setIsEdit(false)
-                    }}
-                    icon={checkCircle}
-                />
-            </Show>
         </Stack>
     </Stack>
 }

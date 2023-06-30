@@ -27,7 +27,7 @@ export const AccountCard: FC<Props> = ({account}) =>
                 <Stack
                     vertical
                     spacing={"xxs"}
-                    className={sprinkles({justifyContent: "space-between", alignSelf: "center"})}
+                    className={styles.rightSide}
                 >
                     <Typography
                         className={sprinkles({marginX: "m"})}

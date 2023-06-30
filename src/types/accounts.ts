@@ -48,7 +48,6 @@ export interface Account extends AccountInList {
 // }
 
 export interface CreateAccount {
-    userId: number;
     value: number;
     name: string;
     description?: string;

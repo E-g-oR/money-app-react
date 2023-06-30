@@ -8,6 +8,7 @@ import {Provider} from "react-redux";
 import {persistor, store} from "@/store";
 import ThemeProvider from "@components/theme-provider/ThemeProvider.tsx";
 import {Typography} from "@components";
+import ProfilePage from "@pages/profile/ProfilePage.tsx";
 
 const
     LoginForm = lazy(() => import("@pages/auth/LoginForm.tsx")),
@@ -29,6 +30,12 @@ const router = createBrowserRouter([{
     }, {
         path: ROUTES.depths.relative,
         element: <DepthsPage/>
+    },{
+        path: ROUTES.settings.relative,
+        element: <>Settings here</>
+    },{
+        path: ROUTES.profile.relative,
+        element: <ProfilePage/>
     }]
 },
     {

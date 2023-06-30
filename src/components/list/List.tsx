@@ -6,10 +6,11 @@ interface Props<T> {
     data: ReadonlyArray<T> | undefined,
     isLoading: boolean,
     renderItem: (item: T) => ReactNode,
-    fallback: string
+    fallback: string,
+    getKey: (item: T) => string | number
 }
 
-function List<T>({renderItem, isLoading, data, fallback}: Props<T>) {
+function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
     return <Stack vertical spacing={"s"}>
         <AnimatePresence>
             {isLoading && <motion.div
@@ -19,9 +20,9 @@ function List<T>({renderItem, isLoading, data, fallback}: Props<T>) {
             >
                 <Typography as={"i"}>Loading...</Typography>
             </motion.div>}
-            {data && data.length > 0
+            {!isLoading && data && data.length > 0
                 ? data.map((item, index) => <motion.div
-                    key={index}
+                    key={getKey(item)}
                     initial={{opacity: 0, scale: 0.8}}
                     animate={{opacity: 1, scale: 1}}
                     exit={{opacity: 0, scale: 0.8}}

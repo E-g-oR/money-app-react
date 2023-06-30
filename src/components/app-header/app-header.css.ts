@@ -5,7 +5,7 @@ import {colorScheme} from "@styles/colorScheme.css.ts";
 export const header = style([{
     backdropFilter: `blur(${sizeRelative(15)})`,
     backgroundColor: colorScheme.background.normalTransparent,
-    position: "fixed",
+    position: "sticky",
     top: 0,
     left: 0,
     width: "100%",

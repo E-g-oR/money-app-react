@@ -26,6 +26,7 @@ const DepthsPage: FC = () => {
             isLoading={isLoadingDepths}
             renderItem={item => <DepthCard depth={item}/>}
             fallback={"You dont have any depths. Congratulations!"}
+            getKey={depth => depth.id}
         />
     </>
 }

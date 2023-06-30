@@ -51,6 +51,7 @@ const AccountPage: FC = () => {
             isLoading={isLoadingTransactions}
             renderItem={transaction => <TransactionCard operation={transaction}/>}
             fallback={"You dont have any transactions for this account."}
+            getKey={item => item.id}
         />
     </Stack>
 }

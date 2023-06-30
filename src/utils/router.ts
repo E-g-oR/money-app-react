@@ -18,7 +18,8 @@ type Router = {
         account: Required<Route>
     },
     depths: Route
-    profile: Route
+    profile: Route,
+    settings: Route
 }
 
 const auth = "auth"
@@ -27,6 +28,7 @@ const register = "register"
 const accounts = "accounts"
 const profile = "profile"
 const depths = "depths"
+const settings = "settings"
 
 const paramAccountId = ":accountId"
 const createUrl = (...args: string[]): string => "/" + args.join("/")
@@ -69,5 +71,9 @@ export const ROUTES: Router = {
     profile: {
         path: createUrl(profile),
         relative: profile,
+    },
+    settings: {
+        path: createUrl(settings),
+        relative: createRelativePath(settings)
     }
 }

@@ -2,19 +2,19 @@ import {BottomNavigationList} from "@components/bottom-navigation/BottomNavigati
 import {ROUTES} from "@utils/router.ts";
 
 export const bottomNavigationItems: BottomNavigationList = [{
-    label: "Home",
-    icon: "UserIcon",
+    label: "Accounts",
+    icon: "AccountBalance",
     path: ROUTES.main.path,
-},{
+}, {
     label: "Depths",
-    icon: "UserIcon",
+    icon: "Payments",
     path: ROUTES.depths.path,
-},{
-    label: "Depths",
+}, {
+    label: "Settings",
+    icon: "SettingsIcon",
+    path: ROUTES.settings.path,
+}, {
+    label: "Profile",
     icon: "UserIcon",
-    path: ROUTES.depths.path,
-},{
-    label: "settings",
-    icon: "UserIcon",
-    path: ROUTES.depths.path,
+    path: ROUTES.profile.path,
 },] as const
