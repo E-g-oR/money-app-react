@@ -39,7 +39,11 @@ function Select<T>({variants, renderVariants, value, onChange}: Props<T>): React
         </Card>
         {isOpen ? <Card padding={"s"} className={styles.list} variant={"outlined"}>
             <Stack vertical spacing={"xs"} alignItems={"stretch"}>
-                {variants.map(item => <div onClick={() => onChange(item)} className={styles.item}>
+                {variants.map((item, index) => <div
+                    key={index}
+                    onClick={() => onChange(item)}
+                    className={styles.item}
+                >
                     <Container spacing={"xs"}>
                         {renderVariants(item)}
                     </Container>
