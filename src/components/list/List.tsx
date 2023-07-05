@@ -1,6 +1,7 @@
 import {ReactNode} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion"
+import {useTranslation} from "@utils/hooks.ts";
 
 interface Props<T> {
     data: ReadonlyArray<T> | undefined,
@@ -11,6 +12,7 @@ interface Props<T> {
 }
 
 function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
+    const t = useTranslation()
     return <Stack vertical spacing={"s"}>
         <AnimatePresence>
             {isLoading && <motion.div
@@ -18,7 +20,7 @@ function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
                 animate={{opacity: 1, scale: 1}}
                 exit={{opacity: 0, scale: 0.8}}
             >
-                <Typography as={"i"}>Loading...</Typography>
+                <Typography as={"i"}>{t.common.loading}...</Typography>
             </motion.div>}
             {!isLoading && data && data.length > 0
                 ? data.map((item, index) => <motion.div

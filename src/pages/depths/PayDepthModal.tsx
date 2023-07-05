@@ -1,20 +1,22 @@
 import {Button, Input, Modal, Select, Stack, Typography} from "@components";
-import {Depth} from "@/types/depths";
+import {Dept} from "@/types/depths";
 import {FC, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {getAccounts} from "@store/accounts/accounts.selector.ts";
 import {usePayDepthMutation} from "@store/api.ts";
+import {useTranslation} from "@utils/hooks.ts";
 
 interface Props {
-    depth: Depth
+    dept: Dept
 }
 
-const getAmountToPay = (accountValue: number, depth: Depth): number => {
+const getAmountToPay = (accountValue: number, depth: Dept): number => {
     const amountToPay = depth.value - depth.valueCovered
     return amountToPay > accountValue ? accountValue : amountToPay
 }
 
-const PayDepthModal: FC<Props> = ({depth}) => {
+const PayDepthModal: FC<Props> = ({dept}) => {
+    const t = useTranslation()
     const accountsList = useSelector(getAccounts)
 
     const [payDepth, {isSuccess}] = usePayDepthMutation()
@@ -23,25 +25,25 @@ const PayDepthModal: FC<Props> = ({depth}) => {
 
     const [accountToPayFrom, setAccountToPayFrom] = useState(accountsList?.[0])
     const [valueToPay, setValueToPay] = useState(
-        getAmountToPay(accountToPayFrom?.value ?? 0, depth).toString()
+        getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString()
     )
 
     useEffect(() => {
-        setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, depth).toString())
-    }, [setValueToPay, accountToPayFrom?.value, depth])
+        setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString())
+    }, [setValueToPay, accountToPayFrom?.value, dept])
 
-    useEffect(()=> {
-        if (isSuccess){
+    useEffect(() => {
+        if (isSuccess) {
             setIsOpen(false)
         }
     }, [isSuccess, setIsOpen])
 
-    return depth &&
+    return dept &&
         <>
             <Modal
                 onClose={() => setIsOpen(false)}
                 isOpen={isOpen}
-                title={`Pay for "${depth.title}"`}
+                title={`${t.depts.payFor} "${dept.title}"`}
             >
                 <form
                     onSubmit={e => {
@@ -49,21 +51,15 @@ const PayDepthModal: FC<Props> = ({depth}) => {
                         if (accountToPayFrom) {
                             payDepth({
                                 value: Number(valueToPay),
-                                depthId: depth.id,
+                                depthId: dept.id,
                                 accountId: accountToPayFrom?.id
                             })
                         }
                     }}
                 >
-
-
                     <Stack vertical spacing={"s"}>
                         <Typography>
-                            Needs
-                            <Typography as={"span"} fontWeight={"700"}>
-                                {depth.value - depth.valueCovered}
-                            </Typography>
-                            to close the depth.
+                            {t.depts.needsToCloseDept(dept.value - dept.valueCovered)}
                         </Typography>
                         <Input value={valueToPay} onChange={setValueToPay}/>
                         <Select
@@ -74,26 +70,26 @@ const PayDepthModal: FC<Props> = ({depth}) => {
                         />
                         <Button
                             type={"submit"}
-                            onClick={()=>{
-                                console.log("accountToPayID", accountToPayFrom?.id, "depthId", depth.id)
+
+                            onClick={() => {
                                 if (accountToPayFrom) {
                                     payDepth({
                                         value: Number(valueToPay),
-                                        depthId: depth.id,
+                                        depthId: dept.id,
                                         accountId: accountToPayFrom?.id
                                     })
                                 }
                             }}
-                        >Pay</Button>
+                        >{t.actions.pay}</Button>
                     </Stack>
-
                 </form>
             </Modal>
             <Button
+                size={"xs"}
                 variant={"outline"}
                 color={"secondary"}
                 onClick={() => setIsOpen(true)}
-            >Pay</Button>
+            >{t.actions.pay}</Button>
         </>
 }
 

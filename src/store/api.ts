@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery, retry} from "@reduxjs/toolkit/query/react";
 import {Pageable} from "@/types/api.ts";
 import {RootState} from "@store/index.ts";
-import {Depth, DepthNew} from "@/types/depths.ts";
+import {Dept, DepthNew} from "@/types/depths.ts";
 import {Account, AccountInList, CreateAccount, Operation, OperationNew} from "@/types/accounts.ts";
 
 interface PayDepthPayload {
@@ -59,11 +59,11 @@ export const APISecure = createApi({
             }),
             invalidatesTags: ["transactionsList", "account"]
         }),
-        getDepthsList: builder.query<ReadonlyArray<Depth>, undefined>({
+        getDepthsList: builder.query<ReadonlyArray<Dept>, undefined>({
             query: () => "depths",
             providesTags: ["depthsList"]
         }),
-        createDepth: builder.mutation<Depth, DepthNew>({
+        createDepth: builder.mutation<Dept, DepthNew>({
             query: (body) => ({
                 url: "depths",
                 method: "POST",
@@ -71,7 +71,7 @@ export const APISecure = createApi({
             }),
             invalidatesTags: ["depthsList"]
         }),
-        payDepth: builder.mutation<Depth, PayDepthPayload>({
+        payDepth: builder.mutation<Dept, PayDepthPayload>({
             query: ({depthId, ...body}) => ({
                 url: `depths/pay/${depthId}`,
                 method: "PATCH",

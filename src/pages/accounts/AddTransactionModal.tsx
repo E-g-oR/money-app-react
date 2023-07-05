@@ -3,6 +3,7 @@ import {FC, useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {OperationType} from "@/types/accounts.ts";
 import {useCreateTransactionMutation} from "@store/api.ts";
+import {useTranslation} from "@utils/hooks.ts";
 
 interface OperationTypeValue {
     label: string;
@@ -19,7 +20,7 @@ const values: ReadonlyArray<OperationTypeValue> = [{
 
 
 const AddTransactionModal: FC = () => {
-
+    const t = useTranslation()
     const params = useParams()
 
     const [createTransaction, {isSuccess, isLoading}] = useCreateTransactionMutation()
@@ -54,7 +55,7 @@ const AddTransactionModal: FC = () => {
         <Modal
             isOpen={isOpen}
             onClose={() => setIsOpen(false)}
-            title={"Add new operation"}
+            title={t.transactions.createTransactionTitle}
         >
             <form onSubmit={e => {
                 e.preventDefault()
@@ -76,12 +77,12 @@ const AddTransactionModal: FC = () => {
                     <Input
                         type={"number"}
                         fullWidth
-                        placeholder={"value"}
+                        placeholder={t.common.value}
                         value={operationValue}
                         onChange={setOperationValue}
                     />
-                    <Input fullWidth placeholder={"title"} value={title} onChange={setTitle}/>
-                    <Input fullWidth placeholder={"description"} value={description} onChange={setDescription}/>
+                    <Input fullWidth placeholder={t.common.title} value={title} onChange={setTitle}/>
+                    <Input fullWidth placeholder={t.common.description} value={description} onChange={setDescription}/>
                     <Button
                         type={"submit"}
                         isLoading={isLoading}
@@ -94,7 +95,7 @@ const AddTransactionModal: FC = () => {
                                 type: value.value
                             })
                         }}
-                    >Confirm</Button>
+                    >{t.actions.create}</Button>
                 </Stack>
             </form>
 

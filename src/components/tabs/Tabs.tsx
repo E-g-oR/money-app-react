@@ -1,4 +1,4 @@
-import {Stack, Typography} from "@/components";
+import { Stack, Typography } from "@components";
 import * as styles from "./tabs.css"
 
 export interface Tab {
@@ -15,13 +15,15 @@ interface Props<T> {
 
 function Tabs<T>({values, value, onChange, render}: Props<T>) {
     return <Stack spacing={"s"}>
-        <For each={values}>
-            {(tab) => <button
-                onClick={() => onChange(tab)}
-                class={styles.tab({isActive: tab === value()})}>
+        {values.map((tab, index)=> 
+            <button
+                key={index}
+                onClick={()=> onChange(tab)}
+                className={styles.tab({isActive: tab === value})}
+            >
                 <Typography>{render(tab)}</Typography>
-            </button>}
-        </For>
+            </button>
+            )}
     </Stack>
 }
 

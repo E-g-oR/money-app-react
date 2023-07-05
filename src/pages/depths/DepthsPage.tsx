@@ -5,8 +5,10 @@ import List from "@components/list/List.tsx";
 import DepthCard from "@pages/depths/DepthCard.tsx";
 import {useGetDepthsListQuery} from "@store/api.ts";
 import {motion} from "framer-motion";
+import {useTranslation} from "@utils/hooks.ts";
 
 const DepthsPage: FC = () => {
+    const t = useTranslation()
     const {data: depthsList, isLoading: isLoadingDepths} = useGetDepthsListQuery(undefined)
     return <>
         <motion.div
@@ -16,7 +18,7 @@ const DepthsPage: FC = () => {
         >
             <Stack spacing={"xs"} alignItems={"center"} justifyContent={"space-between"}>
                 <Typography as={"h2"}>
-                    Your depths
+                    {t.depts.yourDepts}
                 </Typography>
                 <AddDepthModal/>
             </Stack>
@@ -25,7 +27,7 @@ const DepthsPage: FC = () => {
             data={depthsList}
             isLoading={isLoadingDepths}
             renderItem={item => <DepthCard depth={item}/>}
-            fallback={"You dont have any depths. Congratulations!"}
+            fallback={t.depts.noDepthsFallback}
             getKey={depth => depth.id}
         />
     </>

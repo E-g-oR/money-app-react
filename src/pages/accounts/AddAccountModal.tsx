@@ -1,10 +1,11 @@
 import {FC, useEffect, useState} from "react";
 import {Button, IconButton, Input, Modal, Stack} from "@components";
 import {useCreateAccountMutation} from "@store/api.ts";
+import {useTranslation} from "@utils/hooks.ts";
 
 
 export const AddAccountModal: FC = () => {
-
+    const t = useTranslation()
     const [createAccount, {isSuccess}] = useCreateAccountMutation()
 
     const [isOpen, setIsOpen] = useState(false)
@@ -21,7 +22,7 @@ export const AddAccountModal: FC = () => {
 
     return <>
         <Modal
-            title={"Create new account"}
+            title={t.actions.create + " " + t.accounts.account}
             onClose={() => setIsOpen(false)}
             isOpen={isOpen}
         >
@@ -34,13 +35,13 @@ export const AddAccountModal: FC = () => {
             }}>
                 <Stack vertical spacing={"s"}>
                     <Input
-                        placeholder={"account name"}
+                        placeholder={t.common.title}
                         value={accountName}
                         onChange={setAccountName}
                         fullWidth
                     />
                     <Input
-                        placeholder={"account value"}
+                        placeholder={t.common.value}
                         type={"number"}
                         value={accountValue}
                         onChange={setAccountValue}
@@ -54,7 +55,7 @@ export const AddAccountModal: FC = () => {
                                 name: accountName,
                             })
                         }}
-                    >Confirm</Button>
+                    >{t.actions.create}</Button>
                 </Stack>
             </form>
 

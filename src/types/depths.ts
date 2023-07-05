@@ -6,7 +6,7 @@ export interface DepthNew {
     "deadline": string
 }
 
-export interface Depth extends DepthNew {
+export interface Dept extends DepthNew {
     "id": number,
     "created_at": string,
     "updated_at": string,

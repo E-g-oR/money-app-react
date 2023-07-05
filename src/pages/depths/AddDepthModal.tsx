@@ -1,9 +1,10 @@
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
 import {FC, useCallback, useEffect, useState} from "react";
 import {useCreateDepthMutation} from "@store/api.ts";
+import {useTranslation} from "@utils/hooks.ts";
 
 const AddDepthModal: FC = () => {
-
+    const t = useTranslation()
     const [createDepth, {isLoading, isSuccess}] = useCreateDepthMutation()
 
     const [isOpen, setIsOpen] = useState(false)
@@ -31,7 +32,7 @@ const AddDepthModal: FC = () => {
         <Modal
             onClose={onClose}
             isOpen={isOpen}
-            title={"Add Depth"}
+            title={t.depts.createDept}
         >
             <form onSubmit={(e) => {
                 e.preventDefault()
@@ -45,28 +46,29 @@ const AddDepthModal: FC = () => {
             }}>
                 <Stack vertical spacing={"s"}>
                     <Input
-                        placeholder={"Title"}
+                        placeholder={t.common.title}
                         value={depthName}
                         onChange={setDepthName}
                     />
                     <Input
-                        placeholder={"Value"}
+                        placeholder={t.common.value}
                         type={"number"}
                         value={depthValue}
                         onChange={setDepthValue}
                     />
                     <Input
-                        placeholder={"Covered value"}
+                        placeholder={t.depts.coveredValue}
                         type={"number"}
                         value={depthValueCovered}
                         onChange={setDepthValueCovered}
                     />
                     <Input
-                        placeholder={"Description"}
+                        placeholder={t.common.description}
                         value={depthDescription}
                         onChange={setDepthDescription}
                     />
                     <Button
+                        size={"m"}
                         type={"submit"}
                         isLoading={isLoading}
                         onClick={() => {
@@ -78,7 +80,7 @@ const AddDepthModal: FC = () => {
                                 deadline: new Date().toISOString()
                             })
                         }}
-                    >Confirm</Button>
+                    >{t.actions.create}</Button>
                 </Stack>
             </form>
 

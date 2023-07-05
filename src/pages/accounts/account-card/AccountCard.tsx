@@ -5,14 +5,16 @@ import {AccountInList} from "@/types/accounts.ts";
 import {Card, Container, Divider, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 import {ROUTES} from "@utils/router.ts";
+import {useTranslation} from "@utils/hooks.ts";
 
 
 interface Props {
     account: AccountInList
 }
 
-export const AccountCard: FC<Props> = ({account}) =>
-    <Link
+export const AccountCard: FC<Props> = ({account}) => {
+    const t = useTranslation()
+    return <Link
         to={ROUTES.accounts.account.builder(account.id.toString())}
     >
         <Card>
@@ -32,15 +34,16 @@ export const AccountCard: FC<Props> = ({account}) =>
                     <Typography
                         className={sprinkles({marginX: "m"})}
                     >
-                        Income: <Typography as={"span"} color={"success"}><span>{account.income}</span></Typography>
+                        {t.common.incomes}: <Typography as={"span"} color={"success"}>{account.income}</Typography>
                     </Typography>
                     <Divider spacing={"xs"}/>
                     <Typography
                         className={sprinkles({marginX: "m"})}
                     >
-                        Expense: <Typography as={"span"} color={"error"}><span>{account.expenses}</span></Typography>
+                        {t.common.expenses}: <Typography as={"span"} color={"error"}>{account.expenses}</Typography>
                     </Typography>
                 </Stack>
             </Stack>
         </Card>
     </Link>
+}

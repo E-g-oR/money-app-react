@@ -1,12 +1,12 @@
 import {Card, Stack, Typography} from "@components";
-import {Depth} from "@/types/depths";
+import {Dept} from "@/types/depths";
 import * as styles from "./depths.css"
 import {FC} from "react";
 import PayDepthModal from "@pages/depths/PayDepthModal.tsx";
 import Progress from "@components/progress/Progress.tsx";
 
 interface Props {
-    depth: Depth
+    depth: Dept
 }
 
 const DepthCard: FC<Props> = ({depth}) => {
@@ -23,7 +23,7 @@ const DepthCard: FC<Props> = ({depth}) => {
                 >
                     {depth.valueCovered} / {depth.value}
                 </Typography>
-                <PayDepthModal depth={depth}/>
+                <PayDepthModal dept={depth}/>
             </Stack>
         </Stack>
         <Progress max={depth.value} value={depth.valueCovered}/>

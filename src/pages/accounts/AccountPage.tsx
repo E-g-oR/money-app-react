@@ -7,9 +7,11 @@ import {useGetAccountQuery, useGetTransactionsListQuery} from "@store/api.ts";
 import {useParams} from "react-router-dom";
 import List from "@components/list/List.tsx";
 import {TransactionCard} from "@components/transaction-card";
+import {useTranslation} from "@utils/hooks.ts";
 
 
 const AccountPage: FC = () => {
+    const t = useTranslation()
     const params = useParams()
     const {data: account} = useGetAccountQuery(Number(params.accountId))
 
@@ -22,35 +24,32 @@ const AccountPage: FC = () => {
 
 
         <AnimatePresence>
-            {
-                account && <motion.div
+            {account &&
+                <motion.div
                     animate={{opacity: [0, 1]}}
                     transition={{duration: 0.3, easing: "ease-in"}}
                 >
                     <AccountNameHeader
                         account={account}
                     />
-                </motion.div>
-            }
-
+                </motion.div>}
         </AnimatePresence>
-
         <Stack spacing={"xl"} justifyContent={"space-between"} alignItems={"center"}>
             <Typography as={"h2"}>{account?.value ?? 0}</Typography>
             <Stack vertical spacing={"s"}>
-                <Typography>Income: {account?.income}</Typography>
-                <Typography>Expense: {account?.expenses}</Typography>
+                <Typography>{t.common.incomes}: {account?.income}</Typography>
+                <Typography>{t.common.expenses}: {account?.expenses}</Typography>
             </Stack>
         </Stack>
         <Stack alignItems={"center"} justifyContent={"space-between"}>
-            <Typography>Recent transactions</Typography>
+            <Typography>{t.transactions.recentTransactions}</Typography>
             <AddTransactionModal/>
         </Stack>
         <List
             data={pageableTransactions?.data}
             isLoading={isLoadingTransactions}
             renderItem={transaction => <TransactionCard operation={transaction}/>}
-            fallback={"You dont have any transactions for this account."}
+            fallback={t.transactions.noTransactionsFallback}
             getKey={item => item.id}
         />
     </Stack>

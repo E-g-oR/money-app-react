@@ -24,7 +24,7 @@ const Button: FC<Props> = ({
                                       isLoading,
                                       isDisabled,
                                       children,
-                                      size = "xs",
+                                      size = "m",
                                       className,
                                       type = "button"
                                   }) => {

@@ -5,8 +5,11 @@ import {motion} from "framer-motion"
 import {useGetAccountsListQuery} from "@store/api.ts";
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
+import {useTranslation} from "@utils/hooks.ts";
 
 const AccountsPage: FC = () => {
+    const t = useTranslation()
+
     const {data: accountsList, isLoading: isLoadingAccountsList} = useGetAccountsListQuery("")
     return <Stack vertical spacing={"m"}>
         <motion.div
@@ -15,7 +18,7 @@ const AccountsPage: FC = () => {
             exit={{opacity: 0}}
         >
             <Stack justifyContent={"space-between"} alignItems={"center"}>
-                <Typography as={"h2"}>Your accounts</Typography>
+                <Typography as={"h2"}>{t.accounts.yourAccounts}</Typography>
                 <AddAccountModal/>
             </Stack>
         </motion.div>
@@ -23,7 +26,7 @@ const AccountsPage: FC = () => {
             data={accountsList}
             isLoading={isLoadingAccountsList}
             renderItem={account => <AccountCard account={account}/>}
-            fallback={"You dont have any accounts."}
+            fallback={t.accounts.noAccountsFallback}
             getKey={item => item.id}
         />
     </Stack>

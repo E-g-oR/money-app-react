@@ -32,3 +32,8 @@ export const decorator = recipe({
         type: OperationType.EXPENSE
     }
 })
+
+export const date = style({
+    flex: 1,
+    textAlign: "end"
+})
