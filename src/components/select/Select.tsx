@@ -9,7 +9,7 @@ import IconComponent from "@icons";
 interface Props<T> {
     value: T;
     variants: ReadonlyArray<T>,
-    renderVariants: (variant: T) => JSX.Element,
+    renderVariants: (variant: T) => ReactNode,
     onChange: (variant: T) => void,
 }
 

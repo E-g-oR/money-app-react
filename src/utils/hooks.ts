@@ -4,7 +4,7 @@ import {bindActionCreators} from "@reduxjs/toolkit";
 import {authActions} from "@store/auth/auth.slice.ts";
 import {getLanguage} from "@store/settings/settings.selector.ts";
 import {match} from "ts-pattern";
-import {ru, Translation} from "@utils/translation";
+import {en, es, ru, Translation} from "@utils/translation";
 
 
 const actions = {
@@ -26,6 +26,8 @@ export const useActions = () => {
 export const useTranslation = (): Translation => {
     const lang = useSelector(getLanguage)
     return match(lang)
+        .with("es", () => es)
+        .with("en", () => en)
         .with("ru", () => ru)
         .otherwise(() => ru)
 }

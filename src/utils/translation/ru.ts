@@ -34,7 +34,7 @@ const ru: Translation = {
         noAccountsFallback: "У вас пока нет никаких счетов."
     },
     navigation: {
-        depths: "Долги",
+        depts: "Долги",
         accounts: "Счета",
         profile: "Профиль",
         settings: "Настройки",

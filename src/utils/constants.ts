@@ -9,7 +9,7 @@ export const bottomNavigationItems: BottomNavigationList = [{
 }, {
     label: "Depths",
     icon: "Payments",
-    key: "depths",
+    key: "depts",
     path: ROUTES.depths.path,
 }, {
     label: "Settings",
@@ -21,4 +21,28 @@ export const bottomNavigationItems: BottomNavigationList = [{
     icon: "UserIcon",
     key: "profile",
     path: ROUTES.profile.path,
+},] as const
+
+
+export type Lang = "en" | "ru" | "es" | "fr" | "by"
+export interface LanguageSelectItem {
+    value: Lang,
+    title: string
+}
+
+export const languageSelect: ReadonlyArray<LanguageSelectItem> = [{
+    title: "English",
+    value: "en",
+},{
+    title: "Русский",
+    value: "ru",
+},{
+    title: "Español",
+    value: "es",
+},{
+    title: "Français",
+    value: "fr",
+},{
+    title: "Беларуская",
+    value: "by",
 },] as const

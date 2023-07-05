@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Lang} from "@utils/constants.ts";
 
 export type ColorScheme = "light" | "dark" | "auto"
 
 interface SettingsSlice {
-    language: string,
+    language: Lang,
     colorScheme: "light" | "dark" | "auto"
 }
 
@@ -19,7 +20,7 @@ const settingsSlice = createSlice({
         setColorScheme: (state, action: PayloadAction<ColorScheme>) => {
             state.colorScheme = action.payload
         },
-        setLanguage: (state, action: PayloadAction<string>) => {
+        setLanguage: (state, action: PayloadAction<Lang>) => {
             state.language = action.payload
         }
     }

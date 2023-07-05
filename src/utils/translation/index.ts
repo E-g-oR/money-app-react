@@ -1,6 +1,8 @@
+import es from "./es.ts"
+import en from "./en.ts"
 import ru from "./ru.ts"
 
-export type BottomNavigationKey = "accounts" | "depths" | "settings" | "profile"
+export type BottomNavigationKey = "accounts" | "depts" | "settings" | "profile"
 
 export interface Translation {
     formatDate: {
@@ -50,4 +52,4 @@ export interface Translation {
     }
 }
 
-export {ru}
+export {es, en, ru}

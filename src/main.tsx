@@ -16,7 +16,8 @@ const
     AccountPage = lazy(() => import("@pages/accounts/AccountPage.tsx")),
     AccountsPage = lazy(() => import("@pages/accounts/AccountsPage.tsx")),
     AuthLayout = lazy(() => import("@pages/auth/auth-layout/AuthLayout.tsx")),
-    DepthsPage = lazy(() => import("@pages/depths/DepthsPage.tsx"))
+    DepthsPage = lazy(() => import("@pages/depths/DepthsPage.tsx")),
+    SettingsPage = lazy(()=> import("@pages/settings"))
 
 const router = createBrowserRouter([{
     path: "/",
@@ -32,7 +33,7 @@ const router = createBrowserRouter([{
         element: <DepthsPage/>
     },{
         path: ROUTES.settings.relative,
-        element: <>Settings here</>
+        element: <SettingsPage/>
     },{
         path: ROUTES.profile.relative,
         element: <ProfilePage/>
