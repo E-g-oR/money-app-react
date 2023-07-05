@@ -130,8 +130,14 @@ export const button = recipe({
         cursor: "pointer",
         borderStyle: "solid",
         borderWidth: 2,
-        textTransform: "uppercase"
-        // borderRadius: theme.borderRadius.s
+        textTransform: "uppercase",
+        // borderRadius: theme.borderRadius.s,
+        selectors: {
+            [`&:disabled`]:{
+                cursor: "not-allowed",
+                filter: "grayscale(1)"
+            }
+        }
     },
     variants: {
         variant,

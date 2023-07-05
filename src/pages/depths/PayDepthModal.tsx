@@ -85,6 +85,7 @@ const PayDepthModal: FC<Props> = ({dept}) => {
                 </form>
             </Modal>
             <Button
+                isDisabled={Number(valueToPay) === 0}
                 size={"xs"}
                 variant={"outline"}
                 color={"secondary"}

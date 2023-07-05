@@ -23,7 +23,7 @@ const DepthCard: FC<Props> = ({depth}) => {
                 >
                     {depth.valueCovered} / {depth.value}
                 </Typography>
-                <PayDepthModal dept={depth}/>
+                {depth.value !== depth.valueCovered && <PayDepthModal dept={depth}/>}
             </Stack>
         </Stack>
         <Progress max={depth.value} value={depth.valueCovered}/>
