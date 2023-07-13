@@ -31,9 +31,12 @@ const TransactionCard: FC<Props> = ({operation}) => {
                 <Typography colorTint={"light"} as={"small"}>{operation.description}</Typography>
 
             </Stack>
-            <Typography as={"small"} className={styles.date}>
-                {t.formatDate.dateRelative(relativeTime)}
-            </Typography>
+            <div title={t.formatDate.intlFormat(new Date(operation.created_at))}>
+                <Typography as={"small"} className={styles.date}>
+                    {t.formatDate.dateRelative(relativeTime)}
+                </Typography>
+            </div>
+
         </Stack>
 
     </Card>

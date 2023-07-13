@@ -79,15 +79,28 @@ export const APISecure = createApi({
             }),
             invalidatesTags: ["depthsList"]
         }),
+        getChartFilters: builder.query({
+            query: (accountId: number)=> ({
+                url: `charts/filters/${accountId}`
+            })
+        }),
+        getChartData: builder.query({
+            query: (params: {year: number, month: number, view: "month" | "year"})=> ({
+                url: "charts",
+                params
+            })
+        })
     })
 })
 
 export const {
     useGetAccountQuery,
     usePayDepthMutation,
+    useGetChartDataQuery,
     useGetDepthsListQuery,
     useCreateDepthMutation,
     useGetAccountsListQuery,
+    useGetChartFiltersQuery,
     useCreateAccountMutation,
     useGetTransactionsListQuery,
     useCreateTransactionMutation,
