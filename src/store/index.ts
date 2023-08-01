@@ -11,6 +11,7 @@ import {accountsReducer} from "@store/accounts/accounts.slice.ts";
 const persistConfig = {
     storage,
     key: "money-app-react",
+    version: 1
 };
 
 const rootReducer = combineReducers({

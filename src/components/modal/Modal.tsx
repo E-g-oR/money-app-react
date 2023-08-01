@@ -6,6 +6,7 @@ import {Typography} from "@/components/typography";
 import {IconButton} from "@/components/button";
 import {FC, ReactNode} from "react";
 import {AnimatePresence, motion} from "framer-motion";
+import {clsx} from "@utils/etc.ts";
 
 interface Props {
     onClose: () => void;
@@ -29,22 +30,29 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
                     onClose()
                 }
             }}>
-            <Card padding={"l"} variant={"outlined"} className={styles.shadow}>
-                <Stack
-                    className={sprinkles({marginBottom: "l"})}
-                    spacing={"m"}
-                >
-                    {title && <Typography as={"h4"}>{title}</Typography>}
+            <motion.div
+                className={clsx(styles.shadow, styles.modal)}
+                initial={{transform: "translateY(100%)", opacity: 0}}
+                animate={{transform: "translateY(0)", opacity: 1}}
+                exit={{transform: "translateY(100%)", opacity: 0}}
+            >
+                <Card padding={"l"} variant={"outlined"}>
+                    <Stack
+                        className={sprinkles({marginBottom: "l"})}
+                        spacing={"m"}
+                    >
+                        {title && <Typography as={"h4"}>{title}</Typography>}
 
-                    <IconButton
-                        variant={"outline"}
-                        onClick={onClose}
-                        icon={"CloseIcon"}
-                        className={styles.closeBtn}
-                    />
-                </Stack>
-                {children}
-            </Card>
+                        <IconButton
+                            variant={"outline"}
+                            onClick={onClose}
+                            icon={"CloseIcon"}
+                            className={styles.closeBtn}
+                        />
+                    </Stack>
+                    {children}
+                </Card>
+            </motion.div>
         </motion.div>}
     </AnimatePresence>
 

@@ -61,13 +61,13 @@ const PayDepthModal: FC<Props> = ({dept}) => {
                         <Typography>
                             {t.depts.needsToCloseDept(dept.value - dept.valueCovered)}
                         </Typography>
-                        <Input value={valueToPay} onChange={setValueToPay}/>
                         <Select
                             value={accountToPayFrom}
                             variants={accountsList ?? []}
                             renderVariants={(account) => <span>{account?.name} - {account?.value}</span>}
                             onChange={setAccountToPayFrom}
                         />
+                        <Input value={valueToPay} onChange={setValueToPay}/>
                         <Button
                             type={"submit"}
 

@@ -2,18 +2,12 @@ import {FC, useEffect, useState} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
-import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
-import {
-    useGetAccountQuery,
-    useGetChartDataQuery,
-    useGetChartFiltersQuery,
-    useGetTransactionsListQuery
-} from "@store/api.ts";
+import {useGetAccountQuery, useGetChartDataQuery, useGetChartFiltersQuery} from "@store/api.ts";
 import {useParams} from "react-router-dom";
-import List from "@components/list/List.tsx";
-import {TransactionCard} from "@components/transaction-card";
 import {useTranslation} from "@utils/hooks.ts";
 import Tabs from "@components/tabs";
+import TransactionsView from "@pages/accounts/transactions-view";
+import ChartView from "@pages/accounts/chart-view";
 
 const accountPageTabs = ["transactions", "chart",] as const
 const year = 2023
@@ -28,14 +22,9 @@ const AccountPage: FC = () => {
         console.log(chartData)
     }, [chartData])
 
-    const {data: chartFilters} = useGetChartFiltersQuery(Number(params.accountId))
 
     const {data: account} = useGetAccountQuery(Number(params.accountId))
 
-    const {
-        data: pageableTransactions,
-        isLoading: isLoadingTransactions
-    } = useGetTransactionsListQuery(Number(params.accountId))
 
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
 
@@ -62,18 +51,9 @@ const AccountPage: FC = () => {
         </Stack>
 
         <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
-
-        <Stack alignItems={"center"} justifyContent={"space-between"}>
-            <Typography>{t.transactions.recentTransactions}</Typography>
-            <AddTransactionModal/>
-        </Stack>
-        <List
-            data={pageableTransactions?.data}
-            isLoading={isLoadingTransactions}
-            renderItem={transaction => <TransactionCard operation={transaction}/>}
-            fallback={t.transactions.noTransactionsFallback}
-            getKey={item => item.id}
-        />
+        {tab === "chart"
+            ? <ChartView/>
+            : <TransactionsView accountId={Number(params.accountId)}/>}
     </Stack>
 }
 

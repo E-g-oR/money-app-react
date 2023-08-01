@@ -13,7 +13,8 @@ interface Props {
     colorTint?: keyof typeof colorScheme.text,
     className?: string,
     fontSize?: keyof typeof fontSize,
-    fontWeight?: "400" | "500" | "600" | "700"
+    fontWeight?: "400" | "500" | "600" | "700",
+    title?: string,
 }
 
 const Typography: FC<Props> = ({
