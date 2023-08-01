@@ -1,7 +1,6 @@
 import {settingsActions} from "@store/settings/settings.slice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {bindActionCreators} from "@reduxjs/toolkit";
-import {authActions} from "@store/auth/auth.slice.ts";
 import {getLanguage} from "@store/settings/settings.selector.ts";
 import {match} from "ts-pattern";
 import {en, es, ru, Translation} from "@utils/translation";
@@ -9,7 +8,6 @@ import {en, es, ru, Translation} from "@utils/translation";
 
 const actions = {
     ...settingsActions,
-    ...authActions
 }
 
 /**
@@ -25,6 +23,7 @@ export const useActions = () => {
  */
 export const useTranslation = (): Translation => {
     const lang = useSelector(getLanguage)
+    // TODO: use just record of dictionaries instead of function
     return match(lang)
         .with("es", () => es)
         .with("en", () => en)

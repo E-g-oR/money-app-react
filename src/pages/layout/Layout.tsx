@@ -1,24 +1,21 @@
 import {FC, Suspense, useEffect} from "react";
 import {AppHeader, Container, Stack} from "@components";
 import {Outlet, useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {getTokens} from "@store/auth/auth.selector.ts";
-import {useRefreshQuery} from "@store/auth/auth.api.ts";
+import {getAccessToken} from "@store/auth/auth.selector.ts";
 import {ROUTES} from "@utils/router.ts";
 import BottomNavigation from "@components/bottom-navigation";
 import * as styles from "./layout.css.ts"
+import useAuthStore from "@store/auth/auth-zustand.slice.ts";
 
 export const Layout: FC = () => {
     const navigate = useNavigate()
-    const tokens = useSelector(getTokens)
-    useRefreshQuery(tokens.refresh_token, {
-        pollingInterval: 1000 * 60 * 10
-    })
+    const access_token = useAuthStore(getAccessToken)
+
     useEffect(() => {
-        if (!tokens.access_token) {
+        if (!access_token) {
             navigate(ROUTES.auth.login.path)
         }
-    }, [tokens.access_token, navigate])
+    }, [access_token, navigate])
 
     return <Stack vertical className={styles.layout}>
         <AppHeader/>

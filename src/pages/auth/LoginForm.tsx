@@ -1,23 +1,32 @@
 import {FC, useCallback, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ROUTES} from "@utils/router.ts";
 import {Button, Input, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 import {AuthDto} from "@/types/api.ts";
-import {useLoginMutation} from "@store/auth/auth.api.ts";
+import Api from "@/api";
+import useAuthStore from "@store/auth/auth-zustand.slice.ts";
 
 
 const LoginForm: FC = () => {
-    const [loginMutation, {isLoading}] = useLoginMutation()
+    const navigate = useNavigate()
+    const setTokens = useAuthStore(store => store.setTokens)
+
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+
     const sendLogin = useCallback(async (authDto: AuthDto) => {
         if (authDto.email && authDto.password) {
-            loginMutation(authDto)
+            Api
+                .login(authDto)
+                .then((tokens) => {
+                    setTokens(tokens)
+                    navigate("/")
+                })
         }
-    }, [loginMutation])
+    }, [setTokens, navigate])
 
 
     return <Stack vertical spacing={"s"}>
@@ -37,7 +46,6 @@ const LoginForm: FC = () => {
                         password
                     })}
                     className={sprinkles({alignSelf: "flex-end"})}
-                    isLoading={isLoading}
                 >Login</Button>
             </Stack>
 
