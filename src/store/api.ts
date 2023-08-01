@@ -1,14 +1,8 @@
 import {createApi, fetchBaseQuery, retry} from "@reduxjs/toolkit/query/react";
 import {Pageable} from "@/types/api.ts";
 import {RootState} from "@store/index.ts";
-import {Dept, DepthNew} from "@/types/depths.ts";
+import {Dept, DepthNew, PayDepthPayload} from "@/types/depths.ts";
 import {Account, AccountInList, CreateAccount, Operation, OperationNew} from "@/types/accounts.ts";
-
-interface PayDepthPayload {
-    depthId: number,
-    accountId: number,
-    value: number
-}
 
 const staggerBaseQuery = retry(
     fetchBaseQuery({

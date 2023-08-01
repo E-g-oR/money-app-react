@@ -1,6 +1,5 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {settingsReducer} from "@store/settings/settings.slice.ts";
-import {APISecure} from "@store/api.ts";
 import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist"
 import * as process from "process";
@@ -15,7 +14,6 @@ const persistConfig = {
 const rootReducer = combineReducers({
     settings: settingsReducer,
     accounts: accountsReducer,
-    [APISecure.reducerPath]: APISecure.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -26,9 +24,7 @@ export const store = configureStore({
         getDefaultMiddleware({
             serializableCheck: false,
             immutableCheck: false,
-        }).prepend([
-            APISecure.middleware,
-        ]),
+        }),
     devTools: process.env.NODE_ENV !== "production"
 })
 
