@@ -1,4 +1,6 @@
-import {RootState} from "@store";
+import {SettingsStore} from "@store/settings/settings.slice.ts";
 
-export const getColorScheme = (state: RootState) => state.settings.colorScheme
-export const getLanguage = (state: RootState) => state.settings.language
+export const getColorScheme = (store: SettingsStore) => store.colorScheme
+export const getLanguage = (store: SettingsStore) => store.language
+export const getSetLanguage = (store: SettingsStore) => store.setLanguage
+export const getSetColorScheme = (store: SettingsStore) => store.setColorScheme

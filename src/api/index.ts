@@ -1,8 +1,8 @@
 import ky from "ky";
-import useAuthStore from "@store/auth/auth-zustand.slice.ts";
-import {Pageable, Tokens} from "@types/api.ts";
-import {Account, AccountInList, CreateAccount, Operation, OperationNew} from "@types/accounts.ts";
-import {Dept, DepthNew, PayDepthPayload} from "@types/depths.ts";
+import useAuthStore from "@store/auth/auth.slice.ts";
+import {Pageable, Tokens} from "@/types/api.ts";
+import {Account, AccountInList, CreateAccount, Operation, OperationNew} from "@/types/accounts.ts";
+import {Dept, DepthNew, PayDepthPayload} from "@/types/depths.ts";
 
 const Client = ky.create({
     prefixUrl: "http://localhost:8000"

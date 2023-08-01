@@ -5,7 +5,7 @@ import {getAccessToken} from "@store/auth/auth.selector.ts";
 import {ROUTES} from "@utils/router.ts";
 import BottomNavigation from "@components/bottom-navigation";
 import * as styles from "./layout.css.ts"
-import useAuthStore from "@store/auth/auth-zustand.slice.ts";
+import useAuthStore from "@store/auth/auth.slice.ts";
 
 export const Layout: FC = () => {
     const navigate = useNavigate()

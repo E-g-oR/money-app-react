@@ -5,7 +5,7 @@ import {motion} from "framer-motion"
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
 import {useTranslation} from "@utils/hooks.ts";
-import {AccountInList} from "@types/accounts.ts";
+import {AccountInList} from "@/types/accounts.ts";
 import Api from "@/api";
 
 const AccountsPage: FC = () => {

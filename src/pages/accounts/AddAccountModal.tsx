@@ -1,24 +1,27 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useCallback, useState} from "react";
 import {Button, IconButton, Input, Modal, Stack} from "@components";
-import {useCreateAccountMutation} from "@store/api.ts";
 import {useTranslation} from "@utils/hooks.ts";
-
+import {CreateAccount} from "@types/accounts.ts";
+import Api from "@api";
 
 export const AddAccountModal: FC = () => {
     const t = useTranslation()
-    const [createAccount, {isSuccess}] = useCreateAccountMutation()
 
     const [isOpen, setIsOpen] = useState(false)
     const [accountName, setAccountName] = useState("")
     const [accountValue, setAccountValue] = useState("")
 
-    useEffect(() => {
-        if (isSuccess) {
-            setIsOpen(false)
-            setAccountName("")
-            setAccountValue("")
-        }
-    }, [isSuccess, setAccountName, setAccountValue, setIsOpen])
+    const closeModal = useCallback(() => {
+        setIsOpen(false)
+        setAccountName("")
+        setAccountValue("")
+    }, [setAccountName, setAccountValue, setIsOpen])
+
+    const createAccount = useCallback((body: CreateAccount) => {
+        Api.createAccount(body).then(() => {
+            closeModal()
+        })
+    }, [closeModal])
 
     return <>
         <Modal

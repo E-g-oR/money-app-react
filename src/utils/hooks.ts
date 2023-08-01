@@ -1,4 +1,3 @@
-import {settingsActions} from "@store/settings/settings.slice.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {bindActionCreators} from "@reduxjs/toolkit";
 import {getLanguage} from "@store/settings/settings.selector.ts";
@@ -7,7 +6,6 @@ import {en, es, ru, Translation} from "@utils/translation";
 
 
 const actions = {
-    ...settingsActions,
 }
 
 /**

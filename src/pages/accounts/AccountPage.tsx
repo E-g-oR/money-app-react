@@ -1,8 +1,7 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useState} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
-import {useGetAccountQuery, useGetChartDataQuery, useGetChartFiltersQuery} from "@store/api.ts";
 import {useParams} from "react-router-dom";
 import {useTranslation} from "@utils/hooks.ts";
 import Tabs from "@components/tabs";
@@ -16,14 +15,10 @@ const AccountPage: FC = () => {
     const t = useTranslation()
     const params = useParams()
 
-    const {data: chartData} = useGetChartDataQuery({year, month, view: "year"})
-
-    useEffect(() => {
-        console.log(chartData)
-    }, [chartData])
+    // const {data: chartData} = useGetChartDataQuery({year, month, view: "year"})
 
 
-    const {data: account} = useGetAccountQuery(Number(params.accountId))
+    // const {data: account} = useGetAccountQuery(Number(params.accountId))
 
 
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])

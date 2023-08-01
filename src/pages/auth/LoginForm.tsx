@@ -5,7 +5,7 @@ import {Button, Input, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 import {AuthDto} from "@/types/api.ts";
 import Api from "@/api";
-import useAuthStore from "@store/auth/auth-zustand.slice.ts";
+import useAuthStore from "@store/auth/auth.slice.ts";
 
 
 const LoginForm: FC = () => {

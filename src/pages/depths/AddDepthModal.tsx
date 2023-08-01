@@ -1,11 +1,10 @@
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
 import {FC, useCallback, useEffect, useState} from "react";
-import {useCreateDepthMutation} from "@store/api.ts";
 import {useTranslation} from "@utils/hooks.ts";
 
 const AddDepthModal: FC = () => {
     const t = useTranslation()
-    const [createDepth, {isLoading, isSuccess}] = useCreateDepthMutation()
+    // const [createDepth, {isLoading, isSuccess}] = useCreateDepthMutation()
 
     const [isOpen, setIsOpen] = useState(false)
     const [depthName, setDepthName] = useState("")

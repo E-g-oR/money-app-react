@@ -1,5 +1,4 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {settingsReducer} from "@store/settings/settings.slice.ts";
 import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist"
 import * as process from "process";
@@ -12,7 +11,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    settings: settingsReducer,
     accounts: accountsReducer,
 })
 

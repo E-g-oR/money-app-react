@@ -2,7 +2,6 @@ import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@/com
 import {FC, useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {OperationType} from "@/types/accounts.ts";
-import {useCreateTransactionMutation} from "@store/api.ts";
 import {useTranslation} from "@utils/hooks.ts";
 
 interface OperationTypeValue {
@@ -23,7 +22,7 @@ const AddTransactionModal: FC = () => {
     const t = useTranslation()
     const params = useParams()
 
-    const [createTransaction, {isSuccess, isLoading}] = useCreateTransactionMutation()
+    // const [createTransaction, {isSuccess, isLoading}] = useCreateTransactionMutation()
 
     const [isOpen, setIsOpen] = useState(false)
 

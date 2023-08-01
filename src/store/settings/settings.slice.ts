@@ -1,30 +1,27 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Lang} from "@utils/constants.ts";
+import {create} from "zustand";
+import {persist} from "zustand/middleware";
 
 export type ColorScheme = "light" | "dark" | "auto"
 
-interface SettingsSlice {
+export interface SettingsStore {
     language: Lang,
-    colorScheme: "light" | "dark" | "auto"
+    colorScheme: ColorScheme,
+    setColorScheme: (colorScheme: ColorScheme) => void,
+    setLanguage: (lang: Lang) => void
 }
 
-const initialState: SettingsSlice = {
-    colorScheme: "dark",
-    language: "en",
-}
 
-const settingsSlice = createSlice({
-    name: "settings",
-    initialState,
-    reducers: {
-        setColorScheme: (state, action: PayloadAction<ColorScheme>) => {
-            state.colorScheme = action.payload
-        },
-        setLanguage: (state, action: PayloadAction<Lang>) => {
-            state.language = action.payload
-        }
-    }
-})
+const useSettingsStore = create(
+    persist<SettingsStore>(
+        set => ({
+            language: "en",
+            colorScheme: "light",
+            setColorScheme: colorScheme => set({colorScheme}),
+            setLanguage: language => set({language}),
+        }),
+        {name: "settings-store"}
+    )
+)
 
-export const settingsActions = settingsSlice.actions,
-    settingsReducer = settingsSlice.reducer
+export default useSettingsStore
