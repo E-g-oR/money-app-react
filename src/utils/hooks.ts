@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {bindActionCreators} from "@reduxjs/toolkit";
 import {getLanguage} from "@store/settings/settings.selector.ts";
 import {match} from "ts-pattern";
-import {en, es, ru, Translation} from "@utils/translation";
+import {DICTIONARY, en, es, ru, Translation} from "@utils/translation";
 import useSettingsStore from "@store/settings/settings.slice.ts";
 
 
@@ -22,10 +22,5 @@ export const useActions = () => {
  */
 export const useTranslation = (): Translation => {
     const lang = useSettingsStore(getLanguage)
-    // TODO: use just record of dictionaries instead of function
-    return match(lang)
-        .with("es", () => es)
-        .with("en", () => en)
-        .with("ru", () => ru)
-        .otherwise(() => ru)
+    return DICTIONARY[lang] ?? DICTIONARY.en
 }

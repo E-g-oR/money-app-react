@@ -1,6 +1,7 @@
 import es from "./es.ts"
 import en from "./en.ts"
 import ru from "./ru.ts"
+import {Lang} from "@utils/constants.ts";
 
 export type BottomNavigationKey = "accounts" | "depts" | "settings" | "profile"
 
@@ -55,4 +56,4 @@ export interface Translation {
     }
 }
 
-export {es, en, ru}
+export const DICTIONARY: Readonly<Record<Lang, Translation>> = {es, en, ru}
