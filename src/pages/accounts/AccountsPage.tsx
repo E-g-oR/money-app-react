@@ -1,21 +1,21 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect} from "react";
 import {Stack, Typography} from "@components";
 import {AddAccountModal} from "@pages/accounts/AddAccountModal.tsx";
 import {motion} from "framer-motion"
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
 import {useTranslation} from "@utils/hooks.ts";
-import {AccountInList} from "@/types/accounts.ts";
 import Api from "@/api";
+import useDataStore from "@store/data/data.slice.ts";
+import {getAccountsList} from "@store/data/data.selectors.ts";
 
 const AccountsPage: FC = () => {
     const t = useTranslation()
+    const accountsList = useDataStore(getAccountsList)
 
-    // const {data: accountsList, isLoading: isLoadingAccountsList} = useGetAccountsListQuery("")
-    const [accountsList, setAccountsList] = useState<ReadonlyArray<AccountInList>>([])
     useEffect(() => {
-        Api.getAccountsList().then(setAccountsList)
-    }, [setAccountsList])
+        Api.getAccountsList()
+    }, [])
 
     return <Stack vertical spacing={"m"}>
         <motion.div

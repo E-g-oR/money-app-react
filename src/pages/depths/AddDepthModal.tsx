@@ -1,7 +1,7 @@
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
 import {FC, useCallback, useState} from "react";
 import {useTranslation} from "@utils/hooks.ts";
-import {DepthNew} from "@types/depths.ts";
+import {DepthNew} from "@/types/depths.ts";
 import Api from "@api";
 
 const AddDepthModal: FC = () => {

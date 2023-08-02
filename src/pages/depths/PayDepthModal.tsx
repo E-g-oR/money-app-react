@@ -1,10 +1,10 @@
 import {Button, Input, Modal, Select, Stack, Typography} from "@components";
 import {Dept, PayDepthPayload} from "@/types/depths";
 import {FC, useCallback, useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {getAccounts} from "@store/accounts/accounts.selector.ts";
 import {useTranslation} from "@utils/hooks.ts";
 import Api from "@api";
+import useDataStore from "@store/data/data.slice.ts";
+import {getAccountsList} from "@store/data/data.selectors.ts";
 
 interface Props {
     dept: Dept
@@ -17,7 +17,7 @@ const getAmountToPay = (accountValue: number, depth: Dept): number => {
 
 const PayDepthModal: FC<Props> = ({dept}) => {
     const t = useTranslation()
-    const accountsList = useSelector(getAccounts)
+    const accountsList = useDataStore(getAccountsList)
 
 
     const [isOpen, setIsOpen] = useState(false)
@@ -89,7 +89,7 @@ const PayDepthModal: FC<Props> = ({dept}) => {
                 </form>
             </Modal>
             <Button
-                isDisabled={Number(valueToPay) === 0}
+                // isDisabled={Number(valueToPay) === 0}
                 size={"xs"}
                 variant={"outline"}
                 color={"secondary"}

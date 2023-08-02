@@ -3,6 +3,7 @@ import useAuthStore from "@store/auth/auth.slice.ts";
 import {Pageable, Tokens} from "@/types/api.ts";
 import {Account, AccountInList, CreateAccount, Operation, OperationNew} from "@/types/accounts.ts";
 import {Dept, DepthNew, PayDepthPayload} from "@/types/depths.ts";
+import useDataStore from "@store/data/data.slice.ts";
 
 const Client = ky.create({
     prefixUrl: "http://localhost:8000"
@@ -65,8 +66,12 @@ class API {
             .json()
     }
 
-    public getAccountsList = (): Promise<ReadonlyArray<AccountInList>> =>
-        this.clientSecure.get(this.endpoints.accountsList).json()
+    public getAccountsList = async (): Promise<ReadonlyArray<AccountInList>> => {
+        const accountsList = await this.clientSecure.get(this.endpoints.accountsList).json<ReadonlyArray<AccountInList>>()
+        const setAccountList = useDataStore.getState().setAccountList
+        setAccountList(accountsList)
+        return accountsList
+    }
 
     // === Account ===
     public getAccount = (accountId: number): Promise<Account> =>
@@ -91,15 +96,28 @@ class API {
 
     // === ===
 
-    public getDepthList = (): Promise<ReadonlyArray<Dept>> =>
-        this.clientSecure.get("depths").json()
+    public getDepthList = async (): Promise<ReadonlyArray<Dept>> => {
+        const deptsList = await this.clientSecure.get("depths").json<ReadonlyArray<Dept>>()
+        console.log(deptsList)
+        const {setDeptsList} = useDataStore.getState()
+        setDeptsList(deptsList)
+        return deptsList
+    }
 
     // === Depts ===
     public createDepth = (json: DepthNew): Promise<Dept> =>
         this.clientSecure.post("depths", {json}).json()
 
-    public payDepth = ({depthId, ...json}: PayDepthPayload): Promise<Dept> =>
-        this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json()
+    public payDepth = async ({depthId, ...json}: PayDepthPayload): Promise<Dept> => {
+        const [updatedDept, updatedAccount] = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<[Dept, Account]>()
+
+        const {updateDeptInList, updateAccount} = useDataStore.getState()
+
+        updateDeptInList(updatedDept)
+        updateAccount(updatedAccount)
+        this.getAccountsList()
+        return updatedDept
+    }
 
     // === ===
 
