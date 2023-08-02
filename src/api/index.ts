@@ -8,7 +8,23 @@ const Client = ky.create({
     prefixUrl: "http://localhost:8000"
 })
 
+const refreshTokens = (): Promise<Tokens> => Client
+    .get(
+        "auth/refresh",
+        {
+            headers: [
+                ["Authorization", `Bearer ${useAuthStore.getState().refresh_token}`],
+            ]
+        }
+    )
+    .json()
+
 const ClientSecure = Client.extend({
+    retry: {
+        limit: 5,
+        statusCodes: [401],
+        methods: ["get", "post", "put", "delete"]
+    },
     hooks: {
         beforeRequest: [
             request => {
@@ -16,6 +32,14 @@ const ClientSecure = Client.extend({
                 if (token) {
                     request.headers.set("Authorization", `Bearer ${token}`)
                 }
+            }
+        ],
+        beforeRetry: [
+            async ({request}) => {
+                console.log("before retry")
+                const tokens = await refreshTokens()
+                useAuthStore.getState().setTokens(tokens)
+                request.headers.set("Authorization", `Bearer ${tokens.access_token}`)
             }
         ]
     }

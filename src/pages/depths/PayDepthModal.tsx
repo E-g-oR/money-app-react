@@ -1,10 +1,10 @@
 import {Button, Input, Modal, Select, Stack, Typography} from "@components";
-import {Dept} from "@/types/depths";
-import {FC, useEffect, useState} from "react";
+import {Dept, PayDepthPayload} from "@/types/depths";
+import {FC, useCallback, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {getAccounts} from "@store/accounts/accounts.selector.ts";
-import {usePayDepthMutation} from "@store/api.ts";
 import {useTranslation} from "@utils/hooks.ts";
+import Api from "@api";
 
 interface Props {
     dept: Dept
@@ -19,24 +19,28 @@ const PayDepthModal: FC<Props> = ({dept}) => {
     const t = useTranslation()
     const accountsList = useSelector(getAccounts)
 
-    const [payDepth, {isSuccess}] = usePayDepthMutation()
 
     const [isOpen, setIsOpen] = useState(false)
-
     const [accountToPayFrom, setAccountToPayFrom] = useState(accountsList?.[0])
     const [valueToPay, setValueToPay] = useState(
         getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString()
     )
 
+    const onClose = useCallback(() => {
+        setIsOpen(false)
+        setAccountToPayFrom(accountsList?.[0])
+    }, [setAccountToPayFrom, setIsOpen, accountsList])
+
+    const payDepth = useCallback((body: PayDepthPayload) => {
+        Api.payDepth(body).then(() => {
+            onClose()
+        })
+    }, [onClose])
+
     useEffect(() => {
         setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString())
     }, [setValueToPay, accountToPayFrom?.value, dept])
 
-    useEffect(() => {
-        if (isSuccess) {
-            setIsOpen(false)
-        }
-    }, [isSuccess, setIsOpen])
 
     return dept &&
         <>
