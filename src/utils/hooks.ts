@@ -3,6 +3,7 @@ import {bindActionCreators} from "@reduxjs/toolkit";
 import {getLanguage} from "@store/settings/settings.selector.ts";
 import {match} from "ts-pattern";
 import {en, es, ru, Translation} from "@utils/translation";
+import useSettingsStore from "@store/settings/settings.slice.ts";
 
 
 const actions = {
@@ -20,7 +21,7 @@ export const useActions = () => {
  * Hook to get dictionary of selected language for interface
  */
 export const useTranslation = (): Translation => {
-    const lang = useSelector(getLanguage)
+    const lang = useSettingsStore(getLanguage)
     // TODO: use just record of dictionaries instead of function
     return match(lang)
         .with("es", () => es)

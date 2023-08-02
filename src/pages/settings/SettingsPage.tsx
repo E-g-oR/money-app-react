@@ -1,15 +1,14 @@
 import {FC, useEffect, useState} from "react";
 import {Select, Typography} from "@components";
-import {useSelector} from "react-redux";
-import {getLanguage} from "@store/settings/settings.selector.ts";
-import {useActions} from "@utils/hooks.ts";
 import {languageSelect, LanguageSelectItem} from "@utils/constants.ts";
+import useSettingsStore from "@store/settings/settings.slice.ts";
+import {getLanguage, getSetLanguage} from "@store/settings/settings.selector.ts";
 
 const SettingsPage: FC = () => {
-    const language = useSelector(getLanguage)
-    const {setLanguage} = useActions()
+    const setLanguage = useSettingsStore(getSetLanguage)
+    const language = useSettingsStore(getLanguage)
 
-    const [locale, setLocale] = useState<LanguageSelectItem>(languageSelect.find(item => item.value === language))
+    const [locale, setLocale] = useState<LanguageSelectItem>(languageSelect.find(item => item.value === language) ?? languageSelect[0])
 
     useEffect(() => {
         setLanguage(locale.value)
