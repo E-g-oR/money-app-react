@@ -1,29 +1,34 @@
 import {FC, useEffect, useMemo, useState} from "react";
 import {Select, Stack, Typography} from "@components";
-import {useGetChartDataQuery, useGetChartFiltersQuery} from "@store/api.ts";
-import {useParams} from "react-router-dom";
+import Api from "@api";
+import {ChartFiltersDto} from "@/types/API/data-contracts.ts";
 import {match} from "ts-pattern";
-import LinearChart from "@pages/accounts/chart-view/LinearChart.tsx";
-import {ParentSize} from "@visx/responsive";
 
 const maxHeight = 500
 
 const views = ["month", "year"] as const
 
-const ChartView: FC = () => {
-    const params = useParams<"accountId">()
-    const {data: chartFilters} = useGetChartFiltersQuery(Number(params.accountId), {
-        refetchOnMountOrArgChange: true,
-        refetchOnFocus: true
-    })
+interface Props {
+    accountId: number
+}
 
-    const yearsFilter: ReadonlyArray<string> = useMemo(() => chartFilters ? Object.keys(chartFilters) : [], [chartFilters])
+const ChartView: FC<Props> = ({accountId}) => {
 
+    const [chartFilters, setChartFilters] = useState<ChartFiltersDto>()
 
+    // console.log(chartFilters)
+    useEffect(() => {
+        Api.getChartFilters(accountId).then(setChartFilters)
+    }, [accountId])
+
+    const yearsFilter: ReadonlyArray<number> = useMemo(() => chartFilters?.data ? Object.keys(chartFilters.data).map(parseInt) : [], [chartFilters?.data])
+    //
+    //
     const [selectedYear, setSelectedYear] = useState(yearsFilter?.[0])
-    const monthsFilter: ReadonlyArray<string> | undefined = useMemo(() => chartFilters?.[selectedYear], [selectedYear, chartFilters])
+    const monthsFilter = useMemo(() => chartFilters?.data && selectedYear ? chartFilters.data[selectedYear] : [], [selectedYear, chartFilters?.data])
     const [selectedMonth, setSelectedMonth] = useState(monthsFilter?.[0])
 
+    console.log(yearsFilter, selectedMonth)
 
     useEffect(() => {
         setSelectedYear(yearsFilter?.[0])
@@ -32,18 +37,10 @@ const ChartView: FC = () => {
 
     const [view, setView] = useState<typeof views[number]>(views[0])
 
-    console.log(selectedYear, parseInt(selectedYear))
-    console.log(selectedMonth, parseInt(selectedMonth))
-
-    const {data: chartData} = useGetChartDataQuery({year: parseInt(selectedYear), month: parseInt(selectedMonth), view},{
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true,
-        skip: selectedMonth === undefined || selectedYear === undefined
-    })
 
     return <>
         <Typography>Chart view</Typography>
-        <Stack spacing={"m"} alignItems={"center"} justifyContent={"flex-start"}>
+        {chartFilters && <Stack spacing={"m"} alignItems={"center"} justifyContent={"flex-start"}>
             <Select value={view} variants={views} renderVariants={a => a} onChange={setView}/>
             {match(yearsFilter.length)
                 .with(1, () => <Typography>{selectedYear}</Typography>)
@@ -64,14 +61,14 @@ const ChartView: FC = () => {
                     renderVariants={a => a}
                 />)
                 .otherwise(() => null)}
-        </Stack>
-         <ParentSize debounceTime={0} >
-            {({height, width}) => <LinearChart
-                width={width}
-                height={Math.min(height, maxHeight)}
-                data={chartData ?? {incomes: [], expenses: []}}
-            />}
-        </ParentSize>
+        </Stack>}
+        {/*<ParentSize debounceTime={0}>*/}
+        {/*    {({height, width}) => <LinearChart*/}
+        {/*        width={width}*/}
+        {/*        height={Math.min(height, maxHeight)}*/}
+        {/*        data={chartData ?? {incomes: [], expenses: []}}*/}
+        {/*    />}*/}
+        {/*</ParentSize>*/}
     </>
 }
 

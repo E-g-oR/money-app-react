@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
@@ -6,26 +6,34 @@ import {useParams} from "react-router-dom";
 import {useTranslation} from "@utils/hooks.ts";
 import Tabs from "@components/tabs";
 import TransactionsView from "@pages/accounts/transactions-view";
-import ChartView from "@pages/accounts/chart-view";
+import useDataStore from "@store/data/data.slice.ts";
+import {getAccountsById, getActiveAccountId, getSetActiveAccountId} from "@store/data/data.selectors.ts";
+import Api from "@api";
 
 const accountPageTabs = ["transactions", "chart",] as const
-const year = 2023
-const month = 6
 const AccountPage: FC = () => {
     const t = useTranslation()
-    const params = useParams()
+    const params = useParams<"accountId">()
 
-    // const {data: chartData} = useGetChartDataQuery({year, month, view: "year"})
+    const setActiveAccountId = useDataStore(getSetActiveAccountId)
+    const accountId = useDataStore(getActiveAccountId)
 
-
-    // const {data: account} = useGetAccountQuery(Number(params.accountId))
-
+    const accountsById = useDataStore(getAccountsById)
+    const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
 
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
 
+    useEffect(() => {
+        if (accountId) {
+            Api.getAccount(accountId)
+        }
+    }, [accountId])
+
+    useEffect(() => {
+        setActiveAccountId(params.accountId ?? "")
+    }, [params.accountId, setActiveAccountId])
+
     return <Stack vertical spacing={"s"} alignItems={"stretch"}>
-
-
         <AnimatePresence>
             {account &&
                 <motion.div
@@ -47,7 +55,8 @@ const AccountPage: FC = () => {
 
         <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
         {tab === "chart"
-            ? <ChartView/>
+            // ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
+            ? null
             : <TransactionsView accountId={Number(params.accountId)}/>}
     </Stack>
 }

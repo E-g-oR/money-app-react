@@ -1,8 +1,8 @@
 import {FC, useCallback, useState} from "react";
 import {Button, IconButton, Input, Modal, Stack} from "@components";
 import {useTranslation} from "@utils/hooks.ts";
-import {CreateAccount} from "@types/accounts.ts";
 import Api from "@api";
+import {CreateAccountDto} from "@/types/API/data-contracts.ts";
 
 export const AddAccountModal: FC = () => {
     const t = useTranslation()
@@ -17,7 +17,7 @@ export const AddAccountModal: FC = () => {
         setAccountValue("")
     }, [setAccountName, setAccountValue, setIsOpen])
 
-    const createAccount = useCallback((body: CreateAccount) => {
+    const createAccount = useCallback((body: CreateAccountDto) => {
         Api.createAccount(body).then(() => {
             closeModal()
         })
@@ -34,6 +34,7 @@ export const AddAccountModal: FC = () => {
                 createAccount({
                     value: Number(accountValue),
                     name: accountName,
+                    description: ""
                 })
             }}>
                 <Stack vertical spacing={"s"}>
@@ -56,6 +57,7 @@ export const AddAccountModal: FC = () => {
                             createAccount({
                                 value: Number(accountValue),
                                 name: accountName,
+                                description: ""
                             })
                         }}
                     >{t.actions.create}</Button>

@@ -1,8 +1,8 @@
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
 import {FC, useCallback, useState} from "react";
 import {useTranslation} from "@utils/hooks.ts";
-import {DepthNew} from "@/types/depths.ts";
 import Api from "@api";
+import {CreateDepthDto} from "@/types/API/data-contracts.ts";
 
 const AddDepthModal: FC = () => {
     const t = useTranslation()
@@ -22,7 +22,7 @@ const AddDepthModal: FC = () => {
         setIsOpen(false)
     }, [setDepthName, setDepthValue, setDepthDescription, setDepthValueCovered, setIsOpen])
 
-    const createDepth = useCallback((body: DepthNew) => {
+    const createDepth = useCallback((body: CreateDepthDto) => {
         Api.createDepth(body).then(() => {
             onClose()
         })

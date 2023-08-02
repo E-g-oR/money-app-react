@@ -1,9 +1,17 @@
 import ky from "ky";
 import useAuthStore from "@store/auth/auth.slice.ts";
-import {Pageable, Tokens} from "@/types/api.ts";
-import {Account, AccountInList, CreateAccount, Operation, OperationNew} from "@/types/accounts.ts";
-import {Dept, DepthNew, PayDepthPayload} from "@/types/depths.ts";
 import useDataStore from "@store/data/data.slice.ts";
+import {
+    AccountDto, ChartDataDto, ChartFiltersDto,
+    CreateAccountDto,
+    CreateDepthDto,
+    CreateOperationDto,
+    DeptDto,
+    PayDepthDto,
+    Tokens
+} from "@/types/API/data-contracts.ts";
+import {Pageable} from "@/types/api.ts";
+import {Operation} from "@/types/accounts.ts";
 
 const Client = ky.create({
     prefixUrl: "http://localhost:8000"
@@ -66,18 +74,22 @@ class API {
             .json()
     }
 
-    public getAccountsList = async (): Promise<ReadonlyArray<AccountInList>> => {
-        const accountsList = await this.clientSecure.get(this.endpoints.accountsList).json<ReadonlyArray<AccountInList>>()
+    public getAccountsList = async (): Promise<ReadonlyArray<AccountDto>> => {
+        const accountsList = await this.clientSecure.get(this.endpoints.accountsList).json<ReadonlyArray<AccountDto>>()
         const setAccountList = useDataStore.getState().setAccountList
         setAccountList(accountsList)
         return accountsList
     }
 
     // === Account ===
-    public getAccount = (accountId: number): Promise<Account> =>
-        this.clientSecure.get(`accounts/${accountId}`).json()
+    public getAccount = async (accountId: number): Promise<AccountDto> => {
+        const account = await this.clientSecure.get(`accounts/${accountId}`).json<AccountDto>()
+        const {setAccountById} = useDataStore.getState()
+        setAccountById(account)
+        return account
+    }
 
-    public createAccount = (json: CreateAccount): Promise<Account> =>
+    public createAccount = (json: CreateAccountDto): Promise<AccountDto> =>
         this.clientSecure.post("accounts/new", {json}).json()
 
     // --- ---
@@ -86,18 +98,27 @@ class API {
      * Create a new transaction
      * @param accountId
      */
-    public getTransactionsList = (accountId: number): Promise<Pageable<Operation>> =>
-        this.clientSecure.get(`transactions/account/${accountId}`).json()
+    public getTransactionsList = async (accountId: number): Promise<Pageable<Operation>> => {
+        const transactionsList = await this.clientSecure.get(`transactions/account/${accountId}`).json<Pageable<Operation>>()
+        const {setTransactionsList} = useDataStore.getState()
+        setTransactionsList(transactionsList.data)
+        return transactionsList
+    }
 
     // === Transaction ===
 
-    public createTransaction = (json: OperationNew) =>
-        this.clientSecure.post("transactions", {json}).json()
+    public createTransaction = async (json: CreateOperationDto) => {
+        const [, newTransaction] = await this.clientSecure.post("transactions", {json}).json<[AccountDto, Operation]>()
+        console.log(newTransaction)
+        const {addTransaction} = useDataStore.getState()
+        addTransaction(newTransaction)
+        return newTransaction
+    }
 
     // === ===
 
-    public getDepthList = async (): Promise<ReadonlyArray<Dept>> => {
-        const deptsList = await this.clientSecure.get("depths").json<ReadonlyArray<Dept>>()
+    public getDepthList = async (): Promise<ReadonlyArray<DeptDto>> => {
+        const deptsList = await this.clientSecure.get("depths").json<ReadonlyArray<DeptDto>>()
         console.log(deptsList)
         const {setDeptsList} = useDataStore.getState()
         setDeptsList(deptsList)
@@ -105,16 +126,15 @@ class API {
     }
 
     // === Depts ===
-    public createDepth = (json: DepthNew): Promise<Dept> =>
+    public createDepth = (json: CreateDepthDto): Promise<DeptDto> =>
         this.clientSecure.post("depths", {json}).json()
 
-    public payDepth = async ({depthId, ...json}: PayDepthPayload): Promise<Dept> => {
-        const [updatedDept, updatedAccount] = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<[Dept, Account]>()
+    public payDepth = async (json: PayDepthDto, depthId: number): Promise<DeptDto> => {
+        const updatedDept = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<DeptDto>()
 
-        const {updateDeptInList, updateAccount} = useDataStore.getState()
+        const {updateDeptInList} = useDataStore.getState()
 
         updateDeptInList(updatedDept)
-        updateAccount(updatedAccount)
         this.getAccountsList()
         return updatedDept
     }
@@ -122,10 +142,10 @@ class API {
     // === ===
 
     public getChartFilters = (accountId: number) =>
-        this.clientSecure.get(`charts/filters/${accountId}`).json()
+        this.clientSecure.get(`charts/filters/${accountId}`).json<ChartFiltersDto>()
 
     public getChartData = (params: { year: number, month: number, view: "month" | "year" }) =>
-        this.clientSecure.get("charts", {searchParams: params}).json()
+        this.clientSecure.get("charts", {searchParams: params}).json<ChartDataDto>()
 }
 
 const Api = new API()

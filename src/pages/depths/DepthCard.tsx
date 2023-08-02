@@ -1,12 +1,12 @@
 import {Card, Stack, Typography} from "@components";
-import {Dept} from "@/types/depths";
 import * as styles from "./depths.css"
 import {FC} from "react";
 import PayDepthModal from "@pages/depths/PayDepthModal.tsx";
 import Progress from "@components/progress/Progress.tsx";
+import {DeptDto} from "@/types/API/data-contracts.ts";
 
 interface Props {
-    depth: Dept
+    depth: DeptDto
 }
 
 const DepthCard: FC<Props> = ({depth}) => {

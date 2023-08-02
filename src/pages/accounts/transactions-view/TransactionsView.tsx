@@ -1,10 +1,12 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {Stack, Typography} from "@components";
 import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
 import List from "@components/list";
 import {TransactionCard} from "@components/transaction-card";
 import {useTranslation} from "@utils/hooks.ts";
-import {useGetTransactionsListQuery} from "@store/api.ts";
+import useDataStore from "@store/data/data.slice.ts";
+import {getTransactionsList} from "@store/data/data.selectors.ts";
+import Api from "@api";
 
 interface Props {
     accountId: number
@@ -13,11 +15,14 @@ interface Props {
 const TransactionsView: FC<Props> = ({accountId}) => {
 
     const t = useTranslation()
+    // const accountId = useDataStore(getActiveAccountId)
+    const transactions = useDataStore(getTransactionsList)
 
-    const {
-        data: pageableTransactions,
-        isLoading: isLoadingTransactions
-    } = useGetTransactionsListQuery(accountId)
+    useEffect(() => {
+        if (accountId) {
+            Api.getTransactionsList(accountId)
+        }
+    }, [accountId])
 
     return <>
         <Stack alignItems={"center"} justifyContent={"space-between"}>
@@ -25,8 +30,8 @@ const TransactionsView: FC<Props> = ({accountId}) => {
             <AddTransactionModal/>
         </Stack>
         <List
-            data={pageableTransactions?.data}
-            isLoading={isLoadingTransactions}
+            data={transactions}
+            isLoading={false}
             renderItem={transaction => <TransactionCard operation={transaction}/>}
             fallback={t.transactions.noTransactionsFallback}
             getKey={item => item.id}

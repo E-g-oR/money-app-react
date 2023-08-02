@@ -1,16 +1,16 @@
 import {Button, Input, Modal, Select, Stack, Typography} from "@components";
-import {Dept, PayDepthPayload} from "@/types/depths";
 import {FC, useCallback, useEffect, useState} from "react";
 import {useTranslation} from "@utils/hooks.ts";
 import Api from "@api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsList} from "@store/data/data.selectors.ts";
+import {DeptDto, PayDepthDto} from "@/types/API/data-contracts.ts";
 
 interface Props {
-    dept: Dept
+    dept: DeptDto
 }
 
-const getAmountToPay = (accountValue: number, depth: Dept): number => {
+const getAmountToPay = (accountValue: number, depth: DeptDto): number => {
     const amountToPay = depth.value - depth.valueCovered
     return amountToPay > accountValue ? accountValue : amountToPay
 }
@@ -31,15 +31,17 @@ const PayDepthModal: FC<Props> = ({dept}) => {
         setAccountToPayFrom(accountsList?.[0])
     }, [setAccountToPayFrom, setIsOpen, accountsList])
 
-    const payDepth = useCallback((body: PayDepthPayload) => {
-        Api.payDepth(body).then(() => {
+    const payDepth = useCallback((body: PayDepthDto) => {
+        Api.payDepth(body, dept.id).then(() => {
+            console.log("\nSuccessfully paid")
             onClose()
         })
-    }, [onClose])
+    }, [onClose, dept.id])
 
     useEffect(() => {
+        setAccountToPayFrom(accountsList?.[0])
         setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString())
-    }, [setValueToPay, accountToPayFrom?.value, dept])
+    }, [setValueToPay, accountToPayFrom?.value, dept, accountsList])
 
 
     return dept &&
@@ -55,7 +57,6 @@ const PayDepthModal: FC<Props> = ({dept}) => {
                         if (accountToPayFrom) {
                             payDepth({
                                 value: Number(valueToPay),
-                                depthId: dept.id,
                                 accountId: accountToPayFrom?.id
                             })
                         }
@@ -79,7 +80,6 @@ const PayDepthModal: FC<Props> = ({dept}) => {
                                 if (accountToPayFrom) {
                                     payDepth({
                                         value: Number(valueToPay),
-                                        depthId: dept.id,
                                         accountId: accountToPayFrom?.id
                                     })
                                 }
