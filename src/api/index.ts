@@ -141,11 +141,13 @@ class API {
 
     // === ===
 
+    // TODO: save filters to the store
     public getChartFilters = (accountId: number) =>
         this.clientSecure.get(`charts/filters/${accountId}`).json<ChartFiltersDto>()
 
-    public getChartData = (params: { year: number, month: number, view: "month" | "year" }) =>
-        this.clientSecure.get("charts", {searchParams: params}).json<ChartDataDto>()
+    // TODO: save chart data to the store
+    public getChartData = (accountId: number, params: { year: number, month: number, view: "month" | "year" }) =>
+        this.clientSecure.get(`charts/${accountId}`, {searchParams: params}).json<ChartDataDto>()
 }
 
 const Api = new API()

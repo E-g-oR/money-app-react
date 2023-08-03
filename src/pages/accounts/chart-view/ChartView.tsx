@@ -1,8 +1,11 @@
-import {FC, useEffect, useMemo, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {Select, Stack, Typography} from "@components";
 import Api from "@api";
-import {ChartFiltersDto} from "@/types/API/data-contracts.ts";
+import {ChartDataDto, ChartFiltersDto} from "@/types/API/data-contracts.ts";
 import {match} from "ts-pattern";
+import {useChartFilters} from "@utils/hooks.ts";
+import {ParentSize} from "@visx/responsive";
+import LinearChart from "@pages/accounts/chart-view/LinearChart.tsx";
 
 const maxHeight = 500
 
@@ -16,26 +19,30 @@ const ChartView: FC<Props> = ({accountId}) => {
 
     const [chartFilters, setChartFilters] = useState<ChartFiltersDto>()
 
-    // console.log(chartFilters)
+    const {
+        selectedYear,
+        selectedMonth,
+        yearsFilter,
+        setSelectedMonth,
+        setSelectedYear,
+        monthsFilter
+    } = useChartFilters(chartFilters)
+
+    const [chartData, setChartData] = useState<ChartDataDto>()
+
+    // console.log("chartData", chartData)
+
     useEffect(() => {
         Api.getChartFilters(accountId).then(setChartFilters)
     }, [accountId])
 
-    const yearsFilter: ReadonlyArray<number> = useMemo(() => chartFilters?.data ? Object.keys(chartFilters.data).map(parseInt) : [], [chartFilters?.data])
-    //
-    //
-    const [selectedYear, setSelectedYear] = useState(yearsFilter?.[0])
-    const monthsFilter = useMemo(() => chartFilters?.data && selectedYear ? chartFilters.data[selectedYear] : [], [selectedYear, chartFilters?.data])
-    const [selectedMonth, setSelectedMonth] = useState(monthsFilter?.[0])
-
-    console.log(yearsFilter, selectedMonth)
+    const [view, setView] = useState<typeof views[number]>(views[0])
 
     useEffect(() => {
-        setSelectedYear(yearsFilter?.[0])
-        setSelectedMonth(monthsFilter?.[0])
-    }, [yearsFilter, monthsFilter])
-
-    const [view, setView] = useState<typeof views[number]>(views[0])
+        if (selectedYear && selectedMonth) {
+            Api.getChartData(accountId, {year: selectedYear, month: selectedMonth, view}).then(setChartData)
+        }
+    }, [selectedYear, selectedMonth, view, accountId])
 
 
     return <>
@@ -62,13 +69,13 @@ const ChartView: FC<Props> = ({accountId}) => {
                 />)
                 .otherwise(() => null)}
         </Stack>}
-        {/*<ParentSize debounceTime={0}>*/}
-        {/*    {({height, width}) => <LinearChart*/}
-        {/*        width={width}*/}
-        {/*        height={Math.min(height, maxHeight)}*/}
-        {/*        data={chartData ?? {incomes: [], expenses: []}}*/}
-        {/*    />}*/}
-        {/*</ParentSize>*/}
+        <ParentSize debounceTime={0}>
+            {({height, width}) => <LinearChart
+                width={width}
+                height={Math.min(height, maxHeight)}
+                data={chartData ?? {incomes: [], expenses: []}}
+            />}
+        </ParentSize>
     </>
 }
 

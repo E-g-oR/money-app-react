@@ -1,12 +1,17 @@
 import {FC, useMemo} from "react";
-import {scaleLinear, scaleTime} from "@visx/scale";
+import {coerceNumber, scaleLinear, scaleTime, scaleUtc} from "@visx/scale";
 import {extent} from "@visx/vendor/d3-array"
 import {Group} from "@visx/group";
 import {LinePath} from "@visx/shape";
-import {curveNatural} from "@visx/curve";
+import {curveLinear} from "@visx/curve";
 import {pipe} from "fp-ts/function";
 import {colorScheme} from "@styles/colorScheme.css.ts";
-
+import {ChartDataDto, ChartLine, ChartPointDto} from "@/types/API/data-contracts.ts";
+import {Axis, Orientation} from '@visx/axis';
+import * as A from "fp-ts/ReadonlyArray"
+import * as D from "fp-ts/Date"
+import {contramap} from "fp-ts/Eq";
+import {timeFormat} from "@visx/vendor/d3-time-format"
 
 const getX = (d: ChartPoint) => d.date
 const getY = (d: ChartPoint) => d.value
@@ -27,13 +32,17 @@ const getYScale = (allData: ReadonlyArray<ChartPoint>) => scaleLinear<number>({
     domain: extent(allData, getY) as [number, number]
 })
 
-interface ChartData {
-    incomes?: ReadonlyArray<ChartPointRaw>,
-    expenses?: ReadonlyArray<ChartPointRaw>,
+const getMinMax = (vals: (number | { valueOf(): number })[]) => {
+    const numericVals = vals.map(coerceNumber);
+    return [Math.min(...numericVals), Math.max(...numericVals)];
+};
+// interface ChartData {
+//     incomes?: ReadonlyArray<ChartPointRaw>,
+//     expenses?: ReadonlyArray<ChartPointRaw>,
+//
+// }
 
-}
-
-const getAllData = (data: ChartData): ReadonlyArray<ChartPointRaw> =>
+const getAllData = (data: ChartDataDto): ReadonlyArray<ChartPointDto> =>
     data?.incomes && data?.expenses
         ? data.incomes.concat(data.expenses)
         : data?.expenses
@@ -41,30 +50,36 @@ const getAllData = (data: ChartData): ReadonlyArray<ChartPointRaw> =>
             : data?.incomes
                 ? data.incomes
                 : []
-const getProcessedData = (data: ReadonlyArray<ChartPointRaw>): Array<ChartPoint> => data?.map(point => ({
+const getProcessedData = (data: ReadonlyArray<ChartLine>): Array<ChartPoint> => data?.map(point => ({
     ...point,
     date: new Date(point.date)
 }))
 
-interface ChartPointRaw {
-    date: string,
-    value: number
-}
 
 interface ChartPoint {
     date: Date,
     value: number
 }
 
-type ChartLine = ReadonlyArray<ChartPointRaw>;
+// type ChartLine = ReadonlyArray<ChartPointRaw>;
 
 interface Props {
     width: number,
     height: number,
     margin?: { top: number, right: number, bottom: number, left: number },
     events?: boolean,
-    data: ChartData
+    data: ChartDataDto
 }
+
+const ChartPointEq = pipe(
+    D.Eq,
+    contramap((point: ChartPoint) => point.date)
+)
+const getAxisTimeValues = (data: ReadonlyArray<ChartPoint>) => pipe(
+    data,
+    A.uniq(ChartPointEq),
+    A.map(({date}) => date)
+)
 
 const lines = ["incomes", "expenses",] as const
 const LinearChart: FC<Props> = ({
@@ -91,18 +106,20 @@ const LinearChart: FC<Props> = ({
             ry={14}
         />
         {lines.map(lineName => {
-            const processedData = getProcessedData(data?.[lineName])
+            const processedData = getProcessedData(data?.[lineName] ?? [])
+            // console.log("data?.[lineName]", data?.[lineName])
+            // console.log("processedData", processedData)
             return processedData && <Group key={lineName} top={50} left={25}>
                 {processedData?.map(point => <circle
                     key={getX(point).toISOString()}
                     r={3}
                     cx={xScale(getX(point))}
                     cy={yScale(getY(point))}
-                    stroke={lineName === "incomes" ? colorScheme.success.normalTransparent : colorScheme.error.normalTransparent}
-                    fill={lineName === "incomes" ? colorScheme.success.normalTransparent : colorScheme.error.normalTransparent}
+                    stroke={lineName === "incomes" ? colorScheme.success.normal : colorScheme.error.normal}
+                    fill={lineName === "incomes" ? colorScheme.success.normal : colorScheme.error.normal}
                 />)}
                 <LinePath<ChartPoint>
-                    curve={curveNatural}
+                    curve={curveLinear}
                     data={processedData}
                     x={d => xScale(getX(d)) ?? 0}
                     y={d => yScale(getY(d)) ?? 0}
@@ -113,6 +130,22 @@ const LinearChart: FC<Props> = ({
                 />
             </Group>
         })}
+        <Axis
+            scale={scaleUtc({
+                domain: getMinMax(getAxisTimeValues(allProcessedData)),
+                range: [0, width - 50]
+            })}
+            left={20}
+            orientation={Orientation.bottom}
+            tickValues={getAxisTimeValues(allProcessedData)}
+            tickFormat={(value) => timeFormat("%e.%m")(value)}
+            stroke={colorScheme.text.normal}
+            tickStroke={colorScheme.text.normal}
+            top={height-50}
+            tickLabelProps={{
+                fill: colorScheme.text.normal
+            }}
+        />
     </svg>
 }
 
