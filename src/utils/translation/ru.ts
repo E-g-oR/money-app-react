@@ -1,10 +1,18 @@
 import {Translation} from "@utils/translation/index.ts";
-import {formatDistanceToNow} from "date-fns";
+import {formatDistanceToNow,} from "date-fns";
 import ruLocale from "date-fns/locale/ru"
+import {intlFormat} from "date-fns/fp";
 
 const ru: Translation = {
     formatDate: {
-        dateRelative: (date) => formatDistanceToNow(date, {locale: ruLocale, addSuffix: true})
+        dateRelative: (date) => formatDistanceToNow(date, {locale: ruLocale, addSuffix: true}),
+        intlFormat: intlFormat({locale: "ru"})({
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric"
+        })
     },
     actions: {
         login: "Войти",

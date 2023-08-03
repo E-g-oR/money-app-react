@@ -1,9 +1,10 @@
 import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@/components";
-import {FC, useCallback, useEffect, useState} from "react";
+import {FC, useCallback, useState} from "react";
 import {useParams} from "react-router-dom";
 import {OperationType} from "@/types/accounts.ts";
-import {useCreateTransactionMutation} from "@store/api.ts";
 import {useTranslation} from "@utils/hooks.ts";
+import Api from "@api";
+import {CreateOperationDto} from "@/types/API/data-contracts.ts";
 
 interface OperationTypeValue {
     label: string;
@@ -23,7 +24,6 @@ const AddTransactionModal: FC = () => {
     const t = useTranslation()
     const params = useParams()
 
-    const [createTransaction, {isSuccess, isLoading}] = useCreateTransactionMutation()
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -40,12 +40,12 @@ const AddTransactionModal: FC = () => {
         setOperationValue("")
     }, [setValue, setDescription, setTitle, setOperationValue])
 
-    useEffect(() => {
-        if (isSuccess) {
+    const createTransaction = useCallback((newTransaction: CreateOperationDto) => {
+        Api.createTransaction(newTransaction).then(() => {
             setIsOpen(false)
             resetForm()
-        }
-    }, [isSuccess, resetForm, setIsOpen])
+        })
+    }, [setIsOpen, resetForm])
 
     return <>
         <IconButton
@@ -85,7 +85,6 @@ const AddTransactionModal: FC = () => {
                     <Input fullWidth placeholder={t.common.description} value={description} onChange={setDescription}/>
                     <Button
                         type={"submit"}
-                        isLoading={isLoading}
                         onClick={() => {
                             createTransaction({
                                 value: Number(operationValue),

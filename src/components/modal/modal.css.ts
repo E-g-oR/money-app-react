@@ -13,7 +13,15 @@ export const overlay = style([{
     height: "100%",
     zIndex: 10
 },
-    sprinkles({display: "flex", alignItems: "center", justifyContent: "center"})
+    sprinkles({
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: {
+            tablet: "center",
+            mobile: "flex-end"
+        }
+    })
 ])
 export const shadow = style({
     boxShadow: `0px 10px 20px -5px ${colorScheme.text.darkTransparent}`
@@ -21,4 +29,12 @@ export const shadow = style({
 
 export const closeBtn = style({
     marginLeft: "auto"
+})
+
+export const modal = sprinkles({
+    alignSelf: {
+        tablet: "center",
+        mobile: "stretch"
+    },
+    borderRadius: "m"
 })

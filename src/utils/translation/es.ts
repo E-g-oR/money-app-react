@@ -1,10 +1,12 @@
 import {Translation} from "@utils/translation/index.ts";
 import {formatDistanceToNow} from "date-fns";
 import esLocale from "date-fns/locale/es"
+import {intlFormat} from "date-fns/fp";
 
 const es: Translation = {
     formatDate: {
-        dateRelative: (date) => formatDistanceToNow(date, {locale: esLocale, addSuffix: true})
+        dateRelative: (date) => formatDistanceToNow(date, {locale: esLocale, addSuffix: true}),
+        intlFormat: intlFormat({locale: "es"})({year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric"})
     },
     actions: {
         login: "Iniciar sesión",

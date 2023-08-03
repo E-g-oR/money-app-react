@@ -1,28 +1,39 @@
-import {FC} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
-import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
-import {useGetAccountQuery, useGetTransactionsListQuery} from "@store/api.ts";
 import {useParams} from "react-router-dom";
-import List from "@components/list/List.tsx";
-import {TransactionCard} from "@components/transaction-card";
 import {useTranslation} from "@utils/hooks.ts";
+import Tabs from "@components/tabs";
+import TransactionsView from "@pages/accounts/transactions-view";
+import useDataStore from "@store/data/data.slice.ts";
+import {getAccountsById, getActiveAccountId, getSetActiveAccountId} from "@store/data/data.selectors.ts";
+import Api from "@api";
 
-
+const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
     const t = useTranslation()
-    const params = useParams()
-    const {data: account} = useGetAccountQuery(Number(params.accountId))
+    const params = useParams<"accountId">()
 
-    const {
-        data: pageableTransactions,
-        isLoading: isLoadingTransactions
-    } = useGetTransactionsListQuery(Number(params.accountId))
+    const setActiveAccountId = useDataStore(getSetActiveAccountId)
+    const accountId = useDataStore(getActiveAccountId)
+
+    const accountsById = useDataStore(getAccountsById)
+    const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
+
+    const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
+
+    useEffect(() => {
+        if (accountId) {
+            Api.getAccount(accountId)
+        }
+    }, [accountId])
+
+    useEffect(() => {
+        setActiveAccountId(params.accountId ?? "")
+    }, [params.accountId, setActiveAccountId])
 
     return <Stack vertical spacing={"s"} alignItems={"stretch"}>
-
-
         <AnimatePresence>
             {account &&
                 <motion.div
@@ -41,17 +52,12 @@ const AccountPage: FC = () => {
                 <Typography>{t.common.expenses}: {account?.expenses}</Typography>
             </Stack>
         </Stack>
-        <Stack alignItems={"center"} justifyContent={"space-between"}>
-            <Typography>{t.transactions.recentTransactions}</Typography>
-            <AddTransactionModal/>
-        </Stack>
-        <List
-            data={pageableTransactions?.data}
-            isLoading={isLoadingTransactions}
-            renderItem={transaction => <TransactionCard operation={transaction}/>}
-            fallback={t.transactions.noTransactionsFallback}
-            getKey={item => item.id}
-        />
+
+        <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
+        {tab === "chart"
+            // ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
+            ? null
+            : <TransactionsView accountId={Number(params.accountId)}/>}
     </Stack>
 }
 

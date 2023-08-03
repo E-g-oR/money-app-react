@@ -22,7 +22,7 @@ function Select<T>({variants, renderVariants, value, onChange}: Props<T>): React
         <Card
             padding={"s"}
             className={sprinkles({cursor: "pointer"})}
-            // variant={"outlined"}
+            variant={"outlined"}
         >
             <div
                 className={sprinkles({

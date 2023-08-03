@@ -1,47 +1,28 @@
-import {Tokens} from "@/types/api.ts";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {APIAuth} from "@store/auth/auth.api.ts";
+import {create} from "zustand";
+import {persist} from "zustand/middleware";
 
-
-const initialState: Tokens = {
-    access_token: "",
-    refresh_token: ""
+interface Tokens {
+    access_token: string,
+    refresh_token: string,
 }
 
-const authSlice = createSlice({
-    name: "auth",
-    initialState,
-    reducers: {
-        setTokens: (state, action: PayloadAction<Tokens>) => {
-            state.access_token = action.payload.access_token
-            state.refresh_token = action.payload.refresh_token
-        }
-    },
-    extraReducers: builder => {
-        builder
-            .addMatcher(
-                APIAuth.endpoints.login.matchFulfilled,
-                (state, action) => {
-                    state.access_token = action.payload.access_token
-                    state.refresh_token = action.payload.refresh_token
-                    // state = action.payload
-                })
-            .addMatcher(
-                APIAuth.endpoints.register.matchFulfilled,
-                (state, {payload: {access_token, refresh_token}}) => {
-                    state.access_token = access_token
-                    state.refresh_token = refresh_token
-                }
-            )
-            .addMatcher(
-                APIAuth.endpoints.refresh.matchFulfilled,
-                (state, {payload: {access_token, refresh_token}}) => {
-                    state.access_token = access_token
-                    state.refresh_token = refresh_token
-                }
-            )
-    }
-})
+export interface AuthStore {
+    access_token: string | null,
+    refresh_token: string | null,
+    setTokens: (tokens: Tokens) => void,
+    setToken: (type: "access" | "refresh", token: string) => void
+}
 
-export const authActions = authSlice.actions,
-    authReducer = authSlice.reducer
+const useAuthStore = create(
+    persist<AuthStore>(
+        (set) => ({
+            access_token: null,
+            refresh_token: null,
+            setTokens: ({refresh_token, access_token}) => set({access_token, refresh_token}),
+            setToken: (type, token) => set(type === "access" ? {access_token: token} : {refresh_token: token})
+        }),
+        {name: "auth-store"}
+    )
+)
+
+export default useAuthStore

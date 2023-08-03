@@ -17,6 +17,7 @@ export default defineConfig({
       "@types": path.resolve(__dirname, "./src/types"),
       "@icons": path.resolve(__dirname, "./src/icons"),
       "@store": path.resolve(__dirname, "./src/store"),
+      "@api": path.resolve(__dirname, "./src/api"),
     }
   },
   plugins: [react(), vanillaExtractPlugin(), viteSvgr()],

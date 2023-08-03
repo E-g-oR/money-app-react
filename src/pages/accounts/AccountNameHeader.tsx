@@ -1,10 +1,10 @@
 import {FC, useState} from "react";
 import {IconButton, Input, Stack, Typography} from "@components";
-import {Account} from "@/types/accounts.ts";
 import {useTranslation} from "@utils/hooks.ts";
+import {AccountDto} from "@/types/API/data-contracts.ts";
 
 interface Props {
-    account: Account,
+    account: AccountDto,
 }
 
 const AccountNameHeader: FC<Props> = ({account}) => {

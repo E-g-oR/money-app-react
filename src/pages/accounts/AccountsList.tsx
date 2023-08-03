@@ -1,12 +1,12 @@
 import {FC} from "react";
 import {motion} from "framer-motion"
 import {Stack} from "@components";
-import {AccountInList} from "@/types/accounts.ts";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
+import {AccountDto} from "@/types/API/data-contracts.ts";
 
 
 interface Props {
-    accounts: ReadonlyArray<AccountInList> | undefined
+    accounts: ReadonlyArray<AccountDto> | undefined
 }
 
 export const AccountsList: FC<Props> = ({accounts}) =>

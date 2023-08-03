@@ -5,14 +5,13 @@ import {sprinkles} from "@/styles/sprinkles.css";
 import {FC} from "react";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "@utils/router.ts";
-import {useActions} from "@utils/hooks.ts";
-import {useSelector} from "react-redux";
-import {getColorScheme} from "@store/settings/settings.selector.ts";
+import {getColorScheme, getSetColorScheme} from "@store/settings/settings.selector.ts";
+import useSettingsStore from "@store/settings/settings.slice.ts";
 
 export const AppHeader: FC = () => {
     const navigate = useNavigate()
-    const colorScheme = useSelector(getColorScheme)
-    const {setColorScheme} = useActions()
+    const colorScheme = useSettingsStore(getColorScheme)
+    const setColorScheme = useSettingsStore(getSetColorScheme)
 
     return <div className={styles.header}>
         <Container>

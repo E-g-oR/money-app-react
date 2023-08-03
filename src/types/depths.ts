@@ -13,3 +13,9 @@ export interface Dept extends DepthNew {
     "userId": number,
     // "deadline": string
 }
+
+export interface PayDepthPayload {
+    depthId: number,
+    accountId: number,
+    value: number
+}

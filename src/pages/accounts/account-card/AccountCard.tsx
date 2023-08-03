@@ -1,15 +1,15 @@
 import {FC} from "react";
 import {Link} from "react-router-dom";
 import * as styles from "./account-card.css"
-import {AccountInList} from "@/types/accounts.ts";
 import {Card, Container, Divider, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 import {ROUTES} from "@utils/router.ts";
 import {useTranslation} from "@utils/hooks.ts";
+import {AccountDto} from "@/types/API/data-contracts.ts";
 
 
 interface Props {
-    account: AccountInList
+    account: AccountDto
 }
 
 export const AccountCard: FC<Props> = ({account}) => {

@@ -1,11 +1,12 @@
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
-import {FC, useCallback, useEffect, useState} from "react";
-import {useCreateDepthMutation} from "@store/api.ts";
+import {FC, useCallback, useState} from "react";
 import {useTranslation} from "@utils/hooks.ts";
+import Api from "@api";
+import {CreateDepthDto} from "@/types/API/data-contracts.ts";
 
 const AddDepthModal: FC = () => {
     const t = useTranslation()
-    const [createDepth, {isLoading, isSuccess}] = useCreateDepthMutation()
+    // const [createDepth, {isLoading, isSuccess}] = useCreateDepthMutation()
 
     const [isOpen, setIsOpen] = useState(false)
     const [depthName, setDepthName] = useState("")
@@ -21,12 +22,11 @@ const AddDepthModal: FC = () => {
         setIsOpen(false)
     }, [setDepthName, setDepthValue, setDepthDescription, setDepthValueCovered, setIsOpen])
 
-    useEffect(() => {
-        if (isSuccess) {
-            setIsOpen(false)
-        }
-    }, [isSuccess, setIsOpen])
-
+    const createDepth = useCallback((body: CreateDepthDto) => {
+        Api.createDepth(body).then(() => {
+            onClose()
+        })
+    }, [onClose])
 
     return <>
         <Modal
@@ -70,7 +70,6 @@ const AddDepthModal: FC = () => {
                     <Button
                         size={"m"}
                         type={"submit"}
-                        isLoading={isLoading}
                         onClick={() => {
                             createDepth({
                                 value: Number(depthValue),

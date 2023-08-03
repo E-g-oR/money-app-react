@@ -1,15 +1,23 @@
-import {FC} from "react";
+import {FC, useEffect} from "react";
 import {Stack, Typography} from "@components";
 import AddDepthModal from "@pages/depths/AddDepthModal.tsx";
 import List from "@components/list/List.tsx";
 import DepthCard from "@pages/depths/DepthCard.tsx";
-import {useGetDepthsListQuery} from "@store/api.ts";
 import {motion} from "framer-motion";
 import {useTranslation} from "@utils/hooks.ts";
+import Api from "@api";
+import useDataStore from "@store/data/data.slice.ts";
+import {getDeptsList} from "@store/data/data.selectors.ts";
 
 const DepthsPage: FC = () => {
     const t = useTranslation()
-    const {data: depthsList, isLoading: isLoadingDepths} = useGetDepthsListQuery(undefined)
+
+    const depthsList = useDataStore(getDeptsList)
+
+    useEffect(() => {
+        Api.getDepthList()
+    }, [])
+
     return <>
         <motion.div
             initial={{opacity: 0,}}
@@ -25,7 +33,7 @@ const DepthsPage: FC = () => {
         </motion.div>
         <List
             data={depthsList}
-            isLoading={isLoadingDepths}
+            isLoading={false}
             renderItem={item => <DepthCard depth={item}/>}
             fallback={t.depts.noDepthsFallback}
             getKey={depth => depth.id}

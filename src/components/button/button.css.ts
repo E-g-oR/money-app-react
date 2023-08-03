@@ -101,6 +101,10 @@ export const variant: Record<ButtonVariant, string> = styleVariants({
 })
 
 export const size: Record<ButtonSize, string> = styleVariants({
+    xxs: {
+        padding: `${sizeRelative(4)} ${theme.spacing.xs}`,
+        borderRadius: theme.borderRadius.xs,
+    },
     xs: {
         padding: `${sizeRelative(4)} ${theme.spacing.xs}`,
         borderRadius: theme.borderRadius.xs,
@@ -118,6 +122,10 @@ export const size: Record<ButtonSize, string> = styleVariants({
         borderRadius: theme.borderRadius.s,
     },
     xl: {
+        padding: `${theme.spacing.m} ${theme.spacing.xl}`,
+        borderRadius: theme.borderRadius.s,
+    },
+    xxl: {
         padding: `${theme.spacing.m} ${theme.spacing.xl}`,
         borderRadius: theme.borderRadius.s,
     }
