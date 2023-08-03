@@ -7,8 +7,6 @@ import {useChartFilters} from "@utils/hooks.ts";
 import {ParentSize} from "@visx/responsive";
 import LinearChart from "@pages/accounts/chart-view/LinearChart.tsx";
 
-const maxHeight = 500
-
 const views = ["month", "year"] as const
 
 interface Props {
@@ -69,10 +67,12 @@ const ChartView: FC<Props> = ({accountId}) => {
                 />)
                 .otherwise(() => null)}
         </Stack>}
-        <ParentSize debounceTime={0}>
-            {({height, width}) => <LinearChart
-                width={width}
-                height={Math.min(height, maxHeight)}
+        <ParentSize debounceTime={30} style={{flexGrow: 0}}>
+            {({height, width, }) => <LinearChart
+                size={{
+                    width,
+                    height: height
+                }}
                 data={chartData ?? {incomes: [], expenses: []}}
             />}
         </ParentSize>

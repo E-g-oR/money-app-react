@@ -5,5 +5,6 @@ export const layoutContent = style([{
 }])
 export const layout = style({
     height: "100%",
-    overflowY: "auto"
+    overflowY: "auto",
+    width: "100vw",
 })

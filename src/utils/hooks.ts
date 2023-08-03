@@ -1,8 +1,11 @@
 import {getLanguage} from "@store/settings/settings.selector.ts";
 import {DICTIONARY, Translation} from "@utils/translation";
 import useSettingsStore from "@store/settings/settings.slice.ts";
-import {useEffect, useState} from "react";
-import {ChartFiltersDto} from "@/types/API/data-contracts.ts";
+import {useEffect, useMemo, useState} from "react";
+import {ChartDataDto, ChartFiltersDto} from "@/types/API/data-contracts.ts";
+import {pipe} from "fp-ts/function";
+import {getAllData, getAxisTimeValues, getMinMax, getProcessedData, getXScale, getYScale} from "@utils/charts.ts";
+import {scaleUtc} from "@visx/scale";
 
 
 /**
@@ -80,3 +83,55 @@ export const useChartFilters = (chartData: ChartFiltersDto = defaultChartFilter)
         setSelectedMonth
     }
 }
+
+export interface ChartSize {
+    width: number,
+    height: number
+}
+
+export interface ChartMargin {
+    top: number
+    right: number
+    bottom: number
+    left: number,
+}
+
+export const defaultChartSize: ChartSize = {
+    width: 500,
+    height: 500,
+}
+
+export const defaultChartMargin: ChartMargin = {
+    top: 40,
+    right: 30,
+    bottom: 30,
+    left: 35,
+}
+
+export const useLinearChart = (chartData: ChartDataDto, size = defaultChartSize, margin = defaultChartMargin) => {
+    const allProcessedData = useMemo(() => pipe(chartData, getAllData, getProcessedData), [chartData])
+    const xScale = useMemo(() => getXScale(allProcessedData), [allProcessedData])
+    const yScale = useMemo(() => getYScale(allProcessedData), [allProcessedData])
+
+    const marginX = useMemo(() => (margin.left ?? 0) + (margin.right ?? 0), [margin.right, margin.left])
+    const marginY = useMemo(() => (margin.top ?? 0) + (margin.bottom ?? 0), [margin.top, margin.bottom])
+
+    xScale.range([0, size.width - marginX])
+    yScale.range([size.height - marginY - 10, 0])
+
+    const axisTimeValues = useMemo(() => getAxisTimeValues(allProcessedData), [allProcessedData])
+
+    const axisTimeScale = useMemo(() => scaleUtc({
+        domain: getMinMax(axisTimeValues),
+        range: [0, size.width - marginX],
+        // nice: true
+    }), [size.width, marginX, axisTimeValues])
+
+    return {
+        xScale,
+        yScale,
+        axisTimeValues,
+        axisTimeScale
+    }
+}
+
