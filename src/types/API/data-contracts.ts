@@ -100,7 +100,16 @@ export interface ChartFiltersDto {
   data: Record<string, number[]>;
 }
 
+export interface ChartPointDto {
+  date: string;
+  value: number;
+}
+
+export interface ChartLineDto {
+  lineKey: string;
+  lineData?: ChartPointDto[];
+}
+
 export interface ChartDataDto {
-  incomes?: OperationDto[];
-  expenses?: OperationDto[];
+  chartLines: ChartLineDto[];
 }

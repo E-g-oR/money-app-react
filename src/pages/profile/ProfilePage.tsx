@@ -1,7 +1,10 @@
 import {IconButton, Input, Stack, Typography} from "@/components";
 import {FC, useState} from "react";
+import {Button} from "@components";
+import useAuthStore from "@store/auth/auth.slice.ts";
 
 const ProfilePage: FC = () => {
+    const setToken = useAuthStore(store => store.setToken)
     const [firstName, setFirstName] = useState("John")
     const [secondName, setSecondName] = useState("Wick")
     const [email, setEmail] = useState("j.wick@gmail.com")
@@ -26,6 +29,7 @@ const ProfilePage: FC = () => {
             value={email}
             onSave={setEmail}
         />
+        <Button onClick={() => setToken("access", null)}>Log out</Button>
     </Stack>
 }
 

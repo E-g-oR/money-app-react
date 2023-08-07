@@ -10,7 +10,7 @@ export interface AuthStore {
     access_token: string | null,
     refresh_token: string | null,
     setTokens: (tokens: Tokens) => void,
-    setToken: (type: "access" | "refresh", token: string) => void
+    setToken: (type: "access" | "refresh", token: string | null) => void
 }
 
 const useAuthStore = create(

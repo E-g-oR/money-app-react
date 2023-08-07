@@ -9,6 +9,7 @@ import TransactionsView from "@pages/accounts/transactions-view";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsById, getActiveAccountId, getSetActiveAccountId} from "@store/data/data.selectors.ts";
 import Api from "@api";
+import ChartView from "@pages/accounts/chart-view";
 
 const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
@@ -55,8 +56,8 @@ const AccountPage: FC = () => {
 
         <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
         {tab === "chart"
-            // ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
-            ? null
+            ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
+            // ? null
             : <TransactionsView accountId={Number(params.accountId)}/>}
     </Stack>
 }
