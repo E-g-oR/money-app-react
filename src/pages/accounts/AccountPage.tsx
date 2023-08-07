@@ -3,7 +3,7 @@ import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
 import {useParams} from "react-router-dom";
-import {useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.ts";
 import Tabs from "@components/tabs";
 import TransactionsView from "@pages/accounts/transactions-view";
 import useDataStore from "@store/data/data.slice.ts";
@@ -15,26 +15,26 @@ const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
     const t = useTranslation()
     const params = useParams<"accountId">()
-
     const setActiveAccountId = useDataStore(getSetActiveAccountId)
+
+    useEffect(() => {
+        setActiveAccountId(params.accountId ?? "")
+    }, [params.accountId, setActiveAccountId])
+
     const accountId = useDataStore(getActiveAccountId)
+    useRequest(Api.getAccount, accountId)
 
     const accountsById = useDataStore(getAccountsById)
     const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
 
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
 
-    useEffect(() => {
-        if (accountId) {
-            Api.getAccount(accountId)
-        }
-    }, [accountId])
 
-    useEffect(() => {
-        setActiveAccountId(params.accountId ?? "")
-    }, [params.accountId, setActiveAccountId])
-
-    return <Stack vertical spacing={"s"} alignItems={"stretch"}>
+    return <Stack
+        vertical
+        spacing={"s"}
+        alignItems={"stretch"}
+    >
         <AnimatePresence>
             {account &&
                 <motion.div

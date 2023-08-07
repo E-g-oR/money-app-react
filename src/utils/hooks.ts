@@ -5,7 +5,7 @@ import {useEffect, useMemo, useState} from "react";
 import {ChartDataDto, ChartFiltersDto} from "@/types/API/data-contracts.ts";
 import {pipe} from "fp-ts/function";
 import {getAllData, getAxisTimeValues, getMinMax, getProcessedData, getXScale, getYScale} from "@utils/charts.ts";
-import {scaleBand, scaleOrdinal, scaleTime, scaleUtc} from "@visx/scale";
+import {scaleTime} from "@visx/scale";
 
 
 /**
@@ -144,4 +144,24 @@ export const useLinearChart = (chartData: ChartDataDto, size = defaultChartSize,
         barWidth
     }
 }
+
+
+export function useRequest<T, D = {}>(request: (params: D) => Promise<T>, params?: D) {
+    const [isLoading, setLoading] = useState(false)
+    const [data, setData] = useState<T | undefined>()
+
+    useEffect(() => {
+        setLoading(true)
+        request(params).then(data => {
+            setData(data)
+            setLoading(false)
+        })
+    }, [params, request])
+
+    return {
+        data,
+        isLoading
+    }
+}
+
 

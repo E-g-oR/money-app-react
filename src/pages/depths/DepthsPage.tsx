@@ -1,22 +1,19 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {Stack, Typography} from "@components";
 import AddDepthModal from "@pages/depths/AddDepthModal.tsx";
 import List from "@components/list/List.tsx";
 import DepthCard from "@pages/depths/DepthCard.tsx";
 import {motion} from "framer-motion";
-import {useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.ts";
 import Api from "@api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getDeptsList} from "@store/data/data.selectors.ts";
 
 const DepthsPage: FC = () => {
+    useRequest(Api.getDepthList)
     const t = useTranslation()
 
     const depthsList = useDataStore(getDeptsList)
-
-    useEffect(() => {
-        Api.getDepthList()
-    }, [])
 
     return <>
         <motion.div
