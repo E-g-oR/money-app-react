@@ -73,7 +73,7 @@ const ChartView: FC<Props> = ({accountId}) => {
                     width,
                     height: height
                 }}
-                data={chartData ?? {incomes: [], expenses: []}}
+                data={chartData ?? {chartLines: []}}
             />}
         </ParentSize>
     </>

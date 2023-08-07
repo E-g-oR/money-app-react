@@ -5,7 +5,7 @@ import {useEffect, useMemo, useState} from "react";
 import {ChartDataDto, ChartFiltersDto} from "@/types/API/data-contracts.ts";
 import {pipe} from "fp-ts/function";
 import {getAllData, getAxisTimeValues, getMinMax, getProcessedData, getXScale, getYScale} from "@utils/charts.ts";
-import {scaleUtc} from "@visx/scale";
+import {scaleBand, scaleOrdinal, scaleTime, scaleUtc} from "@visx/scale";
 
 
 /**
@@ -103,7 +103,7 @@ export const defaultChartSize: ChartSize = {
 
 export const defaultChartMargin: ChartMargin = {
     top: 40,
-    right: 30,
+    right: 10,
     bottom: 30,
     left: 35,
 }
@@ -116,22 +116,32 @@ export const useLinearChart = (chartData: ChartDataDto, size = defaultChartSize,
     const marginX = useMemo(() => (margin.left ?? 0) + (margin.right ?? 0), [margin.right, margin.left])
     const marginY = useMemo(() => (margin.top ?? 0) + (margin.bottom ?? 0), [margin.top, margin.bottom])
 
+    const innerWidth = useMemo(() => size.width - marginX, [size.width, marginX])
+    const innerHeight = useMemo(() => size.height - marginY, [size.height, marginY])
+
+
     xScale.range([0, size.width - marginX])
     yScale.range([size.height - marginY - 10, 0])
 
     const axisTimeValues = useMemo(() => getAxisTimeValues(allProcessedData), [allProcessedData])
+    const barWidth = useMemo(() => innerWidth / axisTimeValues.length, [innerWidth, axisTimeValues.length])
 
-    const axisTimeScale = useMemo(() => scaleUtc({
+    const axisTimeScale = useMemo(() => scaleTime({
         domain: getMinMax(axisTimeValues),
-        range: [0, size.width - marginX],
-        // nice: true
-    }), [size.width, marginX, axisTimeValues])
+        range: [0, innerWidth],
+        nice: true,
+        // round: true,
+        // clamp: true
+    }), [innerWidth, axisTimeValues])
 
     return {
-        xScale,
+        xScale: axisTimeScale,
         yScale,
         axisTimeValues,
-        axisTimeScale
+        axisTimeScale,
+        innerWidth,
+        innerHeight,
+        barWidth
     }
 }
 

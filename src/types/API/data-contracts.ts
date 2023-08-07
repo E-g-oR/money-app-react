@@ -105,7 +105,11 @@ export interface ChartPointDto {
   value: number;
 }
 
+export interface ChartLineDto {
+  lineKey: string;
+  lineData?: ChartPointDto[];
+}
+
 export interface ChartDataDto {
-  incomes?: ChartPointDto[];
-  expenses?: ChartPointDto[];
+  chartLines: ChartLineDto[];
 }
