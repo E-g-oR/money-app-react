@@ -2,7 +2,9 @@ import ky from "ky";
 import useAuthStore from "@store/auth/auth.slice.ts";
 import useDataStore from "@store/data/data.slice.ts";
 import {
-    AccountDto, ChartDataDto, ChartFiltersDto,
+    AccountDto,
+    ChartDataDto,
+    ChartFiltersDto,
     CreateAccountDto,
     CreateDepthDto,
     CreateOperationDto,
@@ -142,8 +144,12 @@ class API {
     // === ===
 
     // TODO: save filters to the store
-    public getChartFilters = (accountId: number) =>
-        this.clientSecure.get(`charts/filters/${accountId}`).json<ChartFiltersDto>()
+    public getChartFilters = async (accountId: number) => {
+        const filters = await this.clientSecure.get(`charts/filters/${accountId}`).json<ChartFiltersDto>()
+        const {setChartFiltersByAccountId} = useDataStore.getState()
+        setChartFiltersByAccountId(accountId, filters)
+        return filters
+    }
 
     // TODO: save chart data to the store
     public getChartData = (accountId: number, params: { year: number, month: number, view: "month" | "year" }) =>

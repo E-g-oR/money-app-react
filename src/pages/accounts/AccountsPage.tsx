@@ -1,10 +1,10 @@
-import {FC, useEffect} from "react";
+import {FC} from "react";
 import {Stack, Typography} from "@components";
 import {AddAccountModal} from "@pages/accounts/AddAccountModal.tsx";
 import {motion} from "framer-motion"
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
-import {useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.ts";
 import Api from "@/api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsList} from "@store/data/data.selectors.ts";
@@ -13,9 +13,7 @@ const AccountsPage: FC = () => {
     const t = useTranslation()
     const accountsList = useDataStore(getAccountsList)
 
-    useEffect(() => {
-        Api.getAccountsList()
-    }, [])
+    const {isLoading} = useRequest(Api.getAccountsList)
 
     return <Stack vertical spacing={"m"}>
         <motion.div
@@ -30,7 +28,7 @@ const AccountsPage: FC = () => {
         </motion.div>
         <List
             data={accountsList}
-            isLoading={false}
+            isLoading={isLoading}
             renderItem={account => <AccountCard account={account}/>}
             fallback={t.accounts.noAccountsFallback}
             getKey={item => item.id}

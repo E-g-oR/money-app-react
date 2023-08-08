@@ -1,11 +1,13 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import {Select, Stack, Typography} from "@components";
 import Api from "@api";
-import {ChartDataDto, ChartFiltersDto} from "@/types/API/data-contracts.ts";
+import {ChartDataDto} from "@/types/API/data-contracts.ts";
 import {match} from "ts-pattern";
-import {useChartFilters} from "@utils/hooks.ts";
+import {useChartFilters, useRequest} from "@utils/hooks.ts";
 import {ParentSize} from "@visx/responsive";
 import LinearChart from "@pages/accounts/chart-view/LinearChart.tsx";
+import useDataStore from "@store/data/data.slice.ts";
+import {getActiveAccountId, getChartFiltersByAccountId} from "@store/data/data.selectors.ts";
 
 const views = ["month", "year"] as const
 
@@ -13,9 +15,12 @@ interface Props {
     accountId: number
 }
 
-const ChartView: FC<Props> = ({accountId}) => {
+const ChartView: FC<Props> = () => {
+    const accountId = useDataStore(getActiveAccountId)
+    useRequest(Api.getChartFilters, accountId ?? 0)
 
-    const [chartFilters, setChartFilters] = useState<ChartFiltersDto>()
+    const chartFiltersByAccountId = useDataStore(getChartFiltersByAccountId)
+    const chartFilters = useMemo(() => chartFiltersByAccountId[accountId ?? 0], [accountId, chartFiltersByAccountId])
 
     const {
         selectedYear,
@@ -27,12 +32,6 @@ const ChartView: FC<Props> = ({accountId}) => {
     } = useChartFilters(chartFilters)
 
     const [chartData, setChartData] = useState<ChartDataDto>()
-
-    // console.log("chartData", chartData)
-
-    useEffect(() => {
-        Api.getChartFilters(accountId).then(setChartFilters)
-    }, [accountId])
 
     const [view, setView] = useState<typeof views[number]>(views[0])
 
@@ -68,7 +67,7 @@ const ChartView: FC<Props> = ({accountId}) => {
                 .otherwise(() => null)}
         </Stack>}
         <ParentSize debounceTime={30} style={{flexGrow: 0}}>
-            {({height, width, }) => <LinearChart
+            {({height, width,}) => <LinearChart
                 size={{
                     width,
                     height: height

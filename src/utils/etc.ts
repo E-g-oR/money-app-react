@@ -27,3 +27,6 @@ export const decimalPlaces = (value: number, precision: number) => match(precisi
         divideBy10pow(precision)
     ))
 
+export const addObjectProperty = <T extends object, K extends string, V>(obj: T, key: K, value: V): T & { [k in K]: V } => {
+    return Object.assign({}, obj, { [key]: value });
+};
