@@ -6,6 +6,7 @@ import {ROUTES} from "@utils/router.ts";
 import BottomNavigation from "@components/bottom-navigation";
 import * as styles from "./layout.css.ts"
 import useAuthStore from "@store/auth/auth.slice.ts";
+import NotificationContainer from "@components/notification/NotificationsContainer.tsx";
 
 export const Layout: FC = () => {
     const access_token = useAuthStore(getAccessToken)
@@ -18,6 +19,7 @@ export const Layout: FC = () => {
                     <Suspense fallback={"Loading..."}>
                         <Outlet/>
                     </Suspense>
+                    <NotificationContainer/>
                 </Container>
             </div>
             <BottomNavigation/>

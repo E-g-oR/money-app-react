@@ -15,6 +15,7 @@ interface Props<T> {
 
 function Select<T>({variants, renderVariants, value, onChange}: Props<T>): ReactNode {
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    console.log(value)
     return <div
         onClick={() => setIsOpen(prev => !prev)}
         className={styles.select}

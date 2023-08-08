@@ -53,6 +53,22 @@ export interface Translation {
         needsToCloseDept: (n: number) => string,
         coveredValue: string,
         noDepthsFallback: string,
+    },
+    notifications: {
+        account: {
+            created: string,
+            updated: string,
+            deleted: string,
+        },
+        dept: {
+            created: string,
+            updated: string,
+            deleted: string,
+            closed: string
+        },
+        transaction: {
+            created: string
+        }
     }
 }
 
