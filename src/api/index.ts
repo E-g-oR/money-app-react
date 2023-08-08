@@ -14,6 +14,7 @@ import {
 } from "@/types/API/data-contracts.ts";
 import {Pageable} from "@/types/api.ts";
 import {Operation} from "@/types/accounts.ts";
+import {showSuccess} from "@components/notification/NotificationsContainer.tsx";
 
 const Client = ky.create({
     prefixUrl: "http://localhost:8000"
@@ -109,11 +110,13 @@ class API {
 
     // === Transaction ===
 
-    public createTransaction = async (json: CreateOperationDto) => {
+    public createTransaction = async (json: CreateOperationDto, messageOnSuccess: string) => {
         const [, newTransaction] = await this.clientSecure.post("transactions", {json}).json<[AccountDto, Operation]>()
         console.log(newTransaction)
         const {addTransaction} = useDataStore.getState()
         addTransaction(newTransaction)
+        this.getTransactionsList(json.accountId)
+        showSuccess(messageOnSuccess)
         return newTransaction
     }
 
@@ -131,11 +134,11 @@ class API {
     public createDepth = (json: CreateDepthDto): Promise<DeptDto> =>
         this.clientSecure.post("depths", {json}).json()
 
-    public payDepth = async (json: PayDepthDto, depthId: number): Promise<DeptDto> => {
+    public payDepth = async (json: PayDepthDto, depthId: number, message: string): Promise<DeptDto> => {
         const updatedDept = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<DeptDto>()
 
         const {updateDeptInList} = useDataStore.getState()
-
+        showSuccess(message)
         updateDeptInList(updatedDept)
         this.getAccountsList()
         return updatedDept

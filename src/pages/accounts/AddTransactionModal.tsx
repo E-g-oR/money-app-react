@@ -41,11 +41,11 @@ const AddTransactionModal: FC = () => {
     }, [setValue, setDescription, setTitle, setOperationValue])
 
     const createTransaction = useCallback((newTransaction: CreateOperationDto) => {
-        Api.createTransaction(newTransaction).then(() => {
+        Api.createTransaction(newTransaction, t.notifications.transaction.created).then(() => {
             setIsOpen(false)
             resetForm()
         })
-    }, [setIsOpen, resetForm])
+    }, [setIsOpen, resetForm, t])
 
     return <>
         <IconButton

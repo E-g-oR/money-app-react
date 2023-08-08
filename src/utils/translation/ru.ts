@@ -60,6 +60,22 @@ const ru: Translation = {
         createDept: "Создать долг",
         coveredValue: "Покрытое значение",
         noDepthsFallback: "У тебя нет никаких долгов. Поздравляем!"
+    },
+    notifications: {
+        account: {
+            created: "Аккаунт успешно создан",
+            updated: "Аккаунт успешно обновлен",
+            deleted: "Аккаунт удален",
+        },
+        dept: {
+            created: "Долг создан",
+            updated: "Долг обновлен",
+            deleted: "Долг удален",
+            closed: "Долг успешно закрыт"
+        },
+        transaction: {
+            created: "Транзакция создана"
+        }
     }
 }
 

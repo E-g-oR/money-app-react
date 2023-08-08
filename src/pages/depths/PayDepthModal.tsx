@@ -32,11 +32,11 @@ const PayDepthModal: FC<Props> = ({dept}) => {
     }, [setAccountToPayFrom, setIsOpen, accountsList])
 
     const payDepth = useCallback((body: PayDepthDto) => {
-        Api.payDepth(body, dept.id).then(() => {
-            console.log("\nSuccessfully paid")
+        Api.payDepth(body, dept.id, t.notifications.dept.updated).then(() => {
+            // console.log("\nSuccessfully paid")
             onClose()
         })
-    }, [onClose, dept.id])
+    }, [onClose, dept.id, t])
 
     useEffect(() => {
         setAccountToPayFrom(accountsList?.[0])

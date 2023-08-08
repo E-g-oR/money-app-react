@@ -6,7 +6,13 @@ import {intlFormat} from "date-fns/fp";
 const es: Translation = {
     formatDate: {
         dateRelative: (date) => formatDistanceToNow(date, {locale: esLocale, addSuffix: true}),
-        intlFormat: intlFormat({locale: "es"})({year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric"})
+        intlFormat: intlFormat({locale: "es"})({
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric"
+        })
     },
     actions: {
         login: "Iniciar sesión",
@@ -54,6 +60,22 @@ const es: Translation = {
         createDept: "Crear deuda",
         coveredValue: "Valor cubierto",
         noDepthsFallback: "No tienes ninguna deuda. ¡Felicidades!"
+    },
+    notifications: {
+        account: {
+            created: "Cuenta creada con éxito",
+            updated: "Cuenta actualizada con éxito",
+            deleted: "Cuenta eliminada con éxito",
+        },
+        dept: {
+            created: "Deuda creada con éxito",
+            updated: "Deuda actualizada con éxito",
+            deleted: "Deuda eliminada con éxito",
+            closed: "Deuda cerrada con éxito"
+        },
+        transaction: {
+            created: "Transacción creada con éxito"
+        }
     }
 }
 
