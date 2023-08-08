@@ -37,7 +37,7 @@ const ChartView: FC<Props> = () => {
 
     useEffect(() => {
         if (selectedYear && selectedMonth) {
-            Api.getChartData(accountId, {year: selectedYear, month: selectedMonth, view}).then(setChartData)
+            Api.getChartData(accountId ?? 0, {year: selectedYear, month: selectedMonth, view}).then(setChartData)
         }
     }, [selectedYear, selectedMonth, view, accountId])
 

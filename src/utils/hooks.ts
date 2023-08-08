@@ -146,7 +146,7 @@ export const useLinearChart = (chartData: ChartDataDto, size = defaultChartSize,
 }
 
 
-export function useRequest<T, D = {}>(request: (params: D) => Promise<T>, params?: D) {
+export function useRequest<T, D = unknown>(request: (params: D) => Promise<T>, params: D) {
     const [isLoading, setLoading] = useState(false)
     const [data, setData] = useState<T | undefined>()
 

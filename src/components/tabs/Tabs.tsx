@@ -29,8 +29,3 @@ function Tabs<T>({values, value, onChange, render}: Props<T>) {
 }
 
 export default Tabs;
-
-interface TabProps {
-    isActive: boolean;
-}
-

@@ -13,7 +13,7 @@ const AccountsPage: FC = () => {
     const t = useTranslation()
     const accountsList = useDataStore(getAccountsList)
 
-    const {isLoading} = useRequest(Api.getAccountsList)
+    const {isLoading} = useRequest(Api.getAccountsList, null)
 
     return <Stack vertical spacing={"m"}>
         <motion.div

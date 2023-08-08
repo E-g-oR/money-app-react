@@ -22,7 +22,7 @@ const AccountPage: FC = () => {
     }, [params.accountId, setActiveAccountId])
 
     const accountId = useDataStore(getActiveAccountId)
-    useRequest(Api.getAccount, accountId)
+    useRequest(Api.getAccount, accountId ?? 0)
 
     const accountsById = useDataStore(getAccountsById)
     const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
