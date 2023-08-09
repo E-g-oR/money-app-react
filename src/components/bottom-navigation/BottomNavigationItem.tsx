@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import IconComponent from "@icons";
 import {Stack, Typography} from "@components";
 import * as styles from "./bottom-navigation.css.ts"
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 
 interface Props {
     item: BottomNavigationItemType

@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 import {Stack, Typography} from "@components";
 import {motion} from "framer-motion"
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 
 interface Props<T> {
     data: ReadonlyArray<T> | undefined,

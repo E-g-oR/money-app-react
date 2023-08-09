@@ -4,7 +4,7 @@ import {AddAccountModal} from "@pages/accounts/AddAccountModal.tsx";
 import {motion} from "framer-motion"
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
-import {useRequest, useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Api from "@/api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsList} from "@store/data/data.selectors.ts";

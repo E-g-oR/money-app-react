@@ -11,6 +11,10 @@ export interface Translation {
     formatDate: {
         dateRelative: (date: Date | number) => string,
         intlFormat: (date: Date | number) => string
+        chartDateInMonthView: (date: Date | number) => string
+        chartDateInYearView: (date: Date | number) => string
+        chartAxisInMonthView: (date: Date | number) => string
+        chartAxisInYearView: (date: Date | number) => string
     },
     actions: {
         add: string,

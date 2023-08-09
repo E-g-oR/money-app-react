@@ -4,7 +4,7 @@ import * as styles from "./account-card.css"
 import {Card, Container, Divider, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 import {ROUTES} from "@utils/router.ts";
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 import {AccountDto} from "@/types/API/data-contracts.ts";
 
 

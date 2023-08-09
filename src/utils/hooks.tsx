@@ -6,6 +6,8 @@ import {ChartDataDto, ChartFiltersDto} from "@/types/API/data-contracts.ts";
 import {pipe} from "fp-ts/function";
 import {getAllData, getAxisTimeValues, getMinMax, getProcessedData, getXScale, getYScale} from "@utils/charts.ts";
 import {scaleTime} from "@visx/scale";
+import {match} from "ts-pattern";
+import {Select, Typography} from "@components";
 
 
 /**
@@ -23,32 +25,12 @@ const defaultChartFilter: ChartFiltersDto = {
     }
 }
 export const useChartFilters = (chartData: ChartFiltersDto = defaultChartFilter) => {
-    // console.log("\nchartData", chartData)
-    const [yearsFilter, setYearsFilter] = useState<ReadonlyArray<number>>([])
-    const [monthsFilter, setMonthsFilter] = useState<ReadonlyArray<number>>([])
 
-    const [selectedYear, setSelectedYear] = useState<number>()
-    const [selectedMonth, setSelectedMonth] = useState<number>()
+    const yearsFilter = useMemo(() => Object.keys(chartData?.data ?? defaultChartFilter.data).map(parseInt), [chartData.data])
 
-    /**
-     * Update yearsFilter for selected year from chartFilter.
-     */
-    useEffect(() => {
-        console.log("chart data changed", chartData)
-        if (chartData) {
-            setYearsFilter(Object.keys(chartData.data).map(parseInt))
-        }
-    }, [chartData])
-
-    /**
-     * Update monthsFilter for selected year from chartFilter.
-     */
-    useEffect(() => {
-        if (chartData.data) {
-            // console.log("\nnew monthsFilter", chartData, selectedYear, chartData.data[selectedYear])
-            setMonthsFilter(chartData.data[selectedYear])
-        }
-    }, [selectedYear, chartData])
+    const [selectedYear, setSelectedYear] = useState<number>(yearsFilter[0])
+    const monthsFilter = useMemo(() => chartData?.data[selectedYear] ?? defaultChartFilter.data[selectedYear], [selectedYear, chartData.data])
+    const [selectedMonth, setSelectedMonth] = useState<number>(monthsFilter[0])
 
     /**
      * Update selectedYear when chartData changed.
@@ -67,20 +49,37 @@ export const useChartFilters = (chartData: ChartFiltersDto = defaultChartFilter)
      * Select the last month (will be closest to current date).
      */
     useEffect(() => {
-        // console.log("month filter changed", monthsFilter)
         if (monthsFilter?.length > 0) {
             const lastMonth = monthsFilter.reduceRight((_, last) => last, 0)
             setSelectedMonth(lastMonth)
         }
     }, [monthsFilter])
 
+    const YearsSelect = useMemo(() => match(yearsFilter.length)
+        .with(1, () => <Typography>{selectedYear}</Typography>)
+        .when((len: number) => len > 1, () => <Select
+            value={selectedYear}
+            onChange={setSelectedYear}
+            variants={yearsFilter}
+            renderVariants={a => a}
+        />)
+        .otherwise(() => null), [yearsFilter, selectedYear])
+
+    const MonthsSelect = useMemo(() => match(monthsFilter?.length)
+        .with(1, () => <Typography>{selectedMonth}</Typography>)
+        .when(len => len && len > 1, () => <Select
+            value={selectedMonth}
+            onChange={setSelectedMonth}
+            variants={monthsFilter}
+            renderVariants={a => a}
+        />)
+        .otherwise(() => null), [monthsFilter, selectedMonth])
+
     return {
-        yearsFilter,
-        monthsFilter,
         selectedYear,
-        setSelectedYear,
         selectedMonth,
-        setSelectedMonth
+        YearsSelect,
+        MonthsSelect
     }
 }
 

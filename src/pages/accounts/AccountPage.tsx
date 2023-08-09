@@ -3,7 +3,7 @@ import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
 import {useParams} from "react-router-dom";
-import {useRequest, useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Tabs from "@components/tabs";
 import TransactionsView from "@pages/accounts/transactions-view";
 import useDataStore from "@store/data/data.slice.ts";

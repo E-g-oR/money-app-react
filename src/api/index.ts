@@ -48,7 +48,6 @@ const ClientSecure = Client.extend({
         ],
         beforeRetry: [
             async ({request}) => {
-                console.log("before retry")
                 const tokens = await refreshTokens()
                 useAuthStore.getState().setTokens(tokens)
                 request.headers.set("Authorization", `Bearer ${tokens.access_token}`)
@@ -112,10 +111,9 @@ class API {
 
     public createTransaction = async (json: CreateOperationDto, messageOnSuccess: string) => {
         const [, newTransaction] = await this.clientSecure.post("transactions", {json}).json<[AccountDto, Operation]>()
-        console.log(newTransaction)
         const {addTransaction} = useDataStore.getState()
         addTransaction(newTransaction)
-        this.getTransactionsList(json.accountId)
+        this.getAccount(json.accountId)
         showSuccess(messageOnSuccess)
         return newTransaction
     }
@@ -124,7 +122,6 @@ class API {
 
     public getDepthList = async (): Promise<ReadonlyArray<DeptDto>> => {
         const deptsList = await this.clientSecure.get("depths").json<ReadonlyArray<DeptDto>>()
-        console.log(deptsList)
         const {setDeptsList} = useDataStore.getState()
         setDeptsList(deptsList)
         return deptsList

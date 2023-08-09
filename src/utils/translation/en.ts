@@ -1,18 +1,22 @@
 import {Translation} from "@utils/translation/index.ts";
-import {formatDistanceToNow} from "date-fns";
-import enLocale from "date-fns/locale/en-IE"
+import {format, formatDistanceToNow} from "date-fns";
+import locale from "date-fns/locale/en-IE"
 import {intlFormat} from "date-fns/fp";
 
 const en: Translation = {
     formatDate: {
-        dateRelative: (date) => formatDistanceToNow(date, {locale: enLocale, addSuffix: true}),
+        dateRelative: (date) => formatDistanceToNow(date, {locale, addSuffix: true}),
         intlFormat: intlFormat({locale: "en"})({
             year: "numeric",
             month: "short",
             day: "numeric",
             hour: "numeric",
             minute: "numeric"
-        })
+        }),
+        chartDateInYearView: date => format(date, "MMMM", {locale}),
+        chartAxisInYearView: date => format(date, "MMM", {locale}),
+        chartDateInMonthView: date => format(date, "d MMMM", {locale}),
+        chartAxisInMonthView: date => format(date, "d", {locale}),
     },
     actions: {
         login: "Log in",

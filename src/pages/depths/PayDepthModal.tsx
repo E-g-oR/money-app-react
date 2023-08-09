@@ -1,6 +1,6 @@
 import {Button, Input, Modal, Select, Stack, Typography} from "@components";
 import {FC, useCallback, useEffect, useState} from "react";
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsList} from "@store/data/data.selectors.ts";
@@ -33,7 +33,6 @@ const PayDepthModal: FC<Props> = ({dept}) => {
 
     const payDepth = useCallback((body: PayDepthDto) => {
         Api.payDepth(body, dept.id, t.notifications.dept.updated).then(() => {
-            // console.log("\nSuccessfully paid")
             onClose()
         })
     }, [onClose, dept.id, t])

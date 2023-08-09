@@ -1,6 +1,6 @@
 import {FC, useCallback, useState} from "react";
 import {Button, IconButton, Input, Modal, Stack} from "@components";
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
 import {CreateAccountDto} from "@/types/API/data-contracts.ts";
 

@@ -4,7 +4,7 @@ import AddDepthModal from "@pages/depths/AddDepthModal.tsx";
 import List from "@components/list/List.tsx";
 import DepthCard from "@pages/depths/DepthCard.tsx";
 import {motion} from "framer-motion";
-import {useRequest, useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getDeptsList} from "@store/data/data.selectors.ts";

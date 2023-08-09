@@ -3,7 +3,7 @@ import {Stack, Typography} from "@components";
 import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
 import List from "@components/list";
 import {TransactionCard} from "@components/transaction-card";
-import {useRequest, useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import useDataStore from "@store/data/data.slice.ts";
 import {getTransactionsList} from "@store/data/data.selectors.ts";
 import Api from "@api";
