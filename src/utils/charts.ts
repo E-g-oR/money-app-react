@@ -58,7 +58,6 @@ const getYDomain = (allData: ReadonlyArray<ChartPoint>) => {
     const sortedValues = getSortedValues(allData),
         min = sortedValues[0],
         max = sortedValues[sortedValues.length - 1]
-    // console.log(sortedValues, min, max)
     return [min, max]
 }
 

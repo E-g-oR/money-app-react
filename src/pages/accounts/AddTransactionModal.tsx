@@ -2,7 +2,7 @@ import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@/com
 import {FC, useCallback, useState} from "react";
 import {useParams} from "react-router-dom";
 import {OperationType} from "@/types/accounts.ts";
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
 import {CreateOperationDto} from "@/types/API/data-contracts.ts";
 

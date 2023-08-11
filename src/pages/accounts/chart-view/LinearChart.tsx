@@ -2,13 +2,19 @@ import {Group} from "@visx/group";
 import {curveLinear} from "@visx/curve";
 import {Line, LinePath} from "@visx/shape";
 import {GridColumns, GridRows} from "@visx/grid";
-import {timeFormat} from "@visx/vendor/d3-time-format"
 import {Axis, AxisLeft, Orientation} from '@visx/axis';
 import {WithTooltipProvidedProps} from "@visx/tooltip/lib/enhancers/withTooltip";
 import {defaultStyles, TooltipWithBounds, withTooltip} from "@visx/tooltip";
 import {chart} from "@pages/accounts/chart-view/chart.css.ts";
 import {ChartPoint, getProcessedData, getX, getY} from "@utils/charts.ts";
-import {ChartMargin, ChartSize, defaultChartMargin, defaultChartSize, useLinearChart} from "@utils/hooks.ts";
+import {
+    ChartMargin,
+    ChartSize,
+    defaultChartMargin,
+    defaultChartSize,
+    useLinearChart,
+    useTranslation
+} from "@utils/hooks.tsx";
 import {colorScheme} from "@styles/colorScheme.css.ts";
 import {ChartDataDto} from "@/types/API/data-contracts.ts";
 import {Stack, Typography} from "@components";
@@ -31,7 +37,8 @@ const tooltipStyles = {
 interface Props {
     size: ChartSize,
     margin?: ChartMargin,
-    data: ChartDataDto
+    data: ChartDataDto,
+    view: "year" | "month"
 }
 
 interface TooltipData_ {
@@ -49,8 +56,11 @@ export default withTooltip<Props, TooltipData_>(
          tooltipData,
          tooltipLeft = 0,
          tooltipTop = 0,
-         tooltipOpen
+         tooltipOpen,
+         view = "month"
      }: Props & WithTooltipProvidedProps<TooltipData_>) => {
+
+        const t = useTranslation()
 
         const {
             xScale,
@@ -153,7 +163,7 @@ export default withTooltip<Props, TooltipData_>(
                     left={margin.left}
                     orientation={Orientation.bottom}
                     tickValues={axisTimeValues}
-                    tickFormat={timeFormat("%e")}
+                    tickFormat={view === "month" ? t.formatDate.chartAxisInMonthView : t.formatDate.chartAxisInYearView}
                     stroke={colorScheme.text.normal}
                     tickStroke={colorScheme.text.normal}
                     top={size.height - (margin.top ?? 0)}
@@ -194,7 +204,7 @@ export default withTooltip<Props, TooltipData_>(
                 }
 
             </svg>
-            {tooltipOpen && (
+            {tooltipOpen && tooltipData && (
                 <div>
                     <TooltipWithBounds
                         key={Math.random()}
@@ -203,7 +213,7 @@ export default withTooltip<Props, TooltipData_>(
                         style={tooltipStyles}
                     >
                         <Stack spacing={"s"} vertical>
-                            <Typography>{tooltipData?.item.date.toLocaleString()}</Typography>
+                            <Typography>{view === "month" ? t.formatDate.chartDateInMonthView(tooltipData?.item.date) : t.formatDate.chartDateInYearView(tooltipData.item.date)}</Typography>
                             {<Typography><Typography
                                 as={"i"}>{tooltipData?.lineKey}</Typography>: {tooltipData?.item.value} </Typography>}
                         </Stack>

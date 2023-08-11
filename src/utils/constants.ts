@@ -24,7 +24,7 @@ export const bottomNavigationItems: BottomNavigationList = [{
 },] as const
 
 
-export type Lang = "en" | "ru" | "es" | "fr" | "by"
+export type Lang = "en" | "ru" | "es"
 export interface LanguageSelectItem {
     value: Lang,
     title: string
@@ -39,11 +39,5 @@ export const languageSelect: ReadonlyArray<LanguageSelectItem> = [{
 },{
     title: "Español",
     value: "es",
-},{
-    title: "Français",
-    value: "fr",
-},{
-    title: "Беларуская",
-    value: "by",
 },] as const
 

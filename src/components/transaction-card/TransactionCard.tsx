@@ -4,7 +4,7 @@ import {Stack} from "@/components/stack";
 import {Typography} from "@/components/typography";
 import {Operation, OperationType} from "@/types/accounts";
 import * as styles from "./transaction-card.css"
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 
 interface Props {
     operation: Operation

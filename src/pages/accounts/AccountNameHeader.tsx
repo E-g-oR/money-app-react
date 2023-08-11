@@ -1,6 +1,6 @@
 import {FC, useState} from "react";
 import {IconButton, Input, Stack, Typography} from "@components";
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 import {AccountDto} from "@/types/API/data-contracts.ts";
 
 interface Props {

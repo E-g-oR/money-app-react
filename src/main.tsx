@@ -50,14 +50,10 @@ const router = createBrowserRouter([{
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        {/*<Provider store={store}>*/}
-        {/*    <PersistGate persistor={persistor}>*/}
         <ThemeProvider>
             <Suspense fallback={<Typography as={"i"}>Loading...</Typography>}>
                 <RouterProvider router={router}/>
             </Suspense>
         </ThemeProvider>
-        {/*</PersistGate>*/}
-        {/*</Provider>*/}
     </React.StrictMode>,
 )

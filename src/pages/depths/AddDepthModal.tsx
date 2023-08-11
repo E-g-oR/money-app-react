@@ -1,6 +1,6 @@
 import {Button, IconButton, Input, Modal, Stack} from "@/components";
 import {FC, useCallback, useState} from "react";
-import {useTranslation} from "@utils/hooks.ts";
+import {useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
 import {CreateDepthDto} from "@/types/API/data-contracts.ts";
 

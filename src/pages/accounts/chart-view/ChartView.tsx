@@ -2,8 +2,7 @@ import {FC, useEffect, useMemo, useState} from "react";
 import {Select, Stack, Typography} from "@components";
 import Api from "@api";
 import {ChartDataDto} from "@/types/API/data-contracts.ts";
-import {match} from "ts-pattern";
-import {useChartFilters, useRequest} from "@utils/hooks.ts";
+import {useChartFilters, useRequest} from "@utils/hooks.tsx";
 import {ParentSize} from "@visx/responsive";
 import LinearChart from "@pages/accounts/chart-view/LinearChart.tsx";
 import useDataStore from "@store/data/data.slice.ts";
@@ -25,10 +24,8 @@ const ChartView: FC<Props> = () => {
     const {
         selectedYear,
         selectedMonth,
-        yearsFilter,
-        setSelectedMonth,
-        setSelectedYear,
-        monthsFilter
+        YearsSelect,
+        MonthsSelect
     } = useChartFilters(chartFilters)
 
     const [chartData, setChartData] = useState<ChartDataDto>()
@@ -37,7 +34,7 @@ const ChartView: FC<Props> = () => {
 
     useEffect(() => {
         if (selectedYear && selectedMonth) {
-            Api.getChartData(accountId, {year: selectedYear, month: selectedMonth, view}).then(setChartData)
+            Api.getChartData(accountId ?? 0, {year: selectedYear, month: selectedMonth, view}).then(setChartData)
         }
     }, [selectedYear, selectedMonth, view, accountId])
 
@@ -46,25 +43,8 @@ const ChartView: FC<Props> = () => {
         <Typography>Chart view</Typography>
         {chartFilters && <Stack spacing={"m"} alignItems={"center"} justifyContent={"flex-start"}>
             <Select value={view} variants={views} renderVariants={a => a} onChange={setView}/>
-            {match(yearsFilter.length)
-                .with(1, () => <Typography>{selectedYear}</Typography>)
-                .when(len => len > 1, () => <Select
-                    value={selectedYear}
-                    onChange={setSelectedYear}
-                    variants={yearsFilter}
-                    renderVariants={a => a}
-                />)
-                .otherwise(() => null)}
-
-            {match(monthsFilter?.length)
-                .with(1, () => <Typography>{selectedMonth}</Typography>)
-                .when(len => len && len > 1, () => <Select
-                    value={selectedMonth}
-                    onChange={setSelectedMonth}
-                    variants={monthsFilter}
-                    renderVariants={a => a}
-                />)
-                .otherwise(() => null)}
+            {YearsSelect}
+            {MonthsSelect}
         </Stack>}
         <ParentSize debounceTime={30} style={{flexGrow: 0}}>
             {({height, width,}) => <LinearChart
@@ -73,6 +53,7 @@ const ChartView: FC<Props> = () => {
                     height: height
                 }}
                 data={chartData ?? {chartLines: []}}
+                view={view}
             />}
         </ParentSize>
     </>

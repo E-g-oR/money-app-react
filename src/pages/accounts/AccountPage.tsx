@@ -3,7 +3,7 @@ import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
 import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
 import {useParams} from "react-router-dom";
-import {useRequest, useTranslation} from "@utils/hooks.ts";
+import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Tabs from "@components/tabs";
 import TransactionsView from "@pages/accounts/transactions-view";
 import useDataStore from "@store/data/data.slice.ts";
@@ -22,7 +22,7 @@ const AccountPage: FC = () => {
     }, [params.accountId, setActiveAccountId])
 
     const accountId = useDataStore(getActiveAccountId)
-    useRequest(Api.getAccount, accountId)
+    useRequest(Api.getAccount, accountId ?? 0)
 
     const accountsById = useDataStore(getAccountsById)
     const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
