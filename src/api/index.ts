@@ -135,9 +135,9 @@ class API {
         const updatedDept = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<DeptDto>()
 
         const {updateDeptInList} = useDataStore.getState()
-        showSuccess(message)
         updateDeptInList(updatedDept)
         this.getAccountsList()
+        showSuccess(message)
         return updatedDept
     }
 

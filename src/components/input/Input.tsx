@@ -1,8 +1,8 @@
-import {FC} from "react";
-import * as styles from "./input.css"
+import {FC, memo} from "react";
 import {assignInlineVars} from "@vanilla-extract/dynamic";
-import {colorScheme} from "@styles/colorScheme.css.ts";
 import {clsx} from "@utils/etc.ts";
+import {colorScheme} from "@styles/colorScheme.css.ts";
+import * as styles from "./input.css"
 
 type InputType = "text" | "password" | "email" | "number" | "search"
 
@@ -51,5 +51,5 @@ const Input: FC<Props> = ({
     </label>
 }
 
-
-export default Input
+const InputComponent = memo(Input)
+export default InputComponent

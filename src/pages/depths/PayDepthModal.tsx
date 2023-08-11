@@ -22,6 +22,7 @@ const PayDepthModal: FC<Props> = ({dept}) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [accountToPayFrom, setAccountToPayFrom] = useState(accountsList?.[0])
+
     const [valueToPay, setValueToPay] = useState(
         getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString()
     )
@@ -38,7 +39,6 @@ const PayDepthModal: FC<Props> = ({dept}) => {
     }, [onClose, dept.id, t])
 
     useEffect(() => {
-        setAccountToPayFrom(accountsList?.[0])
         setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString())
     }, [setValueToPay, accountToPayFrom?.value, dept, accountsList])
 

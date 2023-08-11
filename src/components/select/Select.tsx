@@ -3,7 +3,7 @@ import {sprinkles} from "@/styles/sprinkles.css";
 import {Card} from "@/components/card";
 import {Container} from "@/components/container";
 import {Stack} from "@/components/stack";
-import {ReactNode, useState} from "react";
+import {memo, ReactNode, useState} from "react";
 import IconComponent from "@icons";
 
 interface Props<T> {
@@ -13,7 +13,7 @@ interface Props<T> {
     onChange: (variant: T) => void,
 }
 
-function Select<T>({variants, renderVariants, value, onChange}: Props<T>): ReactNode {
+const SelectComponent = memo(function Select<T>({variants, renderVariants, value, onChange}: Props<T>): ReactNode {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     return <div
         onClick={() => setIsOpen(prev => !prev)}
@@ -52,5 +52,5 @@ function Select<T>({variants, renderVariants, value, onChange}: Props<T>): React
         </Card> : null}
     </div>
 }
-
-export default Select
+)
+export default SelectComponent

@@ -1,6 +1,6 @@
 import {Card, Stack, Typography} from "@components";
 import * as styles from "./depths.css"
-import {FC} from "react";
+import {FC, memo} from "react";
 import PayDepthModal from "@pages/depths/PayDepthModal.tsx";
 import Progress from "@components/progress/Progress.tsx";
 import {DeptDto} from "@/types/API/data-contracts.ts";
@@ -9,8 +9,8 @@ interface Props {
     depth: DeptDto
 }
 
-const DepthCard: FC<Props> = ({depth}) => {
-    return <Card padding={"s"}>
+const DepthCard: FC<Props> = ({depth}) =>
+    <Card padding={"s"}>
         <Stack spacing={"m"} justifyContent={"space-between"} alignItems={"flex-start"}>
             <Stack vertical spacing={"xs"}>
                 <Typography as={"h5"}>{depth.title}</Typography>
@@ -23,11 +23,12 @@ const DepthCard: FC<Props> = ({depth}) => {
                 >
                     {depth.valueCovered} / {depth.value}
                 </Typography>
-                {depth.value !== depth.valueCovered && <PayDepthModal dept={depth}/>}
+                {depth.value > depth.valueCovered && <PayDepthModal dept={depth}/>}
             </Stack>
         </Stack>
         <Progress max={depth.value} value={depth.valueCovered}/>
     </Card>
-}
 
-export default DepthCard
+const DeptCardComponent = memo(DepthCard)
+
+export default DeptCardComponent
