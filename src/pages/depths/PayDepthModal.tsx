@@ -4,7 +4,8 @@ import {useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsList} from "@store/data/data.selectors.ts";
-import {DeptDto, PayDepthDto} from "@/types/API/data-contracts.ts";
+import {AccountDto, DeptDto, PayDepthDto} from "@/types/API/data-contracts.ts";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
 
 interface Props {
     dept: DeptDto
@@ -15,9 +16,21 @@ const getAmountToPay = (accountValue: number, depth: DeptDto): number => {
     return amountToPay > accountValue ? accountValue : amountToPay
 }
 
+interface PayDepthForm {
+    accountToPayFrom: AccountDto,
+    valueToPay: string
+}
+
 const PayDepthModal: FC<Props> = ({dept}) => {
     const t = useTranslation()
     const accountsList = useDataStore(getAccountsList)
+
+    const {control, handleSubmit, getValues} = useForm<PayDepthForm>({
+        defaultValues: {
+            valueToPay: (dept.value - dept.valueCovered).toString(),
+            accountToPayFrom: accountsList[0]
+        }
+    })
 
 
     const [isOpen, setIsOpen] = useState(false)
@@ -42,6 +55,9 @@ const PayDepthModal: FC<Props> = ({dept}) => {
         setValueToPay(getAmountToPay(accountToPayFrom?.value ?? 0, dept).toString())
     }, [setValueToPay, accountToPayFrom?.value, dept, accountsList])
 
+    const onSubmit: SubmitHandler<PayDepthForm> = useCallback(payDeptForm => {
+        payDepth({value: parseFloat(payDeptForm.valueToPay), accountId: payDeptForm.accountToPayFrom.id})
+    }, [payDepth, getValues])
 
     return dept &&
         <>
@@ -50,39 +66,31 @@ const PayDepthModal: FC<Props> = ({dept}) => {
                 isOpen={isOpen}
                 title={`${t.depts.payFor} "${dept.title}"`}
             >
-                <form
-                    onSubmit={e => {
-                        e.preventDefault()
-                        if (accountToPayFrom) {
-                            payDepth({
-                                value: Number(valueToPay),
-                                accountId: accountToPayFrom?.id
-                            })
-                        }
-                    }}
-                >
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack vertical spacing={"s"}>
                         <Typography>
                             {t.depts.needsToCloseDept(dept.value - dept.valueCovered)}
                         </Typography>
-                        <Select
-                            value={accountToPayFrom}
-                            variants={accountsList ?? []}
-                            renderVariants={(account) => <span>{account?.name} - {account?.value}</span>}
-                            onChange={setAccountToPayFrom}
+
+                        <Controller
+                            control={control}
+                            name={"accountToPayFrom"}
+                            render={({field}) =>
+                                <Select
+                                    {...field}
+                                    variants={accountsList ?? []}
+                                    renderVariants={(account) => <span>{account?.name} - {account?.value}</span>}
+                                />
+                            }
                         />
-                        <Input value={valueToPay} onChange={setValueToPay}/>
+                        <Controller
+                            control={control}
+                            name={"valueToPay"}
+                            render={({field}) => <Input {...field}/>}
+                        />
                         <Button
                             type={"submit"}
-
-                            onClick={() => {
-                                if (accountToPayFrom) {
-                                    payDepth({
-                                        value: Number(valueToPay),
-                                        accountId: accountToPayFrom?.id
-                                    })
-                                }
-                            }}
+                            onClick={handleSubmit(onSubmit)}
                         >{t.actions.pay}</Button>
                     </Stack>
                 </form>

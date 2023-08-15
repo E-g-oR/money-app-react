@@ -39,6 +39,8 @@ export interface AccountDto {
   description: string;
   expenses: number;
   income: number;
+  savingId?: number;
+  saving?: AccountDto;
 }
 
 export interface UpdateAccountDto {
