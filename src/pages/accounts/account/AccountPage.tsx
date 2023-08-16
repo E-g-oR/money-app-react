@@ -1,17 +1,18 @@
-import {FC, useEffect, useMemo, useState} from "react";
+import {FC, lazy, Suspense, useEffect, useMemo, useState} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
-import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
+import AccountNameHeader from "@pages/accounts/account/AccountNameHeader.tsx";
 import {useParams} from "react-router-dom";
 import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Tabs from "@components/tabs";
-import TransactionsView from "@pages/accounts/transactions-view";
+import TransactionsView from "./transactions-view";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsById, getActiveAccountId, getSetActiveAccountId} from "@store/data/data.selectors.ts";
 import Api from "@api";
-import ChartView from "@pages/accounts/chart-view";
-import SavingInfoModal from "@pages/accounts/SavingInfoModal.tsx";
-import AddSavingModal from "@pages/accounts/AddSavingModal.tsx";
+import SavingInfoModal from "@pages/accounts/account/SavingInfoModal.tsx";
+import AddSavingModal from "@pages/accounts/account/AddSavingModal.tsx";
+
+const ChartView = lazy(() => import("./chart-view"))
 
 const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
@@ -74,9 +75,12 @@ const AccountPage: FC = () => {
             </Stack>}
 
         <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
-        {tab === "chart"
-            ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
-            : <TransactionsView accountId={Number(params.accountId)}/>}
+        <Suspense fallback={"loading"}>
+            {tab === "chart"
+                ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
+                : <TransactionsView accountId={Number(params.accountId)}/>}
+        </Suspense>
+
     </Stack>
 }
 export default AccountPage

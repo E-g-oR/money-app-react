@@ -5,7 +5,7 @@ import {GridColumns, GridRows} from "@visx/grid";
 import {Axis, AxisLeft, Orientation} from '@visx/axis';
 import {WithTooltipProvidedProps} from "@visx/tooltip/lib/enhancers/withTooltip";
 import {defaultStyles, TooltipWithBounds, withTooltip} from "@visx/tooltip";
-import {chart} from "@pages/accounts/chart-view/chart.css.ts";
+import {chart} from "@pages/accounts/account/chart-view/chart.css.ts";
 import {ChartPoint, getProcessedData, getX, getY} from "@utils/charts.ts";
 import {
     ChartMargin,

@@ -1,6 +1,6 @@
 import {FC, memo} from "react";
 import {Stack, Typography} from "@components";
-import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
+import AddTransactionModal from "@pages/accounts/account/AddTransactionModal.tsx";
 import List from "@components/list";
 import {TransactionCard} from "@components/transaction-card";
 import {useRequest, useTranslation} from "@utils/hooks.tsx";

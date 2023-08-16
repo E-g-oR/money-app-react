@@ -4,7 +4,7 @@ import Api from "@api";
 import {ChartDataDto} from "@/types/API/data-contracts.ts";
 import {useChartFilters, useRequest} from "@utils/hooks.tsx";
 import {ParentSize} from "@visx/responsive";
-import LinearChart from "@pages/accounts/chart-view/LinearChart.tsx";
+import LinearChart from "@pages/accounts/account/chart-view/LinearChart.tsx";
 import useDataStore from "@store/data/data.slice.ts";
 import {getActiveAccountId, getChartFiltersByAccountId} from "@store/data/data.selectors.ts";
 

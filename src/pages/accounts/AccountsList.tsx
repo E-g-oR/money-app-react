@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {motion} from "framer-motion"
 import {Stack} from "@components";
-import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
+import {AccountCard} from "@pages/accounts/account/account-card/AccountCard.tsx";
 import {AccountDto} from "@/types/API/data-contracts.ts";
 
 

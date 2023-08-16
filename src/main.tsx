@@ -10,7 +10,7 @@ import ProfilePage from "@pages/profile/ProfilePage.tsx";
 const
     LoginForm = lazy(() => import("@pages/auth/LoginForm.tsx")),
     RegisterForm = lazy(() => import( "@pages/auth/RegisterForm.tsx")),
-    AccountPage = lazy(() => import("@pages/accounts/AccountPage.tsx")),
+    AccountPage = lazy(() => import("@pages/accounts/account/AccountPage.tsx")),
     AccountsPage = lazy(() => import("@pages/accounts/AccountsPage.tsx")),
     AuthLayout = lazy(() => import("@pages/auth/auth-layout/AuthLayout.tsx")),
     DepthsPage = lazy(() => import("@pages/depths/DepthsPage.tsx")),
