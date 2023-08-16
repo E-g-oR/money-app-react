@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {Link} from "react-router-dom";
-import * as styles from "./account-card.css"
+import * as styles from "./account-card.css.ts"
 import {Card, Container, Divider, Stack, Typography} from "@components";
 import {sprinkles} from "@styles/sprinkles.css.ts";
 import {ROUTES} from "@utils/router.ts";

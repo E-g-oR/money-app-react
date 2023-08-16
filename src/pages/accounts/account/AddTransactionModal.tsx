@@ -1,4 +1,4 @@
-import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@/components";
+import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@components";
 import {FC, useCallback, useState} from "react";
 import {OperationType} from "@/types/accounts.ts";
 import {useTranslation} from "@utils/hooks.tsx";
@@ -58,7 +58,6 @@ const AddTransactionModal: FC = () => {
             setIsOpen(false)
             reset()
         })
-        // console.log(data, transactionType)
     }, [accountId, t, reset])
 
     return <>

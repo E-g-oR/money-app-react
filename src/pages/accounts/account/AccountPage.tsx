@@ -1,15 +1,18 @@
-import {FC, useEffect, useMemo, useState} from "react";
+import {FC, lazy, Suspense, useEffect, useMemo, useState} from "react";
 import {Stack, Typography} from "@components";
 import {AnimatePresence, motion} from "framer-motion";
-import AccountNameHeader from "@pages/accounts/AccountNameHeader.tsx";
+import AccountNameHeader from "@pages/accounts/account/AccountNameHeader.tsx";
 import {useParams} from "react-router-dom";
 import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Tabs from "@components/tabs";
-import TransactionsView from "@pages/accounts/transactions-view";
+import TransactionsView from "./transactions-view";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsById, getActiveAccountId, getSetActiveAccountId} from "@store/data/data.selectors.ts";
 import Api from "@api";
-import ChartView from "@pages/accounts/chart-view";
+import SavingInfoModal from "@pages/accounts/account/SavingInfoModal.tsx";
+import AddSavingModal from "@pages/accounts/account/AddSavingModal.tsx";
+
+const ChartView = lazy(() => import("./chart-view"))
 
 const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
@@ -26,7 +29,6 @@ const AccountPage: FC = () => {
 
     const accountsById = useDataStore(getAccountsById)
     const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
-
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
 
 
@@ -53,13 +55,32 @@ const AccountPage: FC = () => {
                 <Typography>{t.common.expenses}: {account?.expenses}</Typography>
             </Stack>
         </Stack>
+        {account?.saving ? <Stack alignItems={"center"} justifyContent={"space-between"}>
+                <Typography
+                    as={"h5"}
+                >{account.saving.name}: <Typography
+                    as={"span"}
+                    fontWeight={"400"}
+                >{account.saving.value}</Typography>
+                </Typography>
+                <SavingInfoModal/>
+
+            </Stack> :
+            <Stack justifyContent={"space-between"} alignItems={"center"}>
+                <Typography>Add saving to this account</Typography>
+                <Stack spacing={"s"}>
+                    <SavingInfoModal/>
+                    <AddSavingModal/>
+                </Stack>
+            </Stack>}
 
         <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
-        {tab === "chart"
-            ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
-            // ? null
-            : <TransactionsView accountId={Number(params.accountId)}/>}
+        <Suspense fallback={"loading"}>
+            {tab === "chart"
+                ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
+                : <TransactionsView accountId={Number(params.accountId)}/>}
+        </Suspense>
+
     </Stack>
 }
-
 export default AccountPage
