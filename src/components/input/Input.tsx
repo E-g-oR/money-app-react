@@ -1,4 +1,4 @@
-import {FC, memo} from "react";
+import {forwardRef} from "react";
 import {assignInlineVars} from "@vanilla-extract/dynamic";
 import {clsx} from "@utils/etc.ts";
 import {colorScheme} from "@styles/colorScheme.css.ts";
@@ -9,7 +9,8 @@ type InputType = "text" | "password" | "email" | "number" | "search"
 interface Props {
     type?: InputType
     label?: string,
-    value: string,
+    value: string | number,
+    name?: string
     onChange: (value: string) => void,
     placeholder?: string
     isError?: boolean,
@@ -17,16 +18,17 @@ interface Props {
     autofocus?: boolean
 }
 
-const Input: FC<Props> = ({
-                                     type = "text",
-                                     value,
-                                     onChange,
-                                     label,
-                                     placeholder,
-                                     isError = false,
-                                     fullWidth,
-                                     autofocus
-                                 }) => {
+const Input = forwardRef<HTMLInputElement, Props>(({
+                                                       type = "text",
+                                                       value,
+                                                       onChange,
+                                                       label,
+                                                       placeholder,
+                                                       isError = false,
+                                                       fullWidth,
+                                                       autofocus,
+                                                       name
+                                                   }, ref) => {
     return <label
         className={styles.label({fullWidth})}
         style={assignInlineVars({
@@ -37,6 +39,8 @@ const Input: FC<Props> = ({
         })}>
         {label}
         <input
+            ref={ref}
+            name={name}
             autoFocus={autofocus}
             type={type}
             value={value}
@@ -45,11 +49,10 @@ const Input: FC<Props> = ({
             className={clsx(
                 styles.input,
             )}
-
         />
         <div className={styles.decorator}/>
     </label>
-}
+})
 
-const InputComponent = memo(Input)
-export default InputComponent
+// const InputComponent = memo(Input)
+export default Input
