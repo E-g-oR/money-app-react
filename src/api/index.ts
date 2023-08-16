@@ -101,7 +101,7 @@ class API {
      * Create a new transaction
      * @param accountId
      */
-    public getTransactionsList = async (accountId: number): Promise<Pageable<Operation> | undefined>  => {
+    public getTransactionsList = async (accountId: number): Promise<Pageable<Operation> | undefined> => {
         if (accountId) {
             const transactionsList = await this.clientSecure.get(`transactions/account/${accountId}`).json<Pageable<Operation>>()
             const {setTransactionsList} = useDataStore.getState()
@@ -131,11 +131,15 @@ class API {
     }
 
     // === Depts ===
-    public createDepth = (json: CreateDepthDto): Promise<DeptDto> =>
-        this.clientSecure.post("depths", {json}).json()
+    public createDepth = async (json: CreateDepthDto): Promise<DeptDto> => {
+        const newDept = await this.clientSecure.post("depths", {json}).json<DeptDto>()
+        const {addDept} = useDataStore.getState()
+        addDept(newDept)
+        return newDept
+    }
 
-    public payDepth = async (json: PayDepthDto, depthId: number, message: string): Promise<DeptDto> => {
-        const updatedDept = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<DeptDto>()
+    public payDept = async (json: PayDepthDto, deptId: number, message: string): Promise<DeptDto> => {
+        const updatedDept = await this.clientSecure.patch(`depths/pay/${deptId}`, {json}).json<DeptDto>()
 
         const {updateDeptInList} = useDataStore.getState()
         updateDeptInList(updatedDept)

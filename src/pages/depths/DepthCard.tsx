@@ -1,7 +1,7 @@
 import {Card, Stack, Typography} from "@components";
 import * as styles from "./depths.css"
 import {FC, memo} from "react";
-import PayDepthModal from "@pages/depths/PayDepthModal.tsx";
+import PayDeptModal from "@pages/depths/PayDeptModal.tsx";
 import Progress from "@components/progress/Progress.tsx";
 import {DeptDto} from "@/types/API/data-contracts.ts";
 
@@ -23,7 +23,7 @@ const DepthCard: FC<Props> = ({depth}) =>
                 >
                     {depth.valueCovered} / {depth.value}
                 </Typography>
-                {depth.value > depth.valueCovered && <PayDepthModal dept={depth}/>}
+                {depth.value > depth.valueCovered && <PayDeptModal dept={depth}/>}
             </Stack>
         </Stack>
         <Progress max={depth.value} value={depth.valueCovered}/>

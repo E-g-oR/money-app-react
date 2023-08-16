@@ -4,6 +4,7 @@ import {assignInlineVars} from "@vanilla-extract/dynamic";
 import {clsx} from "@/utils/etc";
 import {Color} from "../card/Card";
 import {FC} from "react";
+import {motion} from "framer-motion"
 
 interface Props {
     children: string,
@@ -29,7 +30,10 @@ const Button: FC<Props> = ({
                                       type = "button"
                                   }) => {
 
-    return <button
+    return <motion.button
+        whileTap={{
+            scale: 0.95
+        }}
         type={type}
         disabled={isDisabled || isLoading}
         onClick={onClick}
@@ -46,7 +50,7 @@ const Button: FC<Props> = ({
             [styles.bgTransparentHover]: colorScheme[color].lightTransparent,
             [styles.bgTransparentActive]: colorScheme[color].darkTransparent,
         })}
-    >{children}</button>
+    >{children}</motion.button>
 }
 
 export default Button
