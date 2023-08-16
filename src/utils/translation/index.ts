@@ -5,8 +5,6 @@ import {Lang} from "@utils/constants.ts";
 
 export type BottomNavigationKey = "accounts" | "depts" | "settings" | "profile"
 
-export const defaultIntlConf = {year: "numeric", month: "numeric", day: "numeric", hour: "numeric"}
-
 export interface Translation {
     formatDate: {
         dateRelative: (date: Date | number) => string,
@@ -58,6 +56,11 @@ export interface Translation {
         coveredValue: string,
         noDepthsFallback: string,
     },
+    savings: {
+        title: string,
+        description: string,
+        bestPractices: ReadonlyArray<string>,
+    },
     notifications: {
         account: {
             created: string,
@@ -72,6 +75,10 @@ export interface Translation {
         },
         transaction: {
             created: string
+        },
+        saving: {
+            added: string,
+            deleted: string
         }
     }
 }
