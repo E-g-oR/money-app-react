@@ -65,6 +65,11 @@ const en: Translation = {
         coveredValue: "Covered value",
         noDepthsFallback: "You don't have any debts. Congratulations!"
     },
+    savings: {
+        title: "Лучшие практики",
+        description: `Основываясь на книге "Самый богатый человек в Вавилоне" мы предлагаем вам добавить к счету накопительный счет, на который, согласно лучшим рекомендациям из этой книги, будет зачисляться:`,
+        bestPractices: ["10% от каждой транзакции доходов", "Разница округления в большую сторону от каждой операции расходов"],
+    },
     notifications: {
         account: {
             created: "Account successfully created",
@@ -79,6 +84,10 @@ const en: Translation = {
         },
         transaction: {
             created: "Transaction successfully created"
+        },
+        saving: {
+            added: "Накопительный счет успешно добавлен к текущему счету.",
+            deleted: "Накопительный счет успешно удален у текущего счета."
         }
     }
 }

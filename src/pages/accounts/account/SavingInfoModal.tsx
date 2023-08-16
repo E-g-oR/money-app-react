@@ -1,20 +1,28 @@
 import {FC, memo, useState} from "react";
-import {IconButton, Modal, Typography} from "@components";
+import {IconButton, Modal, Stack, Typography} from "@components";
+import {useTranslation} from "@utils/hooks.tsx";
+import List from "@components/list";
 
 const SavingInfoModal: FC = () => {
+    const t = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     return <>
         <Modal
             onClose={() => setIsOpen(false)}
             isOpen={isOpen}
-            title={"Saving best practices"}
+            title={t.savings.title}
         >
-            <Typography>Основываясь на книге "Самый богатый человек в Вавилоне" мы предлагаем вам добавить к аккаунту
-                своеобразную копилку, куда будут перечисляться:</Typography>
-            <ul>
-                <li><Typography>10% с каждой операции доходов</Typography></li>
-                <li><Typography>остаток от округления в большую сторону с каждой операции расходов</Typography></li>
-            </ul>
+            <Stack vertical spacing={"m"}>
+                <Typography>{t.savings.description}</Typography>
+                <List
+                    data={t.savings.bestPractices}
+                    isLoading={false}
+                    renderItem={a => a}
+                    fallback={""}
+                    getKey={a => a}
+                />
+            </Stack>
+
         </Modal>
         <IconButton
             color={"secondary"}
