@@ -2,26 +2,37 @@ import {FC, useCallback, useState} from "react";
 import {Button, IconButton, Input, Modal, Stack} from "@components";
 import {useTranslation} from "@utils/hooks.tsx";
 import Api from "@api";
-import {CreateAccountDto} from "@/types/API/data-contracts.ts";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+
+interface CreateAccountForm {
+    accountName: string,
+    accountDescription: string,
+    accountValue: string
+}
 
 export const AddAccountModal: FC = () => {
     const t = useTranslation()
 
+    const {handleSubmit, control, reset} = useForm<CreateAccountForm>({
+        defaultValues: {
+            accountName: "",
+            accountDescription: "",
+            accountValue: ""
+        }
+    })
+
     const [isOpen, setIsOpen] = useState(false)
-    const [accountName, setAccountName] = useState("")
-    const [accountValue, setAccountValue] = useState("")
 
-    const closeModal = useCallback(() => {
-        setIsOpen(false)
-        setAccountName("")
-        setAccountValue("")
-    }, [setAccountName, setAccountValue, setIsOpen])
-
-    const createAccount = useCallback((body: CreateAccountDto) => {
-        Api.createAccount(body).then(() => {
-            closeModal()
+    const onSubmit: SubmitHandler<CreateAccountForm> = useCallback((data) => {
+        Api.createAccount({
+            value: parseFloat(data.accountValue),
+            name: data.accountName,
+            description: data.accountDescription
+        }).then(() => {
+            setIsOpen(false)
+            reset()
         })
-    }, [closeModal])
+    }, [setIsOpen, reset])
 
     return <>
         <Modal
@@ -29,37 +40,40 @@ export const AddAccountModal: FC = () => {
             onClose={() => setIsOpen(false)}
             isOpen={isOpen}
         >
-            <form onSubmit={e => {
-                e.preventDefault()
-                createAccount({
-                    value: Number(accountValue),
-                    name: accountName,
-                    description: ""
-                })
-            }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack vertical spacing={"s"}>
-                    <Input
-                        placeholder={t.common.title}
-                        value={accountName}
-                        onChange={setAccountName}
-                        fullWidth
+                    <Controller control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field, fieldState}) => <Input
+                                    placeholder={t.common.title}
+                                    fullWidth
+                                    isError={!!fieldState.error}
+                                    {...field}
+                                />}
+                                name={"accountName"}
                     />
-                    <Input
-                        placeholder={t.common.value}
-                        type={"number"}
-                        value={accountValue}
-                        onChange={setAccountValue}
-                        fullWidth
+                    <Controller control={control}
+                                render={({field}) => <Input
+                                    placeholder={t.common.description}
+                                    fullWidth
+                                    {...field}
+                                />}
+                                name={"accountDescription"}
+                    />
+                    <Controller control={control}
+                                render={({field}) => <Input
+                                    placeholder={t.common.value}
+                                    fullWidth
+                                    type={"number"}
+                                    {...field}
+                                />}
+                                name={"accountValue"}
                     />
                     <Button
                         type={"submit"}
-                        onClick={() => {
-                            createAccount({
-                                value: Number(accountValue),
-                                name: accountName,
-                                description: ""
-                            })
-                        }}
+                        onClick={handleSubmit(onSubmit)}
                     >{t.actions.create}</Button>
                 </Stack>
             </form>
