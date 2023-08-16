@@ -9,6 +9,7 @@ import {
     CreateDepthDto,
     CreateOperationDto,
     DeptDto,
+    OperationDto,
     PayDepthDto,
     Tokens
 } from "@/types/API/data-contracts.ts";
@@ -100,22 +101,24 @@ class API {
      * Create a new transaction
      * @param accountId
      */
-    public getTransactionsList = async (accountId: number): Promise<Pageable<Operation>> => {
-        const transactionsList = await this.clientSecure.get(`transactions/account/${accountId}`).json<Pageable<Operation>>()
-        const {setTransactionsList} = useDataStore.getState()
-        setTransactionsList(transactionsList.data)
-        return transactionsList
+    public getTransactionsList = async (accountId: number): Promise<Pageable<Operation> | undefined> => {
+        if (accountId) {
+            const transactionsList = await this.clientSecure.get(`transactions/account/${accountId}`).json<Pageable<Operation>>()
+            const {setTransactionsList} = useDataStore.getState()
+            setTransactionsList(transactionsList.data)
+            return transactionsList
+        }
     }
 
     // === Transaction ===
 
     public createTransaction = async (json: CreateOperationDto, messageOnSuccess: string) => {
-        const [, newTransaction] = await this.clientSecure.post("transactions", {json}).json<[AccountDto, Operation]>()
-        const {addTransaction} = useDataStore.getState()
-        addTransaction(newTransaction)
+        const operations = await this.clientSecure.post("transactions", {json}).json<[OperationDto]>()
+        const {addTransactions} = useDataStore.getState()
+        addTransactions(operations)
         this.getAccount(json.accountId)
         showSuccess(messageOnSuccess)
-        return newTransaction
+        return operations
     }
 
     // === ===
@@ -128,11 +131,15 @@ class API {
     }
 
     // === Depts ===
-    public createDepth = (json: CreateDepthDto): Promise<DeptDto> =>
-        this.clientSecure.post("depths", {json}).json()
+    public createDepth = async (json: CreateDepthDto): Promise<DeptDto> => {
+        const newDept = await this.clientSecure.post("depths", {json}).json<DeptDto>()
+        const {addDept} = useDataStore.getState()
+        addDept(newDept)
+        return newDept
+    }
 
-    public payDepth = async (json: PayDepthDto, depthId: number, message: string): Promise<DeptDto> => {
-        const updatedDept = await this.clientSecure.patch(`depths/pay/${depthId}`, {json}).json<DeptDto>()
+    public payDept = async (json: PayDepthDto, deptId: number, message: string): Promise<DeptDto> => {
+        const updatedDept = await this.clientSecure.patch(`depths/pay/${deptId}`, {json}).json<DeptDto>()
 
         const {updateDeptInList} = useDataStore.getState()
         updateDeptInList(updatedDept)

@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, memo} from "react";
 import {Stack, Typography} from "@components";
 import AddTransactionModal from "@pages/accounts/AddTransactionModal.tsx";
 import List from "@components/list";
@@ -18,7 +18,6 @@ const TransactionsView: FC<Props> = ({accountId}) => {
     const t = useTranslation()
     const transactions = useDataStore(getTransactionsList)
 
-
     return <>
         <Stack alignItems={"center"} justifyContent={"space-between"}>
             <Typography>{t.transactions.recentTransactions}</Typography>
@@ -34,4 +33,6 @@ const TransactionsView: FC<Props> = ({accountId}) => {
     </>
 }
 
-export default TransactionsView
+const TransactionsViewComponent = memo(TransactionsView)
+
+export default TransactionsViewComponent

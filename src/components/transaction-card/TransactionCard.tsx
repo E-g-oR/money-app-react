@@ -1,4 +1,4 @@
-import {FC, useMemo} from "react";
+import {FC, memo, useMemo} from "react";
 import {Card} from "@/components/card";
 import {Stack} from "@/components/stack";
 import {Typography} from "@/components/typography";
@@ -12,7 +12,7 @@ interface Props {
 
 const TransactionCard: FC<Props> = ({operation}) => {
     const t = useTranslation()
-    const relativeTime = useMemo(() => Date.parse(operation.created_at), [operation.created_at])
+    const relativeTime = useMemo(() => new Date(operation.created_at), [operation.created_at])
 
     return <Card
         className={styles.card}
@@ -29,7 +29,6 @@ const TransactionCard: FC<Props> = ({operation}) => {
                     color={operation.type === OperationType.INCOME ? "success" : "error"}
                     fontWeight={"600"}>{operation.title}</Typography>
                 <Typography colorTint={"light"} as={"small"}>{operation.description}</Typography>
-
             </Stack>
             <Typography
                 as={"small"}
@@ -41,5 +40,5 @@ const TransactionCard: FC<Props> = ({operation}) => {
         </Stack>
     </Card>
 }
-
-export default TransactionCard;
+const TransactionCardComponent = memo(TransactionCard)
+export default TransactionCardComponent;

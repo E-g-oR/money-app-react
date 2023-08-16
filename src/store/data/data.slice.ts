@@ -1,8 +1,8 @@
 import {Operation} from "@/types/accounts.ts";
 import {create} from "zustand";
-import {flow} from "fp-ts/function";
+import {flow, pipe} from "fp-ts/function";
 import * as A from "fp-ts/ReadonlyArray"
-import {AccountDto, ChartFiltersDto, DeptDto} from "@/types/API/data-contracts.ts";
+import {AccountDto, ChartFiltersDto, DeptDto, OperationDto} from "@/types/API/data-contracts.ts";
 
 export interface DataSlice {
     deptsList: ReadonlyArray<DeptDto>,
@@ -11,7 +11,7 @@ export interface DataSlice {
     accountsList: ReadonlyArray<AccountDto>,
     chartFiltersByAccountId: Record<number, ChartFiltersDto>,
     // TODO: add transactions by accountId
-    transactionsList: ReadonlyArray<Operation>,
+    transactionsList: ReadonlyArray<OperationDto>,
     setTransactionsList: (transactions: ReadonlyArray<Operation>) => void,
     setActiveAccountId: (accountId: string) => void,
     updateDeptInList: (dept: DeptDto) => void,
@@ -19,7 +19,8 @@ export interface DataSlice {
     setAccountById: (account: AccountDto) => void,
     setDeptsList: (deptsList: ReadonlyArray<DeptDto>) => void,
     setAccountList: (accountList: ReadonlyArray<AccountDto>) => void,
-    addTransaction: (transactions: Operation) => void,
+    addTransactions: (transactions: OperationDto[]) => void,
+    addDept: (newDept: DeptDto) => void,
     setChartFiltersByAccountId: (accountId: number, chartFilters: ChartFiltersDto) => void
 }
 
@@ -31,8 +32,8 @@ export const updateDeptInList = (updatedDept: DeptDto): (deptsList: ReadonlyArra
     A.filter<DeptDto>(a => a.id !== updatedDept.id),
     A.prepend(updatedDept),
 )
-const addTransaction = (transaction: Operation) => flow(A.prepend(transaction))
-
+const addTransactions = (incomingTransactions: ReadonlyArray<OperationDto>) => (transactions: ReadonlyArray<OperationDto>) => pipe(incomingTransactions, A.concat<OperationDto>(transactions))
+const addDept = (newDept: DeptDto) => flow(A.prepend(newDept))
 const useDataStore = create<DataSlice>((set, get) => ({
     accountsList: [],
     accountsById: {},
@@ -59,9 +60,13 @@ const useDataStore = create<DataSlice>((set, get) => ({
         set({
             deptsList: updateDeptInList(dept)(get().deptsList)
         }),
-    addTransaction: (transaction) =>
+    addTransactions: (transactions) =>
         set({
-            transactionsList: addTransaction(transaction)(get().transactionsList)
+            transactionsList: addTransactions(transactions)(get().transactionsList)
+        }),
+    addDept: (newDept) =>
+        set({
+            deptsList: addDept(newDept)(get().deptsList)
         }),
     setChartFiltersByAccountId: (accountId, chartFilters) => set({
         chartFiltersByAccountId: {

@@ -10,6 +10,7 @@ import useDataStore from "@store/data/data.slice.ts";
 import {getDeptsList} from "@store/data/data.selectors.ts";
 
 const DepthsPage: FC = () => {
+    useRequest(Api.getAccountsList, null)
     useRequest(Api.getDepthList, null)
     const t = useTranslation()
 

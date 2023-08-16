@@ -6,6 +6,7 @@ import {Color} from "../card/Card";
 import {sprinkles} from "@/styles/sprinkles.css";
 import {FC} from "react";
 import IconComponent, {icons} from "@icons";
+import {motion} from "framer-motion"
 
 interface Props {
     onClick: () => void,
@@ -29,7 +30,10 @@ const Button: FC<Props> = ({
                                       className
                                   }) => {
 
-    return <button
+    return <motion.button
+        whileTap={{
+            scale: 0.95
+        }}
         disabled={isDisabled || isLoading}
         onClick={onClick}
         className={clsx(
@@ -57,7 +61,7 @@ const Button: FC<Props> = ({
         })}
     >
         <IconComponent icon={icon} />
-    </button>
+    </motion.button>
 }
 
 export default Button

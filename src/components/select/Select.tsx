@@ -3,7 +3,7 @@ import {sprinkles} from "@/styles/sprinkles.css";
 import {Card} from "@/components/card";
 import {Container} from "@/components/container";
 import {Stack} from "@/components/stack";
-import {memo, ReactNode, useState} from "react";
+import {forwardRef, ReactNode, useState} from "react";
 import IconComponent from "@icons";
 
 interface Props<T> {
@@ -13,44 +13,51 @@ interface Props<T> {
     onChange: (variant: T) => void,
 }
 
-const SelectComponent = memo(function Select<T>({variants, renderVariants, value, onChange}: Props<T>): ReactNode {
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    return <div
-        onClick={() => setIsOpen(prev => !prev)}
-        className={styles.select}
-    >
-        <Card
-            padding={"s"}
-            className={sprinkles({cursor: "pointer"})}
-            variant={"outlined"}
+const SelectComponent = forwardRef(function Select<T>({
+                                                          variants,
+                                                          renderVariants,
+                                                          value,
+                                                          onChange
+                                                      }: Props<T>, ref): ReactNode {
+        const [isOpen, setIsOpen] = useState<boolean>(false)
+        return <div
+            onClick={() => setIsOpen(prev => !prev)}
+            className={styles.select}
         >
-            <div
-                className={sprinkles({
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                })}>
-                {renderVariants(value)}
-                <IconComponent
-                    icon={"ArrowDropdown"}
-                    className={styles.chevron({isOpen})}
-                />
-            </div>
-        </Card>
-        {isOpen ? <Card padding={"s"} className={styles.list} variant={"outlined"}>
-            <Stack vertical spacing={"xs"} alignItems={"stretch"}>
-                {variants.map((item, index) => <div
-                    key={index}
-                    onClick={() => onChange(item)}
-                    className={styles.item}
+            <Card
+                padding={"s"}
+                className={sprinkles({cursor: "pointer"})}
+                variant={"outlined"}
+            >
+                <div
+                    className={sprinkles({
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                    })}
+                    ref={ref}
                 >
-                    <Container spacing={"xs"}>
-                        {renderVariants(item)}
-                    </Container>
-                </div>)}
-            </Stack>
-        </Card> : null}
-    </div>
-}
+                    {renderVariants(value)}
+                    <IconComponent
+                        icon={"ArrowDropdown"}
+                        className={styles.chevron({isOpen})}
+                    />
+                </div>
+            </Card>
+            {isOpen ? <Card padding={"s"} className={styles.list} variant={"outlined"}>
+                <Stack vertical spacing={"xs"} alignItems={"stretch"}>
+                    {variants.map((item, index) => <div
+                        key={index}
+                        onClick={() => onChange(item)}
+                        className={styles.item}
+                    >
+                        <Container spacing={"xs"}>
+                            {renderVariants(item)}
+                        </Container>
+                    </div>)}
+                </Stack>
+            </Card> : null}
+        </div>
+    }
 )
 export default SelectComponent

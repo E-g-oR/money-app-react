@@ -1,10 +1,11 @@
 import {Button, IconButton, Input, Modal, Select, Stack, Typography} from "@/components";
 import {FC, useCallback, useState} from "react";
-import {useParams} from "react-router-dom";
 import {OperationType} from "@/types/accounts.ts";
 import {useTranslation} from "@utils/hooks.tsx";
+import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import useDataStore from "@store/data/data.slice.ts";
+import {getActiveAccountId} from "@store/data/data.selectors.ts";
 import Api from "@api";
-import {CreateOperationDto} from "@/types/API/data-contracts.ts";
 
 interface OperationTypeValue {
     label: string;
@@ -19,33 +20,46 @@ const values: ReadonlyArray<OperationTypeValue> = [{
     value: OperationType.INCOME,
 },]
 
+interface AddTransactionForm {
+    transactionType: OperationTypeValue,
+    transactionValue: string,
+    transactionTitle: string,
+    transactionDescription: string
+}
 
 const AddTransactionModal: FC = () => {
     const t = useTranslation()
-    const params = useParams()
+    const accountId = useDataStore(getActiveAccountId)
 
+    const {handleSubmit, control, reset} = useForm<AddTransactionForm>({
+        defaultValues: {
+            transactionValue: "",
+            transactionType: values[0],
+            transactionDescription: "",
+            transactionTitle: ""
+        }
+    })
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const [value, setValue] = useState(values[0])
-    const [operationValue, setOperationValue] = useState("")
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-
-
-    const resetForm = useCallback(() => {
-        setValue(values[0])
-        setDescription("")
-        setTitle("")
-        setOperationValue("")
-    }, [setValue, setDescription, setTitle, setOperationValue])
-
-    const createTransaction = useCallback((newTransaction: CreateOperationDto) => {
-        Api.createTransaction(newTransaction, t.notifications.transaction.created).then(() => {
+    const onSubmit: SubmitHandler<AddTransactionForm> = useCallback(({
+                                                                         transactionType,
+                                                                         transactionValue,
+                                                                         transactionTitle,
+                                                                         transactionDescription
+                                                                     }) => {
+        Api.createTransaction({
+            title: transactionTitle,
+            description: transactionDescription,
+            value: parseFloat(transactionValue),
+            type: transactionType.value,
+            accountId: accountId ?? 0,
+        }, t.notifications.transaction.created).then(() => {
             setIsOpen(false)
-            resetForm()
+            reset()
         })
-    }, [setIsOpen, resetForm, t])
+        // console.log(data, transactionType)
+    }, [accountId, t, reset])
 
     return <>
         <IconButton
@@ -57,43 +71,52 @@ const AddTransactionModal: FC = () => {
             onClose={() => setIsOpen(false)}
             title={t.transactions.createTransactionTitle}
         >
-            <form onSubmit={e => {
-                e.preventDefault()
-                createTransaction({
-                    value: Number(operationValue),
-                    title,
-                    description,
-                    accountId: Number(params.accountId),
-                    type: value.value
-                })
-            }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack vertical spacing={"s"}>
-                    <Select
-                        value={value}
-                        variants={values}
-                        renderVariants={a => <Typography>{a.label}</Typography>}
-                        onChange={setValue}
+                    <Controller control={control}
+                                name={"transactionType"}
+                                render={({field}) => <Select
+                                    {...field}
+                                    variants={values}
+                                    renderVariants={a => <Typography>{a.label}</Typography>}
+                                />}
                     />
-                    <Input
-                        type={"number"}
-                        fullWidth
-                        placeholder={t.common.value}
-                        value={operationValue}
-                        onChange={setOperationValue}
+                    <Controller control={control}
+                                rules={{
+                                    required: true,
+                                    min: 0.01
+                                }}
+                                name={"transactionValue"}
+                                render={({field, fieldState}) => <Input
+                                    isError={!!fieldState.error}
+                                    type={"number"}
+                                    fullWidth
+                                    placeholder={t.common.value}
+                                    {...field}
+                                />}
                     />
-                    <Input fullWidth placeholder={t.common.title} value={title} onChange={setTitle}/>
-                    <Input fullWidth placeholder={t.common.description} value={description} onChange={setDescription}/>
+
+                    <Controller control={control}
+                                rules={{
+                                    required: true
+                                }}
+                                render={({field, fieldState}) => <Input
+                                    isError={!!fieldState.error}
+                                    fullWidth
+                                    placeholder={t.common.title}
+                                    {...field}
+                                />}
+                                name={"transactionTitle"}
+                    />
+                    <Controller control={control}
+                                render={({field}) => <Input fullWidth placeholder={t.common.description} {...field}/>}
+                                name={"transactionDescription"}
+                    />
+
+
                     <Button
                         type={"submit"}
-                        onClick={() => {
-                            createTransaction({
-                                value: Number(operationValue),
-                                title,
-                                description,
-                                accountId: Number(params.accountId),
-                                type: value.value
-                            })
-                        }}
+                        onClick={handleSubmit(onSubmit)}
                     >{t.actions.create}</Button>
                 </Stack>
             </form>
