@@ -95,6 +95,17 @@ class API {
     public createAccount = (json: CreateAccountDto): Promise<AccountDto> =>
         this.clientSecure.post("accounts/new", {json}).json()
 
+    public addSavingToAccount = async (accountId: number, savingId: number): Promise<AccountDto> => {
+        const updatedAccount = await this.clientSecure.patch(
+            `accounts/saving/${accountId}`,
+            {searchParams: {savingId}}
+        ).json<AccountDto>()
+
+        const {updateAccount} = useDataStore.getState()
+        updateAccount(updatedAccount)
+        return updatedAccount
+    }
+
     // --- ---
 
     /**
