@@ -1,5 +1,4 @@
 import {Card, Stack, Typography} from "@components";
-import * as styles from "./depths.css"
 import {FC, memo} from "react";
 import PayDeptModal from "@pages/depths/PayDeptModal.tsx";
 import Progress from "@components/progress/Progress.tsx";
@@ -19,7 +18,6 @@ const DepthCard: FC<Props> = ({depth}) =>
             <Stack alignItems={"flex-end"} spacing={"s"}>
                 <Typography
                     as={"h4"}
-                    className={styles.depthValue}
                 >
                     {depth.valueCovered} / {depth.value}
                 </Typography>

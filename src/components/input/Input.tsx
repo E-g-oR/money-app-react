@@ -1,8 +1,8 @@
 import {forwardRef} from "react";
-import {assignInlineVars} from "@vanilla-extract/dynamic";
+// import {assignInlineVars} from "@vanilla-extract/dynamic";
 import {clsx} from "@utils/etc.ts";
-import {colorScheme} from "@styles/colorScheme.css.ts";
-import * as styles from "./input.css"
+// import {colorScheme} from "@styles/colorScheme.css.ts";
+// import * as styles from "./input.css"
 
 type InputType = "text" | "password" | "email" | "number" | "search"
 
@@ -30,13 +30,14 @@ const Input = forwardRef<HTMLInputElement, Props>(({
                                                        name
                                                    }, ref) => {
     return <label
-        className={styles.label({fullWidth})}
-        style={assignInlineVars({
-            [styles.bg]: isError ? colorScheme.error.lightTransparent : colorScheme.background.light,
-            [styles.bgFocus]: isError ? colorScheme.error.darkTransparent : colorScheme.background.dark,
-            [styles.text]: isError ? colorScheme.error.normal : colorScheme.text.normal,
-            [styles.decoratorBg]: isError ? colorScheme.error.normal : colorScheme.primary.normal
-        })}>
+        // className={styles.label({fullWidth})}
+        // style={assignInlineVars({
+        //     [styles.bg]: isError ? colorScheme.error.lightTransparent : colorScheme.background.light,
+        //     [styles.bgFocus]: isError ? colorScheme.error.darkTransparent : colorScheme.background.dark,
+        //     [styles.text]: isError ? colorScheme.error.normal : colorScheme.text.normal,
+        //     [styles.decoratorBg]: isError ? colorScheme.error.normal : colorScheme.primary.normal
+        // })}
+    >
         {label}
         <input
             ref={ref}
@@ -46,11 +47,11 @@ const Input = forwardRef<HTMLInputElement, Props>(({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            className={clsx(
-                styles.input,
-            )}
+            // className={clsx(
+            //     styles.input,
+            // )}
         />
-        <div className={styles.decorator}/>
+        {/*<div className={styles.decorator}/>*/}
     </label>
 })
 

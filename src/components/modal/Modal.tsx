@@ -1,6 +1,6 @@
-import {sprinkles} from "@/styles/sprinkles.css";
+// import {sprinkles} from "@/styles/sprinkles.css";
 import {Card} from "@/components/card";
-import * as styles from "./modal.css"
+// import * as styles from "./modal.css"
 import {Stack} from "@/components/stack";
 import {Typography} from "@/components/typography";
 import {IconButton} from "@/components/button";
@@ -23,7 +23,7 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             exit={{opacity: 0}}
-            className={styles.overlay}
+            // className={styles.overlay}
             onClick={(e) => {
                 e.preventDefault()
                 if (e.target === e.currentTarget) {
@@ -31,14 +31,14 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
                 }
             }}>
             <motion.div
-                className={clsx(styles.shadow, styles.modal)}
+                // className={clsx(styles.shadow, styles.modal)}
                 initial={{transform: "translateY(100%)", opacity: 0}}
                 animate={{transform: "translateY(0)", opacity: 1}}
                 exit={{transform: "translateY(100%)", opacity: 0}}
             >
                 <Card padding={"l"} variant={"outlined"}>
                     <Stack
-                        className={sprinkles({marginBottom: "l"})}
+                        // className={sprinkles({marginBottom: "l"})}
                         spacing={"m"}
                     >
                         {title && <Typography as={"h4"}>{title}</Typography>}
@@ -47,7 +47,7 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
                             variant={"outline"}
                             onClick={onClose}
                             icon={"CloseIcon"}
-                            className={styles.closeBtn}
+                            // className={styles.closeBtn}
                         />
                     </Stack>
                     {children}

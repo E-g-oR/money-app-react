@@ -1,7 +1,7 @@
 import { FC, useLayoutEffect, useRef } from "react";
 import {Typography} from "@components";
 import {NotificationType} from "./NotificationsContainer";
-import * as styles from "./notification.css";
+// import * as styles from "./notification.css";
 
 interface Props {
     notification: NotificationType;
@@ -24,7 +24,7 @@ const Notification: FC<Props> = ({ notification, clear }) => {
     }, [notification, clear]);
 
     return (
-        <div className={styles.notification({ type: notification.variant })}>
+        <div className={""}>
             <Typography color={"text"}>{notification.message}</Typography>
         </div>
     );

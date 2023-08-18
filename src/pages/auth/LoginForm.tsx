@@ -2,7 +2,6 @@ import {FC, useCallback, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {ROUTES} from "@utils/router.ts";
 import {Button, Input, Stack, Typography} from "@components";
-import {sprinkles} from "@styles/sprinkles.css.ts";
 import {AuthDto} from "@/types/api.ts";
 import Api from "@/api";
 import useAuthStore from "@store/auth/auth.slice.ts";
@@ -45,7 +44,6 @@ const LoginForm: FC = () => {
                         email,
                         password
                     })}
-                    className={sprinkles({alignSelf: "flex-end"})}
                 >Login</Button>
             </Stack>
 

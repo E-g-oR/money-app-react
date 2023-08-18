@@ -1,6 +1,3 @@
-import {createTheme, createThemeContract} from "@vanilla-extract/css"
-
-
 export const color = {
     light: "",
     lightTransparent: "",
@@ -10,7 +7,7 @@ export const color = {
     darkTransparent: "",
 }
 
-export const colorScheme = createThemeContract({
+export const colorScheme = {
     text: color,
     background: color,
     divider: null,
@@ -19,9 +16,9 @@ export const colorScheme = createThemeContract({
     error: color,
     success: color,
     warning: color
-})
+}
 
-export const lightScheme = createTheme(colorScheme, {
+export const lightScheme = {
     text: {
         dark: "hsla(0, 0%, 0%, 1)",
         darkTransparent: "hsla(0, 0%, 0%, 0.3)",
@@ -79,9 +76,9 @@ export const lightScheme = createTheme(colorScheme, {
         normal: "hsla(27, 98%, 47%, 1)",
         normalTransparent: ""
     }
-})
+}
 
-export const darkScheme = createTheme(colorScheme, {
+export const darkScheme = {
     text: {
         dark: "hsla(0, 0%, 100%, 0.4)",
         darkTransparent: "hsla(0, 0%, 100%, 0.1)",
@@ -139,4 +136,4 @@ export const darkScheme = createTheme(colorScheme, {
         normal: "hsla(36, 100%, 57%, 1)",
         normalTransparent: "hsla(36, 100%, 57%, 0.3)"
     }
-})
+}

@@ -1,8 +1,7 @@
 import {FC} from "react";
 import {Link} from "react-router-dom";
-import * as styles from "./account-card.css.ts"
 import {Card, Container, Divider, Stack, Typography} from "@components";
-import {sprinkles} from "@styles/sprinkles.css.ts";
+// import {sprinkles} from "@styles/sprinkles.css.ts";
 import {ROUTES} from "@utils/router.ts";
 import {useTranslation} from "@utils/hooks.tsx";
 import {AccountDto} from "@/types/API/data-contracts.ts";
@@ -17,9 +16,9 @@ export const AccountCard: FC<Props> = ({account}) => {
     return <Link
         to={ROUTES.accounts.account.builder(account.id.toString())}
     >
-        <Card>
+        <Card className={"bg-gradient-to-br from-green-900 to-green-950"}>
             <Stack>
-                <Container className={styles.accountMain}>
+                <Container className={"styles.accountMain"}>
                     <Stack vertical>
                         <Typography>{account.name}</Typography>
                         <Typography as={"h3"}>{account.value}</Typography>
@@ -29,16 +28,14 @@ export const AccountCard: FC<Props> = ({account}) => {
                 <Stack
                     vertical
                     spacing={"xxs"}
-                    className={styles.rightSide}
+                    className={"styles.rightSide"}
                 >
                     <Typography
-                        className={sprinkles({marginX: "m"})}
                     >
                         {t.common.incomes}: <Typography as={"span"} color={"success"}>{account.income}</Typography>
                     </Typography>
                     <Divider spacing={"xs"}/>
                     <Typography
-                        className={sprinkles({marginX: "m"})}
                     >
                         {t.common.expenses}: <Typography as={"span"} color={"error"}>{account.expenses}</Typography>
                     </Typography>

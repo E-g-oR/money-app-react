@@ -1,5 +1,3 @@
-import * as styles from "./select.css"
-import {sprinkles} from "@/styles/sprinkles.css";
 import {Card} from "@/components/card";
 import {Container} from "@/components/container";
 import {Stack} from "@/components/stack";
@@ -22,25 +20,18 @@ const SelectComponent = forwardRef(function Select<T>({
         const [isOpen, setIsOpen] = useState<boolean>(false)
         return <div
             onClick={() => setIsOpen(prev => !prev)}
-            className={styles.select}
         >
             <Card
                 padding={"s"}
-                className={sprinkles({cursor: "pointer"})}
                 variant={"outlined"}
             >
                 <div
-                    className={sprinkles({
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
-                    })}
+
                     ref={ref}
                 >
                     {renderVariants(value)}
                     <IconComponent
                         icon={"ArrowDropdown"}
-                        className={styles.chevron({isOpen})}
                     />
                 </div>
             </Card>

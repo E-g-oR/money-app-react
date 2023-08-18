@@ -1,4 +1,4 @@
-import * as styles from "./app-header.css"
+// import * as styles from "./app-header.css"
 import {IconButton} from "@/components/button";
 import {Container} from "@/components/container";
 import {sprinkles} from "@/styles/sprinkles.css";
@@ -13,9 +13,10 @@ export const AppHeader: FC = () => {
     const colorScheme = useSettingsStore(getColorScheme)
     const setColorScheme = useSettingsStore(getSetColorScheme)
 
-    return <div className={styles.header}>
+    return <div className={"styles.header"}>
         <Container>
-            <div className={sprinkles({display: "flex", alignItems: "center", justifyContent: "space-between"})}>
+            {/*<div className={sprinkles({display: "flex", alignItems: "center", justifyContent: "space-between"})}>*/}
+            <div className={"flex items-center justify-between"}>
                 <IconButton
                     onClick={() => setColorScheme(colorScheme === "dark" ? "light" : "dark")}
                     icon={"SettingsIcon"}

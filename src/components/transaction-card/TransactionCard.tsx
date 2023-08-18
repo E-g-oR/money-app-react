@@ -3,7 +3,6 @@ import {Card} from "@/components/card";
 import {Stack} from "@/components/stack";
 import {Typography} from "@/components/typography";
 import {Operation, OperationType} from "@/types/accounts";
-import * as styles from "./transaction-card.css"
 import {useTranslation} from "@utils/hooks.tsx";
 
 interface Props {
@@ -15,13 +14,12 @@ const TransactionCard: FC<Props> = ({operation}) => {
     const relativeTime = useMemo(() => new Date(operation.created_at), [operation.created_at])
 
     return <Card
-        className={styles.card}
         paddingY={"s"}
         paddingX={"l"}
         color={operation.type === OperationType.INCOME ? "success" : "error"}
         variant={"outlined"}
     >
-        <div className={styles.decorator({type: operation.type})}/>
+        <div className={""}/>
         <Stack spacing={"m"}>
             <Typography as={"h3"}>{operation.value}</Typography>
             <Stack vertical spacing={"xxs"} justifyContent={"space-between"}>
@@ -32,7 +30,7 @@ const TransactionCard: FC<Props> = ({operation}) => {
             </Stack>
             <Typography
                 as={"small"}
-                className={styles.date}
+                className={"styles.date"}
                 title={t.formatDate.intlFormat(new Date(operation.created_at))}
             >
                 {t.formatDate.dateRelative(relativeTime)}

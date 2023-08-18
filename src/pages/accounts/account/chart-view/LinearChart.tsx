@@ -5,7 +5,6 @@ import {GridColumns, GridRows} from "@visx/grid";
 import {Axis, AxisLeft, Orientation} from '@visx/axis';
 import {WithTooltipProvidedProps} from "@visx/tooltip/lib/enhancers/withTooltip";
 import {defaultStyles, TooltipWithBounds, withTooltip} from "@visx/tooltip";
-import {chart} from "@pages/accounts/account/chart-view/chart.css.ts";
 import {ChartPoint, getProcessedData, getX, getY} from "@utils/charts.ts";
 import {
     ChartMargin,
@@ -15,22 +14,14 @@ import {
     useLinearChart,
     useTranslation
 } from "@utils/hooks.tsx";
-import {colorScheme} from "@styles/colorScheme.css.ts";
 import {ChartDataDto} from "@/types/API/data-contracts.ts";
 import {Stack, Typography} from "@components";
-import {theme} from "@styles/theme.css.ts";
 
-// export const background = "#3b6978";
 
 const tooltipStyles = {
     ...defaultStyles,
-    padding: `${theme.spacing.s} ${theme.spacing.m}`,
-    background: colorScheme.background.light,
     borderWidth: 1,
     borderStyle: "solid",
-    borderColor: colorScheme.background.dark,
-    borderRadius: theme.borderRadius.s
-    // color: "white"
 };
 
 
@@ -72,14 +63,14 @@ export default withTooltip<Props, TooltipData_>(
         } = useLinearChart(data, size, margin)
 
 
-        return <div className={chart}>
+        return <div className={"chart"}>
             <svg width={size.width} height={size.height}>
                 <GridRows
                     top={margin.top}
                     left={margin.left}
                     scale={yScale}
                     width={innerWidth}
-                    stroke={colorScheme.text.normal}
+                    stroke={"#e0acf6"}
                     strokeWidth={0.5}
                     strokeOpacity={0.3}
                 />
@@ -89,7 +80,7 @@ export default withTooltip<Props, TooltipData_>(
                     scale={axisTimeScale}
                     width={innerWidth}
                     height={innerHeight}
-                    stroke={colorScheme.text.normal}
+                    stroke={"#ff0000"}
                     strokeOpacity={0.5}
                     strokeWidth={0.3}
                 />
@@ -109,15 +100,15 @@ export default withTooltip<Props, TooltipData_>(
                                         r={3}
                                         cx={xPosition}
                                         cy={yPosition}
-                                        stroke={lineKey === "incomes" ? colorScheme.success.normal : colorScheme.error.normal}
-                                        fill={lineKey === "incomes" ? colorScheme.success.normal : colorScheme.error.normal}
+                                        stroke={"#ff0000"}
+                                        fill={"#ff0000"}
                                     />
                                     <circle
                                         r={30}
                                         cx={xPosition}
                                         cy={yPosition}
-                                        stroke={lineKey === "incomes" ? colorScheme.success.normalTransparent : colorScheme.error.normalTransparent}
-                                        fill={lineKey === "incomes" ? colorScheme.success.normalTransparent : colorScheme.error.normalTransparent}
+                                        stroke={"#ff0000"}
+                                        fill={"#ff0000"}
                                         onMouseMove={() => {
                                             showTooltip({
                                                 tooltipData: {
@@ -141,7 +132,7 @@ export default withTooltip<Props, TooltipData_>(
                             data={processedData}
                             x={d => xScale(getX(d)) ?? 0}
                             y={d => yScale(getY(d)) ?? 0}
-                            stroke={lineKey === "incomes" ? colorScheme.success.normal : colorScheme.error.normal}
+                            stroke={"#ff0000"}
                             strokeWidth={2}
                             strokeOpacity={0.6}
                             shapeRendering="geometricPrecision"
@@ -151,11 +142,11 @@ export default withTooltip<Props, TooltipData_>(
                 <AxisLeft
                     scale={yScale}
                     left={margin.left}
-                    stroke={colorScheme.text.normal}
-                    tickStroke={colorScheme.text.normal}
+                    stroke={"#000000"}
+                    tickStroke={"#000000"}
                     top={(margin.top ?? 0)}
                     tickLabelProps={{
-                        fill: colorScheme.text.normal,
+                        fill: "#000000",
                     }}
                 />
                 <Axis
@@ -164,11 +155,11 @@ export default withTooltip<Props, TooltipData_>(
                     orientation={Orientation.bottom}
                     tickValues={axisTimeValues}
                     tickFormat={view === "month" ? t.formatDate.chartAxisInMonthView : t.formatDate.chartAxisInYearView}
-                    stroke={colorScheme.text.normal}
-                    tickStroke={colorScheme.text.normal}
+                    stroke={"#000000"}
+                    tickStroke={"#000000"}
                     top={size.height - (margin.top ?? 0)}
                     tickLabelProps={{
-                        fill: colorScheme.text.normal
+                        fill: "#000000"
                     }}
                 />
                 {
@@ -177,7 +168,7 @@ export default withTooltip<Props, TooltipData_>(
                             <Line
                                 from={{x: tooltipLeft + margin?.left, y: margin.top}}
                                 to={{x: tooltipLeft + margin?.left, y: innerHeight + margin.top}}
-                                stroke={colorScheme.primary.normal}
+                                stroke={"#0000ff"}
                                 strokeWidth={2}
                                 pointerEvents="none"
                                 strokeDasharray="10,10"
@@ -185,7 +176,7 @@ export default withTooltip<Props, TooltipData_>(
                             <Line
                                 from={{x: margin?.left, y: tooltipTop + margin?.top}}
                                 to={{x: innerWidth + margin?.left, y: tooltipTop + margin?.top}}
-                                stroke={colorScheme.primary.normal}
+                                stroke={"#0000ff"}
                                 strokeWidth={2}
                                 pointerEvents="none"
                                 strokeDasharray="10,10"
@@ -194,7 +185,7 @@ export default withTooltip<Props, TooltipData_>(
                                 cx={tooltipLeft + margin?.left}
                                 cy={tooltipTop + margin?.top}
                                 r={4}
-                                fill={colorScheme.primary.light}
+                                fill={"#0000ff"}
                                 stroke="white"
                                 strokeWidth={2}
                                 pointerEvents="none"

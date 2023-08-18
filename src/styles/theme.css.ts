@@ -1,4 +1,3 @@
-import {createTheme, createThemeContract} from "@vanilla-extract/css";
 import {sizeRelative} from "@utils/etc.ts";
 // import {sizeRelative} from "../utils/etc";
 
@@ -23,14 +22,14 @@ export const fontSize = {
     small: ""
 }
 
-export const theme = createThemeContract({
+export const theme = {
     spacing,
     fontSize,
     borderRadius: spacing,
     transition: ""
-})
+}
 
-export const themeClassName = createTheme(theme, {
+export const themeClassName = {
     spacing: {
         xxs: sizeRelative(4),
         xs: sizeRelative(8),
@@ -60,4 +59,4 @@ export const themeClassName = createTheme(theme, {
         xxl: sizeRelative(64),
     },
     transition: "0.2s"
-})
+}

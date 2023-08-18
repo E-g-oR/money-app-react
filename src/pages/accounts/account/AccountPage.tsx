@@ -11,6 +11,7 @@ import {getAccountsById, getActiveAccountId, getSetActiveAccountId} from "@store
 import Api from "@api";
 import SavingInfoModal from "@pages/accounts/account/SavingInfoModal.tsx";
 import AddSavingModal from "@pages/accounts/account/AddSavingModal.tsx";
+import {useDeviceType} from "@utils/responsive.ts";
 
 const ChartView = lazy(() => import("./chart-view"))
 
@@ -32,11 +33,13 @@ const AccountPage: FC = () => {
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
 
 
+    const device = useDeviceType()
     return <Stack
         vertical
         spacing={"s"}
         alignItems={"stretch"}
     >
+        <h2 className={"text-amber-500"}>hellow world</h2>
         <AnimatePresence>
             {account &&
                 <motion.div

@@ -1,4 +1,3 @@
-import {createSprinkles, defineProperties} from "@vanilla-extract/sprinkles";
 import {theme} from "./theme.css";
 
 export const alignItems = [
@@ -17,7 +16,7 @@ export const justifyContent = [
     'space-between'
 ] as const
 
-const responsiveProperties = defineProperties({
+const responsiveProperties = {
     conditions: {
         mobile: {},
         tablet: {'@media': 'screen and (min-width: 768px)'},
@@ -36,6 +35,7 @@ const responsiveProperties = defineProperties({
             'center',
             'flex-end'
         ],
+        // gridTemplateColumns: "",
         fontWeight: ["400", "500", "600", "700"],
         cursor: ["pointer", "not-allowed", "text"],
 
@@ -73,11 +73,10 @@ const responsiveProperties = defineProperties({
         borderRightRadius: ["borderTopRightRadius", "borderBottomRightRadius"],
         borderLeftRadius: ["borderTopLeftRadius", "borderBottomLeftRadius"],
     }
-})
+}
 
-export const sprinkles = createSprinkles(
-    responsiveProperties,
-)
+export const sprinkles =
+    responsiveProperties
 
 // It's a good idea to export the Sprinkles type too
-export type Sprinkles = Parameters<typeof sprinkles>[0];
+// export type Sprinkles = Parameters<typeof sprinkles>[0];

@@ -1,5 +1,4 @@
 import { Stack, Typography } from "@components";
-import * as styles from "./tabs.css"
 import {ReactNode} from "react";
 
 export interface Tab {
@@ -20,7 +19,6 @@ function Tabs<T>({values, value, onChange, render}: Props<T>) {
             <button
                 key={index}
                 onClick={()=> onChange(tab)}
-                className={styles.tab({isActive: tab === value})}
             >
                 <Typography>{render(tab)}</Typography>
             </button>

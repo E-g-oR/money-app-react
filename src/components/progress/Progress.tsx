@@ -1,4 +1,4 @@
-import * as styles from "./progress.css"
+// import * as styles from "./progress.css"
 import {FC} from "react";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Progress: FC<Props> = ({max, value}) => <progress
-    className={styles.progress}
+    // className={styles.progress}
     value={value}
     max={max}
 />
