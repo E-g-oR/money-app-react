@@ -16,7 +16,7 @@ export const AccountCard: FC<Props> = ({account}) => {
     return <Link
         to={ROUTES.accounts.account.builder(account.id.toString())}
     >
-        <Card className={"flex"}>
+        <Card className={"flex items-center"}>
             <Stack className={"w-1/4"} vertical>
                 <Typography>{account.name}</Typography>
                 <Typography as={"h3"}>{account.value}</Typography>

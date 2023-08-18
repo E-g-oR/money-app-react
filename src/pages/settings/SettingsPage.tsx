@@ -1,8 +1,9 @@
 import {FC, useEffect, useState} from "react";
-import {Select, Typography} from "@components";
+import {Select} from "@components";
 import {languageSelect, LanguageSelectItem} from "@utils/constants.ts";
 import useSettingsStore from "@store/settings/settings.slice.ts";
 import {getLanguage, getSetLanguage} from "@store/settings/settings.selector.ts";
+import PageHeader from "@components/page-header/PageHeader.tsx";
 
 const SettingsPage: FC = () => {
     const setLanguage = useSettingsStore(getSetLanguage)
@@ -15,7 +16,7 @@ const SettingsPage: FC = () => {
     }, [locale, setLanguage])
 
     return <>
-        <Typography as={"h2"}>Settings</Typography>
+        <PageHeader header={"Settings"}/>
         <Select value={locale} variants={languageSelect} renderVariants={item => item.title} onChange={setLocale}/>
     </>
 }

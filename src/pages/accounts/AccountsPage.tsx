@@ -1,13 +1,13 @@
 import {FC} from "react";
-import {Stack, Typography} from "@components";
+import {Stack} from "@components";
 import {AddAccountModal} from "@pages/accounts/AddAccountModal.tsx";
-import {motion} from "framer-motion"
 import List from "@components/list/List.tsx";
 import {AccountCard} from "@pages/accounts/account/account-card/AccountCard.tsx";
 import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Api from "@/api";
 import useDataStore from "@store/data/data.slice.ts";
 import {getAccountsList} from "@store/data/data.selectors.ts";
+import PageHeader from "@components/page-header/PageHeader.tsx";
 
 const AccountsPage: FC = () => {
     const t = useTranslation()
@@ -16,16 +16,7 @@ const AccountsPage: FC = () => {
     const {isLoading} = useRequest(Api.getAccountsList, null)
 
     return <Stack vertical spacing={"m"}>
-        <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            exit={{opacity: 0}}
-        >
-            <Stack justifyContent={"space-between"} alignItems={"center"}>
-                <Typography as={"h2"}>{t.accounts.yourAccounts}</Typography>
-                <AddAccountModal/>
-            </Stack>
-        </motion.div>
+        <PageHeader header={t.accounts.yourAccounts} icon={<AddAccountModal/>}/>
         <List
             data={accountsList}
             isLoading={isLoading}

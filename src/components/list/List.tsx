@@ -14,7 +14,7 @@ interface Props<T> {
 
 function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
     const t = useTranslation()
-    return <Stack vertical spacing={"s"}>
+    return <Stack vertical>
         {isLoading && <motion.div
             initial={{opacity: 0, scale: 0.8}}
             animate={{opacity: 1, scale: 1}}
