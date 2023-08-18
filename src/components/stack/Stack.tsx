@@ -4,13 +4,14 @@ import {FC, ReactNode} from "react";
 
 interface Props {
     children: ReactNode,
-    spacing?:string,
+    spacing?: string,
     vertical?: boolean,
     alignItems?: string,
     className?: string
     justifyContent?: string
 }
 
+// TODO: add spacing, alignItems, justifyContent props
 const Stack: FC<Props> = ({
                               children,
                               spacing,
@@ -21,6 +22,8 @@ const Stack: FC<Props> = ({
                           }) =>
     <div
         className={clsx(
+            "flex",
+            vertical ? "flex-col" : undefined,
             className
         )}
     >

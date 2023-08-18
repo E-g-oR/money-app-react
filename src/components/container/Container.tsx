@@ -16,7 +16,7 @@ export const Container: FC<Props> = (
         className,
     }) =>
     <div
-        className={clsx( className)}
+        className={clsx("px-3 md:px-5", className)}
     >
         {children}
     </div>

@@ -18,6 +18,7 @@ export const Card: FC<Props > = ({
     <div
 
         className={clsx(
+            "border-2 rounded-md py-2 px-1",
             className
         )}
     >

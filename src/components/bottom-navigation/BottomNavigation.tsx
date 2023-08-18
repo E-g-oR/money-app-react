@@ -1,5 +1,4 @@
 import {FC} from "react";
-// import * as styles from "./bottom-navigation.css.ts"
 import {icons} from "@icons";
 import {Stack} from "@components";
 import {bottomNavigationItems} from "@utils/constants.ts";
@@ -18,7 +17,7 @@ export type BottomNavigationList = ReadonlyArray<BottomNavigationItemType>
 
 const BottomNavigation: FC = () =>
     <Stack
-        className={"styles.bottomNavigation"}
+        className={"sticky bottom-0 backdrop-blur border-t-2"}
         justifyContent={"stretch"}
         alignItems={"center"}
     >

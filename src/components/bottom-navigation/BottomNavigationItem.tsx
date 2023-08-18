@@ -3,7 +3,6 @@ import {BottomNavigationItemType} from "@components/bottom-navigation/BottomNavi
 import {NavLink} from "react-router-dom";
 import IconComponent from "@icons";
 import {Stack, Typography} from "@components";
-// import * as styles from "./bottom-navigation.css.ts"
 import {useTranslation} from "@utils/hooks.tsx";
 
 interface Props {
@@ -15,8 +14,7 @@ const BottomNavigationItem: FC<Props> = ({item}) => {
     return <NavLink to={item.path} style={{width: "100%"}}>
         {({isActive}) => <Stack
             vertical
-            alignItems={"center"}
-            className={"styles.item({isActive})"}
+            className={"items-center hover:bg-sky-300 transition py-2"}
         >
             <IconComponent icon={item.icon}/>
             <Typography color={isActive ? "background" : "text"}>{t.navigation[item.key]}</Typography>

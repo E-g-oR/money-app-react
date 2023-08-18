@@ -22,7 +22,7 @@ function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
         >
             <Typography as={"i"}>{t.common.loading}...</Typography>
         </motion.div>}
-        <div >
+        <Stack vertical className={"gap-2"}>
             {!isLoading && data && data.length > 0
                 ? data.map((item, index) => <motion.div
 
@@ -35,7 +35,7 @@ function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
                     {renderItem(item)}
                 </motion.div>)
                 : <Typography as={"i"}>{fallback}</Typography>}
-        </div>
+        </Stack>
 
     </Stack>
 }

@@ -32,7 +32,7 @@ const Button: FC<Props> = ({
         disabled={isDisabled || isLoading}
         onClick={onClick}
         className={clsx(
-            "styles.iconButton({variant})",
+            "p-1 border-2 rounded-md",
             className
         )}
 

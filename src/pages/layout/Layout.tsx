@@ -14,9 +14,9 @@ export const Layout: FC = () => {
     const device = useDeviceType()
 
     return access_token
-        ? <Stack vertical className={"styles.layout"}>
+        ? <Stack vertical className={"h-screen"}>
             <AppHeader/>
-            <div className={"styles.layoutContent"}>
+            <div className={"flex-1"}>
                 <Container>
                     <Suspense fallback={"Loading..."}>
                         <Outlet/>

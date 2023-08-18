@@ -1,7 +1,5 @@
-// import * as styles from "./app-header.css"
 import {IconButton} from "@/components/button";
 import {Container} from "@/components/container";
-import {sprinkles} from "@/styles/sprinkles.css";
 import {FC} from "react";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "@utils/router.ts";
@@ -13,7 +11,7 @@ export const AppHeader: FC = () => {
     const colorScheme = useSettingsStore(getColorScheme)
     const setColorScheme = useSettingsStore(getSetColorScheme)
 
-    return <div className={"styles.header"}>
+    return <div className={"sticky top-0 backdrop-blur border-b-2 py-3"}>
         <Container>
             {/*<div className={sprinkles({display: "flex", alignItems: "center", justifyContent: "space-between"})}>*/}
             <div className={"flex items-center justify-between"}>
