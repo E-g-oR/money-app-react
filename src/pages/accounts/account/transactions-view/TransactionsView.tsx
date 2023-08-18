@@ -19,7 +19,7 @@ const TransactionsView: FC<Props> = ({accountId}) => {
     const transactions = useDataStore(getTransactionsList)
 
     return <>
-        <Stack alignItems={"center"} justifyContent={"space-between"}>
+        <Stack className={"items-center justify-between"}>
             <Typography>{t.transactions.recentTransactions}</Typography>
             <AddTransactionModal/>
         </Stack>

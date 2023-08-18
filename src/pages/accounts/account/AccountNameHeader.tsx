@@ -14,8 +14,8 @@ const AccountNameHeader: FC<Props> = ({account}) => {
     const [newDescription, setNewDescription] = useState(account?.description ?? "")
 
 
-    return <Stack alignItems={"flex-start"} justifyContent={"space-between"}>
-        <Stack vertical spacing={"s"}>
+    return <Stack className={"items-start justify-between"}>
+        <Stack vertical className={"gap-2"}>
             {isEdit
                 ? <>
                     <Input

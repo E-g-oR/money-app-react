@@ -33,10 +33,8 @@ const AccountPage: FC = () => {
 
     return <Stack
         vertical
-        spacing={"s"}
-        alignItems={"stretch"}
+        className={"gap-2"}
     >
-        <h2 className={"text-amber-500"}>hellow world</h2>
         <AnimatePresence>
             {account &&
                 <motion.div
@@ -48,32 +46,33 @@ const AccountPage: FC = () => {
                     />
                 </motion.div>}
         </AnimatePresence>
-        <Stack spacing={"xl"} justifyContent={"space-between"} alignItems={"center"}>
+        <Stack className={"items-center justify-between gap-4"}>
             <Typography as={"h2"}>{account?.value ?? 0}</Typography>
             <Stack vertical spacing={"s"}>
                 <Typography>{t.common.incomes}: {account?.income}</Typography>
                 <Typography>{t.common.expenses}: {account?.expenses}</Typography>
             </Stack>
         </Stack>
-        {account?.saving ? <Stack alignItems={"center"} justifyContent={"space-between"}>
-                <Typography
-                    as={"h5"}
-                >{account.saving.name}: <Typography
-                    as={"span"}
-                    fontWeight={"400"}
-                >{account.saving.value}</Typography>
-                </Typography>
-                <SavingInfoModal/>
-
-            </Stack> :
-            <Stack justifyContent={"space-between"} alignItems={"center"}>
-                <Typography>Add saving to this account</Typography>
-                <Stack spacing={"s"}>
+        <Stack className={"items-center justify-between"}>
+            {account?.saving
+                ? <>
+                    <Typography
+                        as={"h5"}
+                    >{account.saving.name}: <Typography
+                        as={"span"}
+                        fontWeight={"400"}
+                    >{account.saving.value}</Typography>
+                    </Typography>
                     <SavingInfoModal/>
-                    <AddSavingModal/>
-                </Stack>
-            </Stack>}
-
+                </>
+                : <>
+                    <Typography>Add saving to this account</Typography>
+                    <Stack className={"gap-2"}>
+                        <SavingInfoModal/>
+                        <AddSavingModal/>
+                    </Stack>
+                </>}
+        </Stack>
         <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
         <Suspense fallback={"loading"}>
             {tab === "chart"

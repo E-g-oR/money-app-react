@@ -32,7 +32,7 @@ const Button: FC<Props> = ({
         disabled={isDisabled || isLoading}
         onClick={onClick}
         className={clsx(
-            "p-1 border-2 rounded-md",
+            "p-1 border-2 rounded-md border-background-200 dark:border-background-700",
             className
         )}
 

@@ -8,6 +8,6 @@ interface Props {
 
 export const Divider: FC<Props> = ({vertical, spacing}) =>
     <div
-        className={clsx(vertical ? "border-2 h-full" : "border-t-2 w-full", "")}
+        className={clsx(vertical ? "border-2 h-full" : "border-t-2 w-full", "border-background-200 dark:border-background-700")}
     />
 

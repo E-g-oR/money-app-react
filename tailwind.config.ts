@@ -1,12 +1,25 @@
+import {Config} from "tailwindcss";
+import colors from "tailwindcss/colors"
+
 /** @type {import('tailwindcss').Config} */
-export default {
+const config: Config = {
     content: [
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
+    darkMode: "class",
     theme: {
+        colors: {
+            ...colors,
+            primary: colors.indigo,
+            secondary: colors.purple,
+            success: colors.lime,
+            error: colors.red,
+            warning: colors.orange,
+            background: colors.zinc
+        },
         extend: {},
     },
     plugins: [],
 }
-
+export default config

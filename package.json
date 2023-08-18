@@ -28,6 +28,7 @@
     "@visx/shape": "^3.3.0",
     "@visx/tooltip": "^3.3.0",
     "@visx/vendor": "^3.3.0",
+    "class-variance-authority": "^0.7.0",
     "date-fns": "^2.30.0",
     "fp-ts": "^2.16.0",
     "framer-motion": "^10.12.17",

@@ -51,10 +51,10 @@ const router = createBrowserRouter([{
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        {/*<ThemeProvider>*/}
+        <ThemeProvider>
             <Suspense fallback={<Typography as={"i"}>Loading...</Typography>}>
                 <RouterProvider router={router}/>
             </Suspense>
-        {/*</ThemeProvider>*/}
+        </ThemeProvider>
     </React.StrictMode>,
 )
