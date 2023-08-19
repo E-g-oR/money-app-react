@@ -17,22 +17,20 @@ export const AccountCard: FC<Props> = ({account}) => {
         to={ROUTES.accounts.account.builder(account.id.toString())}
     >
         <Card className={"flex items-center"}>
-            <Stack className={"w-1/4"} vertical>
+            <Stack className={"w-1/4 my-2 mx-4"} vertical>
                 <Typography>{account.name}</Typography>
                 <Typography as={"h3"}>{account.value}</Typography>
             </Stack>
             <Divider vertical/>
             <Stack
                 vertical
-                spacing={"xxs"}
-                className={"styles.rightSide"}
+                className={"flex-1 "}
             >
-                <Typography>
+                <Typography className={"ml-2 sm:ml-4"}>
                     {t.common.incomes}: <Typography as={"span"} color={"success"}>{account.income}</Typography>
                 </Typography>
-                <Divider spacing={"xs"}/>
-                <Typography
-                >
+                <Divider className={"my-1"}/>
+                <Typography className={"ml-2 sm:ml-4"}>
                     {t.common.expenses}: <Typography as={"span"} color={"error"}>{account.expenses}</Typography>
                 </Typography>
             </Stack>
