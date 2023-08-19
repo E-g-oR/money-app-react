@@ -1,44 +1,50 @@
 import {clsx} from "@/utils/etc";
-import {FC} from "react";
+import {ButtonHTMLAttributes, FC} from "react";
 import IconComponent, {icons} from "@icons";
-import {motion} from "framer-motion"
+import {buttonColor} from "@components/button/Button.tsx";
 
-interface Props {
+const iconButtonSize = {
+    sm: "p-0.5",
+    md: "p-1",
+    xl: "p-2",
+}
+
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     onClick: () => void,
-    variant?: string,
-    color?: string,
+    variant?: keyof typeof buttonColor.primary,
+    color?: keyof typeof buttonColor,
     isDisabled?: boolean,
     isLoading?: boolean,
-    size?: string,
+    size?: keyof typeof iconButtonSize,
     className?: string,
     icon: keyof typeof icons
 }
 
 const Button: FC<Props> = ({
-                                      color = "primary",
-                                      variant,
-                                      onClick,
-                                      isLoading,
-                                      isDisabled,
-                                      size = "xxs",
-                                      icon,
-                                      className
-                                  }) => {
+                               color = "primary",
+                               variant = "outlined",
+                               onClick,
+                               isLoading,
+                               isDisabled,
+                               size = "md",
+                               icon,
+                               className,
+                               ...props
+                           }) => {
 
-    return <motion.button
-        whileTap={{
-            scale: 0.95
-        }}
+    return <button
+        {...props}
         disabled={isDisabled || isLoading}
         onClick={onClick}
         className={clsx(
-            "p-1 border-2 rounded-md border-background-200 dark:border-background-700",
+            "border-2 rounded-md transition hover:shadow-md",
+            buttonColor[color][variant],
+            iconButtonSize[size],
             className
         )}
-
     >
-        <IconComponent icon={icon} />
-    </motion.button>
+        <IconComponent icon={icon}/>
+    </button>
 }
 
 export default Button

@@ -13,7 +13,7 @@ const config: Config = {
             ...colors,
             primary: colors.indigo,
             secondary: colors.purple,
-            success: colors.lime,
+            success: colors.green,
             error: colors.red,
             warning: colors.orange,
             background: colors.zinc

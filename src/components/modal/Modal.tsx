@@ -1,4 +1,3 @@
-import {Card} from "@/components/card";
 import {Stack} from "@/components/stack";
 import {Typography} from "@/components/typography";
 import {IconButton} from "@/components/button";
@@ -27,22 +26,20 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
                 }
             }}>
             <motion.div
-                className={"sm:max-w-lg w-full flex-1"}
+                className={"sm:max-w-lg w-full flex-1 border-2 border-b-0 sm:border-b-2 border-background-200 dark:border-background-700 rounded-t-xl sm:rounded-xl p-4 bg-background-50 dark:bg-background-900"}
                 initial={{transform: "translateY(100%)", opacity: 0}}
                 animate={{transform: "translateY(0)", opacity: 1}}
                 exit={{transform: "translateY(100%)", opacity: 0}}
             >
-                <Card variant={"outlined"} className={"shadow-2xl"}>
-                    <Stack className={"gap-3 justify-between"}>
-                        {title && <Typography as={"h4"}>{title}</Typography>}
-                        <IconButton
-                            variant={"outline"}
-                            onClick={onClose}
-                            icon={"CloseIcon"}
-                        />
-                    </Stack>
-                    {children}
-                </Card>
+                <Stack className={"gap-3 justify-between"}>
+                    {title && <Typography as={"h4"}>{title}</Typography>}
+                    <IconButton
+                        variant={"outlined"}
+                        onClick={onClose}
+                        icon={"CloseIcon"}
+                    />
+                </Stack>
+                {children}
             </motion.div>
         </motion.div>}
     </AnimatePresence>

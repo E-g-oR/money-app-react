@@ -36,7 +36,7 @@ const AccountNameHeader: FC<Props> = ({account}) => {
         </Stack>
 
         <IconButton
-            variant={"outline"}
+            variant={"outlined"}
             color={isEdit ? "success" : "primary"}
             onClick={() => setIsEdit(prev => !prev)}
             icon={isEdit ? "DoneIcon" : "Pencil"}

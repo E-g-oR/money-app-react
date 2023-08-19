@@ -34,7 +34,6 @@ const Typography: FC<Props> = ({
                                    children,
                                    ...props
                                }) => {
-    console.log(as, children)
     return createElement(as, {
         className: clsx(
             getFontSize(as),

@@ -89,8 +89,8 @@ const PayDeptModal: FC<Props> = ({dept}) => {
                 </form>
             </Modal>
             <Button
-                size={"xs"}
-                variant={"outline"}
+                size={"sm"}
+                variant={"outlined"}
                 color={"secondary"}
                 onClick={() => setIsOpen(true)}
             >{t.actions.pay}</Button>
