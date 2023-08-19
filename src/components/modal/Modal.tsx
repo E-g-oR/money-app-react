@@ -31,7 +31,7 @@ const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
                 animate={{transform: "translateY(0)", opacity: 1}}
                 exit={{transform: "translateY(100%)", opacity: 0}}
             >
-                <Stack className={"gap-3 justify-between"}>
+                <Stack className={"gap-3 justify-between mb-4"}>
                     {title && <Typography as={"h4"}>{title}</Typography>}
                     <IconButton
                         variant={"outlined"}

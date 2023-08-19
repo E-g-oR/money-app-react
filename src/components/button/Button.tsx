@@ -4,7 +4,7 @@ import {ButtonHTMLAttributes, FC} from "react";
 export const buttonColor = {
     primary: {
         solid: "border-primary-500 bg-primary-500 dark:border-primary-400 dark:bg-primary-400 text-background-200 dark:text-background-900",
-        outlined: "border-primary-500 dark:border-primary-400 fill-primary-500 dark:fill-primary-400 bg-transparent text-primary-500 dark:text-background-200 hover:bg-primary-500/30",
+        outlined: "border-primary-500 dark:border-primary-400 fill-primary-500 dark:fill-primary-400 bg-transparent text-primary-500 dark:text-primary-400 hover:bg-primary-500/30",
         soft: "text-primary-500 dark:text-primary-400 fill-primary-500 dark:fill-primary-400 border-primary-400/10 bg-primary-500/30 hover:bg-primary-500/50 dark:bg-primary-400/30 dark:hover:bg-primary-400/50",
         clean: "text-primary-500 fill-primary-500 dark:text-primary-400 border-transparent bg-transparent text-primary-500 dark:text-background-200 hover:bg-primary-500"
     },

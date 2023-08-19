@@ -4,7 +4,6 @@ import {Navigate, Outlet} from "react-router-dom";
 import {getAccessToken} from "@store/auth/auth.selector.ts";
 import {ROUTES} from "@utils/router.ts";
 import BottomNavigation from "@components/bottom-navigation";
-// import * as styles from "./layout.css.ts"
 import useAuthStore from "@store/auth/auth.slice.ts";
 import NotificationContainer from "@components/notification/NotificationsContainer.tsx";
 import {useDeviceType} from "@utils/responsive.ts";
@@ -14,7 +13,7 @@ export const Layout: FC = () => {
     const device = useDeviceType()
 
     return access_token
-        ? <Stack vertical className={"h-screen"}>
+        ? <Stack vertical className={"h-screen gap-3 sm:gap-5"}>
             <AppHeader/>
             <div className={"flex-1"}>
                 <Container>

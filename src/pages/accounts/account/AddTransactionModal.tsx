@@ -71,7 +71,7 @@ const AddTransactionModal: FC = () => {
             title={t.transactions.createTransactionTitle}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack vertical spacing={"s"}>
+                <Stack vertical className={"gap-2"}>
                     <Controller control={control}
                                 name={"transactionType"}
                                 render={({field}) => <Select
