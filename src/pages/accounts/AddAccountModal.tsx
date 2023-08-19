@@ -24,8 +24,9 @@ export const AddAccountModal: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const onSubmit: SubmitHandler<CreateAccountForm> = useCallback((data) => {
+        const value = parseFloat(data.accountValue)
         Api.createAccount({
-            value: parseFloat(data.accountValue),
+            value: isNaN(value) ? 0 : value,
             name: data.accountName,
             description: data.accountDescription
         }).then(() => {
@@ -41,7 +42,7 @@ export const AddAccountModal: FC = () => {
             isOpen={isOpen}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack vertical spacing={"s"}>
+                <Stack vertical className={"gap-2"}>
                     <Controller control={control}
                                 rules={{
                                     required: true

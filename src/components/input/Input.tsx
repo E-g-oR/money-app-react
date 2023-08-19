@@ -1,8 +1,5 @@
 import {forwardRef} from "react";
-// import {assignInlineVars} from "@vanilla-extract/dynamic";
 import {clsx} from "@utils/etc.ts";
-// import {colorScheme} from "@styles/colorScheme.css.ts";
-// import * as styles from "./input.css"
 
 type InputType = "text" | "password" | "email" | "number" | "search"
 
@@ -29,15 +26,7 @@ const Input = forwardRef<HTMLInputElement, Props>(({
                                                        autofocus,
                                                        name
                                                    }, ref) => {
-    return <label
-        // className={styles.label({fullWidth})}
-        // style={assignInlineVars({
-        //     [styles.bg]: isError ? colorScheme.error.lightTransparent : colorScheme.background.light,
-        //     [styles.bgFocus]: isError ? colorScheme.error.darkTransparent : colorScheme.background.dark,
-        //     [styles.text]: isError ? colorScheme.error.normal : colorScheme.text.normal,
-        //     [styles.decoratorBg]: isError ? colorScheme.error.normal : colorScheme.primary.normal
-        // })}
-    >
+    return <label>
         {label}
         <input
             ref={ref}
@@ -47,11 +36,12 @@ const Input = forwardRef<HTMLInputElement, Props>(({
             value={value}
             onChange={(e) => onChange(e.target.value)}
             placeholder={placeholder}
-            // className={clsx(
-            //     styles.input,
-            // )}
+            className={clsx(
+                "py-1 px-4 bg-transparent border-2  rounded  outline-0 text-base transition",
+                fullWidth ? "w-full" : "",
+                isError ? "bg-error-500/20 text-error-500 border-error-500/50" : "focus:bg-primary-500/10 dark:border-background-700 focus:border-b-primary-500 dark:focus:border-b-primary-400"
+            )}
         />
-        {/*<div className={styles.decorator}/>*/}
     </label>
 })
 
