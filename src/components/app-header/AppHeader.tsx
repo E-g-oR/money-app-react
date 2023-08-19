@@ -11,7 +11,7 @@ export const AppHeader: FC = () => {
     const colorScheme = useSettingsStore(getColorScheme)
     const setColorScheme = useSettingsStore(getSetColorScheme)
 
-    return <div className={"sticky top-0 z-10 backdrop-blur border-b-2 border-background-200 dark:border-background-700 py-3"}>
+    return <div className={"sticky top-0 z-10 bg-background-50/30 dark:bg-background-900/30 backdrop-blur border-b-2 border-background-200 dark:border-background-700 py-3"}>
         <Container>
             <div className={"flex items-center justify-between"}>
                 <IconButton

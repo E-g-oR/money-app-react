@@ -37,7 +37,7 @@ const IconComponent: FC<Props> = ({
                                       size = "normal",
                                       className
                                   }) => (
-    <div className={clsx("w-7", className)}>
+    <div className={clsx("w-7 fill-current", className)}>
         {icons[icon]({})}
     </div>
 );

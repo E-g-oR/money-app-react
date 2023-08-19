@@ -17,7 +17,7 @@ export type BottomNavigationList = ReadonlyArray<BottomNavigationItemType>
 
 const BottomNavigation: FC = () =>
     <Stack
-        className={"sticky bottom-0 backdrop-blur border-t-2 border-background-200 dark:border-background-700"}
+        className={"sticky bottom-0 bg-background-50/40 dark:bg-background-900/40 backdrop-blur border-t-2 border-background-200 dark:border-background-700"}
         justifyContent={"stretch"}
         alignItems={"center"}
     >

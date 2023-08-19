@@ -18,7 +18,7 @@ const ThemeProvider: FC<Props> = ({children}) => {
         }
     }, [colorScheme]);
 
-    return <div className={clsx("overflow-x-hidden bg-background-50 text-background-900 dark:bg-background-900 dark:text-background-200 transition")}>
+    return <div className={clsx("overflow-x-hidden bg-background-50 text-background-900 fill-background-900 dark:bg-background-900 dark:text-background-200 dark:fill-background-200 transition")}>
         {children}
     </div>
 }
