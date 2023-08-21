@@ -24,7 +24,7 @@ const makeNotification = (notification: NotificationInfo) =>
     subject$.next({
         ...notification,
         id: getId(),
-        timeout: 5000,
+        timeout: 50000,
     });
 
 export const showMessage = (message: string) =>
@@ -72,10 +72,10 @@ const NotificationContainer: FC = () => {
     });
 
     return (
-        <div className={"styles.wrap"}>
+        <div className={"fixed right-9 top-20"}>
             <motion.div
-
                 layout
+                className={"flex flex-col gap-3"}
             >
                 <AnimatePresence initial={false}>
                     {notifications.map((message) => (
