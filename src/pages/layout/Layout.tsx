@@ -7,23 +7,28 @@ import BottomNavigation from "@components/bottom-navigation";
 import useAuthStore from "@store/auth/auth.slice.ts";
 import NotificationContainer from "@components/notification/NotificationsContainer.tsx";
 import {useDeviceType} from "@utils/responsive.ts";
+import SideNavigation from "@components/side-navigation/SideNavigation.tsx";
 
 export const Layout: FC = () => {
     const access_token = useAuthStore(getAccessToken)
     const device = useDeviceType()
 
     return access_token
-        ? <Stack vertical className={"h-screen gap-3 sm:gap-5"}>
-            <AppHeader/>
-            <div className={"flex-1"}>
-                <Container>
-                    <Suspense fallback={"Loading..."}>
-                        <Outlet/>
-                    </Suspense>
-                    <NotificationContainer/>
-                </Container>
+        ? <Stack vertical={device === "mobile"} className={"h-screen gap-y-3 sm:gap-y-5"}>
+            {device !== "mobile" && <SideNavigation/>}
+            <div className={"flex-1 w-full sm:min-w-[360px]"}>
+                <AppHeader/>
+                <div className={"flex-1"}>
+                    <Container>
+                        <Suspense fallback={"Loading..."}>
+                            <Outlet/>
+                        </Suspense>
+                        <NotificationContainer/>
+                    </Container>
+                </div>
             </div>
-            <BottomNavigation/>
+
+            {device === "mobile" && <BottomNavigation/>}
         </Stack>
         : <Navigate to={ROUTES.auth.login.path}/>
 }
