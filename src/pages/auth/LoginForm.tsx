@@ -28,16 +28,26 @@ const LoginForm: FC = () => {
     }, [setTokens, navigate])
 
 
-    return <Stack vertical spacing={"s"}>
+    return <Stack vertical className={"gap-3"}>
         <Typography as={"h4"}>Login</Typography>
         <form onSubmit={(e) => {
             e.preventDefault()
             sendLogin({email, password})
         }}>
-            <Stack vertical spacing={"s"}>
-                <Input placeholder={"example@email.com"} value={email} onChange={setEmail}/>
-                <Input placeholder={"Your password"} type={"password"} value={password}
-                       onChange={setPassword}/>
+            <Stack vertical className={"gap-2"}>
+                <Input
+                    placeholder={"example@email.com"}
+                    value={email}
+                    onChange={setEmail}
+                    fullWidth
+                />
+                <Input
+                    placeholder={"Your password"}
+                    type={"password"}
+                    value={password}
+                    onChange={setPassword}
+                    fullWidth
+                />
                 <Button
                     type={"submit"}
                     onClick={() => sendLogin({

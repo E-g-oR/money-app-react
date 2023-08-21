@@ -63,7 +63,7 @@ const Button: FC<Props> = ({
         {...props}
         onClick={onClick}
         className={clsx(
-            "uppercase transition border-2 rounded-md self-start hover:shadow-md active:shadow-none backdrop-blur-md",
+            "uppercase transition border rounded-md self-start hover:shadow-md active:shadow-none backdrop-blur-md",
             buttonColor[color][variant],
             buttonSize[size],
             className

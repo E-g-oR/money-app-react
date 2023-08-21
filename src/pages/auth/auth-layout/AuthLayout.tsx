@@ -1,4 +1,4 @@
-import * as styles from "./auth-layout.css"
+// import * as styles from "./auth-layout.css"
 import {FC} from "react";
 import {Card, Stack} from "@components";
 import {Navigate, Outlet} from "react-router-dom";
@@ -11,9 +11,9 @@ const AuthLayout: FC = () => {
     const accessToken = useAuthStore(getAccessToken)
 
     return !accessToken
-        ? <div className={styles.layout}>
-            <Card padding={"m"}>
-                <Stack vertical>
+        ? <div className={"w-screen h-screen flex items-center justify-center"}>
+            <Card className={"p-4"}>
+                <Stack vertical className={"gap-2"}>
                     <Outlet/>
                 </Stack>
             </Card>

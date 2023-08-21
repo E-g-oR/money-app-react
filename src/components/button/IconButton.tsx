@@ -37,7 +37,7 @@ const Button: FC<Props> = ({
         disabled={isDisabled || isLoading}
         onClick={onClick}
         className={clsx(
-            "border-2 rounded-md transition hover:shadow-md",
+            "border rounded-md transition hover:shadow-md",
             buttonColor[color][variant],
             iconButtonSize[size],
             className

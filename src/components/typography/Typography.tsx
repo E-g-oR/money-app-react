@@ -39,6 +39,7 @@ const Typography: FC<Props> = ({
             getFontSize(as),
             oneOf(as)(boldText) ? "font-bold": "font-normal",
             "leading-normal",
+            // "text-background-900 dark:text-background-100",
             className
         ),
         children,

@@ -1,7 +1,5 @@
-import {Card} from "@/components/card";
-import {Container} from "@/components/container";
-import {Stack} from "@/components/stack";
-import {forwardRef, ReactNode, useState} from "react";
+import {forwardRef, ReactNode, useRef, useState} from "react";
+import {Popover} from "react-tiny-popover";
 import {IconButton} from "@components";
 
 interface Props<T> {
@@ -18,36 +16,45 @@ const SelectComponent = forwardRef(function Select<T>({
                                                           onChange
                                                       }: Props<T>, ref): ReactNode {
         const [isOpen, setIsOpen] = useState<boolean>(false)
-        return <div className={"relative"}>
-            <Card variant={"outlined"} className={"px-4"}>
-                <div ref={ref} className={"flex items-center justify-between"}>
-                    {renderVariants(value)}
-                    <IconButton
-                        variant={"clean"}
-                        onClick={() => setIsOpen(prev => !prev)}
-                        icon={"ArrowDropdown"}
-                    />
-                </div>
-            </Card>
-            {isOpen ?
-                <Card className={" z-10 absolute top-full w-full bg-background-100 dark:bg-background-900 shadow-lg max-h-44 overflow-y-auto"}
-                      variant={"outlined"}>
-                    <Stack vertical className={"gap-2 items-stretch"}>
-                        {variants.map((item, index) => <button
-                            key={index}
-                            onClick={() => {
-                                onChange(item)
-                                setIsOpen(false)
-                            }}
-                            className={"self-stretch text-left focus:bg-primary-500/30 hover:bg-primary-500/30 py-2"}
-                        >
-                            <Container spacing={"xs"}>
-                                {renderVariants(item)}
-                            </Container>
-                        </button>)}
-                    </Stack>
-                </Card> : null}
-        </div>
+
+    const parentReef = useRef<HTMLDivElement>(null)
+
+        return <Popover
+            isOpen={isOpen}
+            align={"center"}
+            positions={["bottom", "top"]}
+            containerStyle={{
+                zIndex: "99",
+                position: "absolute",
+            }}
+            content={({childRect}) => <div
+                className={"z-50 bg-background-50 dark:bg-background-900 border border-background-200 dark:border-background-700 flex flex-col shadow-xl rounded-md py-2 transition max-h-44 overflow-y-auto"}
+                style={{
+                    width: childRect.width
+                }}
+            >
+                {variants.map((item) => <button
+                    onClick={()=> {
+                        onChange(item)
+                        setIsOpen(false)
+                    }}
+                    className={"text-left py-2 px-4 hover:bg-primary-500/30 transition text-background-900 dark:text-background-100"}>{renderVariants(item)}</button>)}
+            </div>}
+            onClickOutside={() => setIsOpen(false)}
+        >
+            <div
+                ref={parentReef}
+                className={"border border-background-200 dark:border-background-700 rounded-md pl-4 flex items-center justify-between"}
+            >
+                {renderVariants(value)}
+                <IconButton
+                    variant={"clean"}
+                    color={"secondary"}
+                    onClick={() => setIsOpen(prev => !prev)}
+                    icon={"ArrowDropdown"}
+                />
+            </div>
+        </Popover>
     }
 )
 export default SelectComponent
