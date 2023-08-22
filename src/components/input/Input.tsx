@@ -12,7 +12,8 @@ interface Props {
     placeholder?: string
     isError?: boolean,
     fullWidth?: boolean
-    autofocus?: boolean
+    autofocus?: boolean,
+    className?: string
 }
 
 const Input = forwardRef<HTMLInputElement, Props>(({
@@ -24,9 +25,10 @@ const Input = forwardRef<HTMLInputElement, Props>(({
                                                        isError = false,
                                                        fullWidth,
                                                        autofocus,
-                                                       name
+                                                       name,
+                                                       className,
                                                    }, ref) => {
-    return <label className={fullWidth ? "flex-1" :""}>
+    return <label className={fullWidth ? "flex-1" : ""}>
         {label}
         <input
             ref={ref}
@@ -39,7 +41,8 @@ const Input = forwardRef<HTMLInputElement, Props>(({
             className={clsx(
                 "py-1 px-4 bg-transparent border focus:border-b-2 rounded outline-0 text-base transition",
                 fullWidth ? "w-full" : "",
-                isError ? "bg-error-500/20 text-error-500 border-error-500/50" : "focus:bg-primary-500/10 dark:border-background-700 focus:border-b-primary-500 dark:focus:border-b-primary-400"
+                isError ? "bg-error-500/20 text-error-500 border-error-500/50" : "focus:bg-primary-500/10 dark:border-background-700 focus:border-b-primary-500 dark:focus:border-b-primary-400",
+                className
             )}
         />
     </label>

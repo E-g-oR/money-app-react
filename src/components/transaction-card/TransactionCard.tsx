@@ -18,8 +18,8 @@ const TransactionCard: FC<Props> = ({operation}) => {
     return <Card className={clsx(
         "py-2 px-5 relative overflow-hidden",
         operation.type === OperationType.INCOME
-            ? "border-success-500/50"
-            : "border-error-500/50"
+            ? "border-success-500 dark:border-success-700"
+            : "border-error-500 dark:border-error-700"
     )}>
         <div className={clsx(
             "absolute left-0 top-0 h-full w-1.5",
@@ -29,7 +29,7 @@ const TransactionCard: FC<Props> = ({operation}) => {
         )}/>
         <Stack className={"gap-3"}>
             <Typography as={"h3"}>{operation.value}</Typography>
-            <Stack vertical className={"gap-2 justify-between"}>
+            <Stack vertical className={"justify-between"}>
                 <Typography
                     color={operation.type === OperationType.INCOME ? "success" : "error"}
                     fontWeight={"600"}>{operation.title}</Typography>

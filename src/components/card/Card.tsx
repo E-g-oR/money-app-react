@@ -15,7 +15,7 @@ export const Card: FC<Props > = ({
                                           }) =>
     <div
         className={clsx(
-            "border-2 border-background-200 dark:border-background-700 rounded-md",
+            "border border-background-200 dark:border-background-700 rounded-md",
             className
         )}
     >

@@ -16,12 +16,12 @@ interface Props {
 }
 
 const getFontSize = (element: Element) => match(element)
-    .with("h1", ()=> "text-5xl")
-    .with("h2", ()=> "text-4xl")
-    .with("h3", ()=> "text-3xl")
-    .with("h4", ()=> "text-2xl")
-    .with("h5", ()=> "text-xl")
-    .with("h6", ()=> "text-lg")
+    .with("h1", ()=> "text-4xl sm:text-5xl")
+    .with("h2", ()=> "text-3xl sm:text-4xl")
+    .with("h3", ()=> "text-2xl sm:text-3xl")
+    .with("h4", ()=> "text-xl sm:text-2xl")
+    .with("h5", ()=> "text-lg sm:text-xl")
+    .with("h6", ()=> "text-base sm:text-lg")
     .otherwise(()=> "text-base")
 
 const Typography: FC<Props> = ({

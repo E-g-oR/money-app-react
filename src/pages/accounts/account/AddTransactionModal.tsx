@@ -72,29 +72,31 @@ const AddTransactionModal: FC = () => {
         >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack vertical className={"gap-2"}>
-                    <Controller control={control}
-                                name={"transactionType"}
-                                render={({field}) => <Select
-                                    {...field}
-                                    variants={values}
-                                    renderVariants={a => <Typography>{a.label}</Typography>}
-                                />}
-                    />
-                    <Controller control={control}
-                                rules={{
-                                    required: true,
-                                    min: 0.01
-                                }}
-                                name={"transactionValue"}
-                                render={({field, fieldState}) => <Input
-                                    isError={!!fieldState.error}
-                                    type={"number"}
-                                    fullWidth
-                                    placeholder={t.common.value}
-                                    {...field}
-                                />}
-                    />
-
+                    <Stack className={"gap-2 items-stretch"}>
+                        <Controller control={control}
+                                    name={"transactionType"}
+                                    render={({field}) => <Select
+                                        {...field}
+                                        variants={values}
+                                        renderVariants={a => <Typography>{a.label}</Typography>}
+                                    />}
+                        />
+                        <Controller control={control}
+                                    rules={{
+                                        required: true,
+                                        min: 0.01
+                                    }}
+                                    name={"transactionValue"}
+                                    render={({field, fieldState}) => <Input
+                                        isError={!!fieldState.error}
+                                        type={"number"}
+                                        fullWidth
+                                        placeholder={t.common.value}
+                                        className={"h-full"}
+                                        {...field}
+                                    />}
+                        />
+                    </Stack>
                     <Controller control={control}
                                 rules={{
                                     required: true
@@ -111,17 +113,14 @@ const AddTransactionModal: FC = () => {
                                 render={({field}) => <Input fullWidth placeholder={t.common.description} {...field}/>}
                                 name={"transactionDescription"}
                     />
-
-
                     <Button
                         type={"submit"}
+                        className={"w-full"}
                         onClick={handleSubmit(onSubmit)}
                     >{t.actions.create}</Button>
                 </Stack>
             </form>
-
         </Modal>
-
     </>
 }
 
