@@ -18,7 +18,15 @@ const config: Config = {
             warning: colors.orange,
             background: colors.zinc
         },
-        extend: {},
+        extend: {
+            gridTemplateRows: {
+                desktop: "auto 1fr",
+                mobile: "auto 1fr auto",
+            },
+            gridTemplateColumns: {
+                desktop: "auto 1fr"
+            }
+        },
     },
     plugins: [],
 }

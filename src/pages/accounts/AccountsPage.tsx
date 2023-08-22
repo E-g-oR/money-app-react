@@ -15,7 +15,7 @@ const AccountsPage: FC = () => {
 
     const {isLoading} = useRequest(Api.getAccountsList, null)
 
-    return <Stack vertical spacing={"m"}>
+    return <Stack vertical className={"gap-3"}>
         <PageHeader header={t.accounts.yourAccounts} icon={<AddAccountModal/>}/>
         <List
             data={accountsList}
