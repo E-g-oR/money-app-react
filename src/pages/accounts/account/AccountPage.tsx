@@ -14,9 +14,12 @@ import AddSavingModal from "@pages/accounts/account/AddSavingModal.tsx";
 
 const ChartView = lazy(() => import("./chart-view"))
 
-const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
     const t = useTranslation()
+    const accountPageTabs = useMemo(() => Object.keys(t.transactions.tabs).map(key => ({
+        value: key,
+        title: t.transactions.tabs[key]
+    })), [t])
     const params = useParams<"accountId">()
     const setActiveAccountId = useDataStore(getSetActiveAccountId)
 
@@ -73,9 +76,14 @@ const AccountPage: FC = () => {
                     </Stack>
                 </>}
         </Stack>
-        <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
+        <Tabs
+            value={tab}
+            values={accountPageTabs}
+            onChange={setTab}
+            render={item => item.title}
+        />
         <Suspense fallback={"loading"}>
-            {tab === "chart"
+            {tab.value === "chart"
                 ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
                 : <TransactionsView accountId={Number(params.accountId)}/>}
         </Suspense>

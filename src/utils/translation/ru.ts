@@ -52,6 +52,10 @@ const ru: Translation = {
         settings: "Настройки",
     },
     transactions: {
+        tabs: {
+            transactions: "Транзакции",
+            chart: "График"
+        },
         transaction: "Транзакция",
         recentTransactions: "Недавние транзакции",
         createTransactionTitle: "Создать транзакцию",

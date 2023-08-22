@@ -44,7 +44,10 @@ export interface Translation {
     },
     navigation: Record<BottomNavigationKey, string>,
     transactions: {
-        tabs: ReadonlyArray<Tab>,
+        tabs: {
+            transactions: string,
+            chart: string
+        },
         transaction: string,
         recentTransactions: string,
         createTransactionTitle: string,
