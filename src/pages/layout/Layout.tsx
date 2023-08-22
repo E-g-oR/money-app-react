@@ -14,8 +14,8 @@ export const Layout: FC = () => {
     const device = useDeviceType()
 
     return access_token
-        ? <Stack vertical={device === "mobile"} className={"h-screen gap-y-3 sm:gap-y-5"}>
-            {device !== "mobile" && <SideNavigation/>}
+        ? <Stack vertical={device.deviceType === "mobile"} className={"h-screen gap-y-3 sm:gap-y-5"}>
+            {device.deviceType !== "mobile" && <SideNavigation/>}
             <div className={"flex-1 w-full sm:min-w-[360px]"}>
                 <AppHeader/>
                 <div className={"flex-1"}>
@@ -28,7 +28,7 @@ export const Layout: FC = () => {
                 </div>
             </div>
 
-            {device === "mobile" && <BottomNavigation/>}
+            {device.deviceType === "mobile" && <BottomNavigation/>}
         </Stack>
         : <Navigate to={ROUTES.auth.login.path}/>
 }

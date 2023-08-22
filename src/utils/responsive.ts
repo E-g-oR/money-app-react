@@ -30,5 +30,12 @@ export const useDeviceType = () => {
         return () => window.removeEventListener("resize", getInnerWidth)
     }, [getInnerWidth])
 
-    return deviceType
+    const more = useCallback((type: Device): boolean => innerWidth > deviceBreakpoints[type], [innerWidth]);
+    const less = useCallback((type: Device): boolean => innerWidth < deviceBreakpoints[type], [innerWidth]);
+
+    return {
+        deviceType,
+        more,
+        less
+    }
 }
