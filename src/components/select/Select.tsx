@@ -17,7 +17,7 @@ const SelectComponent = forwardRef(function Select<T>({
                                                       }: Props<T>, ref): ReactNode {
         const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    const parentReef = useRef<HTMLDivElement>(null)
+        const parentReef = useRef<HTMLDivElement>(null)
 
         return <Popover
             isOpen={isOpen}
@@ -33,8 +33,9 @@ const SelectComponent = forwardRef(function Select<T>({
                     width: childRect.width
                 }}
             >
-                {variants.map((item) => <button
-                    onClick={()=> {
+                {variants.map((item, index) => <button
+                    key={index}
+                    onClick={() => {
                         onChange(item)
                         setIsOpen(false)
                     }}
