@@ -51,7 +51,7 @@ const AccountPage: FC = () => {
         </AnimatePresence>
         <Stack className={"items-center justify-between gap-4"}>
             <Typography as={"h2"}>{account?.value ?? 0}</Typography>
-            <Stack vertical spacing={"s"}>
+            <Stack vertical>
                 <Typography>{t.common.incomes}: {account?.income}</Typography>
                 <Typography>{t.common.expenses}: {account?.expenses}</Typography>
             </Stack>

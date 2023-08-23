@@ -2,7 +2,7 @@ import {FC} from "react";
 import {Stack} from "@components";
 import {AddAccountModal} from "@pages/accounts/AddAccountModal.tsx";
 import List from "@components/list/List.tsx";
-import {AccountCard} from "@pages/accounts/account/account-card/AccountCard.tsx";
+import {AccountCard} from "@pages/accounts/account-card/AccountCard.tsx";
 import {useRequest, useTranslation} from "@utils/hooks.tsx";
 import Api from "@/api";
 import useDataStore from "@store/data/data.slice.ts";
