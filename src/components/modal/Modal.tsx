@@ -15,7 +15,7 @@ interface Props {
 const Modal: FC<Props> = ({onClose, children, isOpen, title}) => {
     return <AnimatePresence>
         {isOpen && <motion.div
-            className={"fixed top-0 left-0 backdrop-blur-md w-full h-full z-10 flex items-end sm:items-center justify-center"}
+            className={"fixed top-0 left-0 backdrop-blur-md bg-background-600/30 dark:bg-background-950/40 w-full h-full z-10 flex items-end sm:items-center justify-center"}
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             exit={{opacity: 0}}

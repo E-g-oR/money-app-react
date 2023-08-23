@@ -17,7 +17,7 @@ export const AccountCard: FC<Props> = ({account}) => {
         to={ROUTES.accounts.account.builder(account.id.toString())}
     >
         <Card className={"flex items-center"}>
-            <Stack className={"w-1/4 my-2 mx-4"} vertical>
+            <Stack className={"w-1/4 min-w-fit my-2 mx-4"} vertical>
                 <Typography>{account.name}</Typography>
                 <Typography as={"h3"}>{account.value}</Typography>
             </Stack>
