@@ -14,9 +14,12 @@ import AddSavingModal from "@pages/accounts/account/AddSavingModal.tsx";
 
 const ChartView = lazy(() => import("./chart-view"))
 
-const accountPageTabs = ["transactions", "chart",] as const
 const AccountPage: FC = () => {
     const t = useTranslation()
+    const accountPageTabs = useMemo(() => Object.keys(t.transactions.tabs).map(key => ({
+        value: key,
+        title: t.transactions.tabs[key]
+    })), [t])
     const params = useParams<"accountId">()
     const setActiveAccountId = useDataStore(getSetActiveAccountId)
 
@@ -31,11 +34,9 @@ const AccountPage: FC = () => {
     const account = useMemo(() => accountsById[accountId ?? 0], [accountId, accountsById])
     const [tab, setTab] = useState<typeof accountPageTabs[number]>(accountPageTabs[0])
 
-
     return <Stack
         vertical
-        spacing={"s"}
-        alignItems={"stretch"}
+        className={"gap-2"}
     >
         <AnimatePresence>
             {account &&
@@ -48,35 +49,41 @@ const AccountPage: FC = () => {
                     />
                 </motion.div>}
         </AnimatePresence>
-        <Stack spacing={"xl"} justifyContent={"space-between"} alignItems={"center"}>
+        <Stack className={"items-center justify-between gap-4"}>
             <Typography as={"h2"}>{account?.value ?? 0}</Typography>
-            <Stack vertical spacing={"s"}>
+            <Stack vertical>
                 <Typography>{t.common.incomes}: {account?.income}</Typography>
                 <Typography>{t.common.expenses}: {account?.expenses}</Typography>
             </Stack>
         </Stack>
-        {account?.saving ? <Stack alignItems={"center"} justifyContent={"space-between"}>
-                <Typography
-                    as={"h5"}
-                >{account.saving.name}: <Typography
-                    as={"span"}
-                    fontWeight={"400"}
-                >{account.saving.value}</Typography>
-                </Typography>
-                <SavingInfoModal/>
-
-            </Stack> :
-            <Stack justifyContent={"space-between"} alignItems={"center"}>
-                <Typography>Add saving to this account</Typography>
-                <Stack spacing={"s"}>
+        <Stack className={"items-center justify-between"}>
+            {account?.saving
+                ? <>
+                    <Typography
+                        as={"h5"}
+                    >{account.saving.name}: <Typography
+                        as={"span"}
+                        fontWeight={"400"}
+                    >{account.saving.value}</Typography>
+                    </Typography>
                     <SavingInfoModal/>
-                    <AddSavingModal/>
-                </Stack>
-            </Stack>}
-
-        <Tabs value={tab} values={accountPageTabs} onChange={setTab} render={item => item}/>
+                </>
+                : <>
+                    <Typography>Add saving to this account</Typography>
+                    <Stack className={"gap-2"}>
+                        <SavingInfoModal/>
+                        <AddSavingModal/>
+                    </Stack>
+                </>}
+        </Stack>
+        <Tabs
+            value={tab}
+            values={accountPageTabs}
+            onChange={setTab}
+            render={item => item.title}
+        />
         <Suspense fallback={"loading"}>
-            {tab === "chart"
+            {tab.value === "chart"
                 ? <ChartView accountId={parseInt(params.accountId ?? "")}/>
                 : <TransactionsView accountId={Number(params.accountId)}/>}
         </Suspense>

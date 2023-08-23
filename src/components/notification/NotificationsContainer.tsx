@@ -3,12 +3,12 @@ import Notification from "./Notification";
 import {Subject} from "rxjs";
 import {v4 as getId} from "uuid";
 import {useSubscription} from "observable-hooks";
-import * as styles from "./notification.css";
+// import * as styles from "./notification.css";
 import {AnimatePresence, motion} from "framer-motion";
-import {sprinkles} from "@styles/sprinkles.css";
+// import {sprinkles} from "@styles/sprinkles.css";
 
 export interface NotificationInfo {
-    variant: keyof typeof styles.variant;
+    variant: string;
     // variant: string;
     message: string;
 }
@@ -24,7 +24,7 @@ const makeNotification = (notification: NotificationInfo) =>
     subject$.next({
         ...notification,
         id: getId(),
-        timeout: 5000,
+        timeout: 50000,
     });
 
 export const showMessage = (message: string) =>
@@ -72,14 +72,10 @@ const NotificationContainer: FC = () => {
     });
 
     return (
-        <div className={styles.wrap}>
+        <div className={"fixed right-9 top-20"}>
             <motion.div
-                className={sprinkles({
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "s",
-                })}
                 layout
+                className={"flex flex-col gap-3"}
             >
                 <AnimatePresence initial={false}>
                     {notifications.map((message) => (

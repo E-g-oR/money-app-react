@@ -1,67 +1,50 @@
-import {colorScheme} from "@/styles/colorScheme.css";
-import * as styles from "./button.css"
-import {assignInlineVars} from "@vanilla-extract/dynamic";
 import {clsx} from "@/utils/etc";
-import {Color} from "../card/Card";
-import {sprinkles} from "@/styles/sprinkles.css";
-import {FC} from "react";
+import {ButtonHTMLAttributes, FC} from "react";
 import IconComponent, {icons} from "@icons";
-import {motion} from "framer-motion"
+import {buttonColor} from "@components/button/Button.tsx";
 
-interface Props {
+const iconButtonSize = {
+    sm: "p-0.5",
+    md: "p-1",
+    xl: "p-2",
+}
+
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     onClick: () => void,
-    variant?: styles.ButtonVariant,
-    color?: Color,
+    variant?: keyof typeof buttonColor.primary,
+    color?: keyof typeof buttonColor,
     isDisabled?: boolean,
     isLoading?: boolean,
-    size?: styles.ButtonSize,
+    size?: keyof typeof iconButtonSize,
     className?: string,
     icon: keyof typeof icons
 }
 
 const Button: FC<Props> = ({
-                                      color = "primary",
-                                      variant,
-                                      onClick,
-                                      isLoading,
-                                      isDisabled,
-                                      size = "xxs",
-                                      icon,
-                                      className
-                                  }) => {
+                               color = "primary",
+                               variant = "outlined",
+                               onClick,
+                               isLoading,
+                               isDisabled,
+                               size = "md",
+                               icon,
+                               className,
+                               ...props
+                           }) => {
 
-    return <motion.button
-        whileTap={{
-            scale: 0.95
-        }}
+    return <button
+        {...props}
         disabled={isDisabled || isLoading}
         onClick={onClick}
         className={clsx(
-            styles.iconButton({variant}),
-            sprinkles({
-                padding: size,
-                borderRadius: "s",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }),
+            "border rounded-md transition hover:shadow-md",
+            buttonColor[color][variant],
+            iconButtonSize[size],
             className
         )}
-        style={assignInlineVars({
-            [styles.text]: colorScheme.background.normal,
-            [styles.textHover]: colorScheme.background.light,
-            [styles.textActive]: colorScheme.background.dark,
-
-            [styles.bg]: colorScheme[color].normal,
-            [styles.bgHover]: colorScheme[color].light,
-            [styles.bgActive]: colorScheme[color].dark,
-            [styles.bgTransparent]: colorScheme[color].normalTransparent,
-            [styles.bgTransparentHover]: colorScheme[color].lightTransparent,
-            [styles.bgTransparentActive]: colorScheme[color].darkTransparent,
-        })}
     >
-        <IconComponent icon={icon} />
-    </motion.button>
+        <IconComponent icon={icon}/>
+    </button>
 }
 
 export default Button

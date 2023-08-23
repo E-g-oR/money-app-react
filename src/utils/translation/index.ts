@@ -2,6 +2,7 @@ import es from "./es.ts"
 import en from "./en.ts"
 import ru from "./ru.ts"
 import {Lang} from "@utils/constants.ts";
+import {Tab} from "@components/tabs/Tabs.tsx";
 
 export type BottomNavigationKey = "accounts" | "depts" | "settings" | "profile"
 
@@ -43,6 +44,10 @@ export interface Translation {
     },
     navigation: Record<BottomNavigationKey, string>,
     transactions: {
+        tabs: {
+            transactions: string,
+            chart: string
+        },
         transaction: string,
         recentTransactions: string,
         createTransactionTitle: string,

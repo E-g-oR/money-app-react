@@ -39,14 +39,24 @@ const ChartView: FC<Props> = () => {
     }, [selectedYear, selectedMonth, view, accountId])
 
 
-    return <>
+    return <div className={"flex flex-col h-96"}>
         <Typography>Chart view</Typography>
-        {chartFilters && <Stack spacing={"m"} alignItems={"center"} justifyContent={"flex-start"}>
-            <Select value={view} variants={views} renderVariants={a => a} onChange={setView}/>
+        {chartFilters && <Stack
+            spacing={"m"}
+            alignItems={"center"}
+            justifyContent={"flex-start"}
+            className={"items-center justify-start gap-4"}
+        >
+            <Select
+                value={view}
+                variants={views}
+                renderVariants={a => a}
+                onChange={setView}
+            />
             {YearsSelect}
             {MonthsSelect}
         </Stack>}
-        <ParentSize debounceTime={30} style={{flexGrow: 0}}>
+        <ParentSize debounceTime={30} className={"h-1/3 flex-1"}>
             {({height, width,}) => <LinearChart
                 size={{
                     width,
@@ -54,9 +64,10 @@ const ChartView: FC<Props> = () => {
                 }}
                 data={chartData ?? {chartLines: []}}
                 view={view}
-            />}
+            />
+            }
         </ParentSize>
-    </>
+    </div>
 }
 
 export default ChartView

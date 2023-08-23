@@ -52,6 +52,10 @@ const en: Translation = {
         settings: "Settings",
     },
     transactions: {
+        tabs: {
+            transactions: "Transactions",
+            chart: "Chart"
+        },
         transaction: "Transaction",
         recentTransactions: "Recent transaction",
         createTransactionTitle: "Create transaction",

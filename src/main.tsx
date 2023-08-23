@@ -6,6 +6,8 @@ import {ROUTES} from "@utils/router.ts";
 import ThemeProvider from "@components/theme-provider/ThemeProvider.tsx";
 import {Typography} from "@components";
 import ProfilePage from "@pages/profile/ProfilePage.tsx";
+import "./input.css"
+import {AnimatePresence} from "framer-motion";
 
 const
     LoginForm = lazy(() => import("@pages/auth/LoginForm.tsx")),
@@ -51,9 +53,11 @@ const router = createBrowserRouter([{
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
         <ThemeProvider>
-            <Suspense fallback={<Typography as={"i"}>Loading...</Typography>}>
-                <RouterProvider router={router}/>
-            </Suspense>
+            <AnimatePresence>
+                <Suspense fallback={<Typography as={"i"}>Loading...</Typography>}>
+                    <RouterProvider router={router}/>
+                </Suspense>
+            </AnimatePresence>
         </ThemeProvider>
     </React.StrictMode>,
 )

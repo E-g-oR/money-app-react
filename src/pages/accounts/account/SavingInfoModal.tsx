@@ -26,7 +26,7 @@ const SavingInfoModal: FC = () => {
         </Modal>
         <IconButton
             color={"secondary"}
-            variant={"clear"}
+            variant={"clean"}
             onClick={() => setIsOpen(true)}
             icon={"Add"}
         />

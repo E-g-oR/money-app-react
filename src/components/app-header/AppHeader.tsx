@@ -1,7 +1,5 @@
-import * as styles from "./app-header.css"
 import {IconButton} from "@/components/button";
 import {Container} from "@/components/container";
-import {sprinkles} from "@/styles/sprinkles.css";
 import {FC} from "react";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "@utils/router.ts";
@@ -13,18 +11,18 @@ export const AppHeader: FC = () => {
     const colorScheme = useSettingsStore(getColorScheme)
     const setColorScheme = useSettingsStore(getSetColorScheme)
 
-    return <div className={styles.header}>
+    return <div className={"sticky top-0 z-10 bg-background-50/30 dark:bg-background-900/30 backdrop-blur border-b-2 border-background-200 dark:border-background-700 py-3"}>
         <Container>
-            <div className={sprinkles({display: "flex", alignItems: "center", justifyContent: "space-between"})}>
+            <div className={"flex items-center justify-between"}>
                 <IconButton
                     onClick={() => setColorScheme(colorScheme === "dark" ? "light" : "dark")}
                     icon={"SettingsIcon"}
-                    variant={"outline"}
+                    variant={"outlined"}
                 />
                 <IconButton
                     onClick={() => navigate(ROUTES.profile.path)}
                     icon={"UserIcon"}
-                    variant={"outline"}
+                    variant={"outlined"}
                 />
             </div>
         </Container>

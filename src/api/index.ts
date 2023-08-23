@@ -16,6 +16,7 @@ import {
 import {Pageable} from "@/types/api.ts";
 import {Operation} from "@/types/accounts.ts";
 import {showSuccess} from "@components/notification/NotificationsContainer.tsx";
+import en from "@utils/translation/en.ts";
 
 const Client = ky.create({
     prefixUrl: "http://localhost:8000"
@@ -95,7 +96,7 @@ class API {
     public createAccount = (json: CreateAccountDto): Promise<AccountDto> =>
         this.clientSecure.post("accounts/new", {json}).json()
 
-    public addSavingToAccount = async (accountId: number, savingId: number): Promise<AccountDto> => {
+    public addSavingToAccount = async (accountId: number, savingId: number, successMessage = en.notifications.saving.added): Promise<AccountDto> => {
         const updatedAccount = await this.clientSecure.patch(
             `accounts/saving/${accountId}`,
             {searchParams: {savingId}}
@@ -103,6 +104,7 @@ class API {
 
         const {updateAccount} = useDataStore.getState()
         updateAccount(updatedAccount)
+        showSuccess(successMessage)
         return updatedAccount
     }
 

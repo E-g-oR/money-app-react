@@ -50,7 +50,7 @@ const PayDeptModal: FC<Props> = ({dept}) => {
                 title={`${t.depts.payFor} "${dept.title}"`}
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Stack vertical spacing={"s"}>
+                    <Stack vertical className={"gap-2"}>
                         <Typography>
                             {t.depts.needsToCloseDept(dept.value - dept.valueCovered)}
                         </Typography>
@@ -65,32 +65,37 @@ const PayDeptModal: FC<Props> = ({dept}) => {
                                         />
                                     }
                         />
-                        <Controller control={control}
-                                    rules={{
-                                        required: true,
-                                        min: {value: 0.01, message: "Вы не можете заплатить 0"},
-                                        max: {
-                                            value: getValues("accountToPayFrom").value,
-                                            message: "Вы не можете заплатить больше, чем есть на аккаунте"
-                                        }
-                                    }}
-                                    name={"valueToPay"}
-                                    render={({field, fieldState}) =>
-                                        <Input
-                                            isError={fieldState.invalid}
-                                            {...field}
-                                        />}
-                        />
-                        <Button
-                            type={"submit"}
-                            onClick={handleSubmit(onSubmit)}
-                        >{t.actions.pay}</Button>
+                        <Stack className={"gap-2"}>
+                            <Controller control={control}
+                                        rules={{
+                                            required: true,
+                                            min: {value: 0.01, message: "Вы не можете заплатить 0"},
+                                            max: {
+                                                value: getValues("accountToPayFrom").value,
+                                                message: "Вы не можете заплатить больше, чем есть на аккаунте"
+                                            }
+                                        }}
+                                        name={"valueToPay"}
+                                        render={({field, fieldState}) =>
+                                            <Input
+                                                fullWidth
+                                                type={"number"}
+                                                isError={fieldState.invalid}
+                                                {...field}
+                                            />}
+                            />
+                            <Button
+                                type={"submit"}
+                                onClick={handleSubmit(onSubmit)}
+                            >{t.actions.pay}</Button>
+                        </Stack>
+
                     </Stack>
                 </form>
             </Modal>
             <Button
-                size={"xs"}
-                variant={"outline"}
+                size={"sm"}
+                variant={"outlined"}
                 color={"secondary"}
                 onClick={() => setIsOpen(true)}
             >{t.actions.pay}</Button>

@@ -1,19 +1,17 @@
-import {alignItems, justifyContent, sprinkles} from "@/styles/sprinkles.css";
-import {theme} from "@/styles/theme.css";
 import {clsx} from "@/utils/etc";
-import * as styles from "./stack.css"
 import {FC, ReactNode} from "react";
 
 
 interface Props {
     children: ReactNode,
-    spacing?: keyof typeof theme.spacing,
+    spacing?: string,
     vertical?: boolean,
-    alignItems?: typeof alignItems[number],
+    alignItems?: string,
     className?: string
-    justifyContent?: typeof justifyContent[number]
+    justifyContent?: string
 }
 
+// TODO: add spacing, alignItems, justifyContent props
 const Stack: FC<Props> = ({
                               children,
                               spacing,
@@ -24,13 +22,8 @@ const Stack: FC<Props> = ({
                           }) =>
     <div
         className={clsx(
-            styles.stack,
-            sprinkles({
-                gap: spacing,
-                flexDirection: vertical ? "column" : "row",
-                alignItems,
-                justifyContent
-            }),
+            "flex",
+            vertical ? "flex-col" : undefined,
             className
         )}
     >

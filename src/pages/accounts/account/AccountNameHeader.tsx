@@ -1,7 +1,13 @@
-import {FC, useState} from "react";
+import {FC, useCallback, useState} from "react";
 import {IconButton, Input, Stack, Typography} from "@components";
 import {useTranslation} from "@utils/hooks.tsx";
 import {AccountDto} from "@/types/API/data-contracts.ts";
+import {Controller, useForm} from "react-hook-form";
+
+interface AccountEditForm {
+    accountName: string,
+    accountDescription: string
+}
 
 interface Props {
     account: AccountDto,
@@ -10,25 +16,42 @@ interface Props {
 const AccountNameHeader: FC<Props> = ({account}) => {
     const t = useTranslation()
     const [isEdit, setIsEdit] = useState(false)
-    const [newName, setNewName] = useState(account?.name)
-    const [newDescription, setNewDescription] = useState(account?.description ?? "")
+
+    const {control, reset, handleSubmit} = useForm<AccountEditForm>({
+        defaultValues: {
+            accountDescription: account.name,
+            accountName: account.description
+        }
+    })
+
+    const onSubmit = useCallback((accountEditForm: AccountEditForm) => {
+        //     TODO: edit account
+        reset()
+    }, [reset]);
 
 
-    return <Stack alignItems={"flex-start"} justifyContent={"space-between"}>
-        <Stack vertical spacing={"s"}>
+
+    return <Stack className={"items-start justify-between"}>
+        <Stack vertical className={"gap-2"}>
             {isEdit
-                ? <>
-                    <Input
-                        placeholder={t.common.name}
-                        value={newName}
-                        onChange={setNewName}
+                ? <form onSubmit={handleSubmit(onSubmit)} className={"flex flex-col gap-2"}>
+                    <Controller
+                        control={control}
+                        render={({field}) => <Input
+                            placeholder={t.common.name}
+                            {...field}
+                        />}
+                        name={"accountName"}
                     />
-                    <Input
-                        placeholder={t.common.description}
-                        value={newDescription}
-                        onChange={setNewDescription}
+                    <Controller
+                        control={control}
+                        render={({field}) => <Input
+                            placeholder={t.common.description}
+                            {...field}
+                        />}
+                        name={"accountDescription"}
                     />
-                </>
+                </form>
                 : <>
                     <Typography as={"h3"}>{account.name}</Typography>
                     <Typography>{account.description}</Typography>
@@ -36,7 +59,7 @@ const AccountNameHeader: FC<Props> = ({account}) => {
         </Stack>
 
         <IconButton
-            variant={"outline"}
+            variant={"outlined"}
             color={isEdit ? "success" : "primary"}
             onClick={() => setIsEdit(prev => !prev)}
             icon={isEdit ? "DoneIcon" : "Pencil"}

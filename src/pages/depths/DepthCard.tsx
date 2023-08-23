@@ -1,26 +1,28 @@
 import {Card, Stack, Typography} from "@components";
-import * as styles from "./depths.css"
 import {FC, memo} from "react";
 import PayDeptModal from "@pages/depths/PayDeptModal.tsx";
 import Progress from "@components/progress/Progress.tsx";
 import {DeptDto} from "@/types/API/data-contracts.ts";
+import {clsx} from "@utils/etc.ts";
 
 interface Props {
     depth: DeptDto
 }
 
 const DepthCard: FC<Props> = ({depth}) =>
-    <Card padding={"s"}>
-        <Stack spacing={"m"} justifyContent={"space-between"} alignItems={"flex-start"}>
-            <Stack vertical spacing={"xs"}>
+    <Card className={clsx(
+        "py-2 px-3",
+        depth.valueCovered >= depth.value
+            ? "opacity-50 grayscale"
+            : ""
+    )}>
+        <Stack className={"items-start justify-between"}>
+            <Stack vertical className={"gap-0.5"}>
                 <Typography as={"h5"}>{depth.title}</Typography>
                 <Typography>{depth.description}</Typography>
             </Stack>
-            <Stack alignItems={"flex-end"} spacing={"s"}>
-                <Typography
-                    as={"h4"}
-                    className={styles.depthValue}
-                >
+            <Stack className={"gap-2 items-center"}>
+                <Typography as={"h5"}>
                     {depth.valueCovered} / {depth.value}
                 </Typography>
                 {depth.value > depth.valueCovered && <PayDeptModal dept={depth}/>}

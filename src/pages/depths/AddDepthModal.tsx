@@ -45,7 +45,7 @@ const AddDepthModal: FC = () => {
             title={t.depts.createDept}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack vertical spacing={"s"}>
+                <Stack vertical className={"gap-2"}>
                     <Controller control={control}
                                 rules={{
                                     required: true
@@ -53,6 +53,7 @@ const AddDepthModal: FC = () => {
                                 render={({field, fieldState}) => <Input
                                     placeholder={t.common.title}
                                     isError={fieldState.invalid}
+                                    fullWidth
                                     {...field}
                                 />}
                                 name={"deptTitle"}
@@ -60,11 +61,12 @@ const AddDepthModal: FC = () => {
                     <Controller control={control}
                                 render={({field}) => <Input
                                     placeholder={t.common.description}
+                                    fullWidth
                                     {...field}
                                 />}
                                 name={"deptDescription"}
                     />
-                    <Stack spacing={"m"}>
+                    <Stack className={"gap-2 w-full"}>
                         <Controller control={control}
                                     rules={{
                                         required: true,
@@ -72,6 +74,7 @@ const AddDepthModal: FC = () => {
                                     }}
                                     render={({field}) => <Input
                                         placeholder={t.common.value}
+
                                         type={"number"}
                                         fullWidth
                                         {...field}
@@ -81,6 +84,7 @@ const AddDepthModal: FC = () => {
                         <Controller control={control}
                                     render={({field}) => <Input
                                         placeholder={t.depts.coveredValue}
+
                                         type={"number"}
                                         fullWidth
                                         {...field}
@@ -88,10 +92,7 @@ const AddDepthModal: FC = () => {
                                     name={"deptCoveredValue"}
                         />
                     </Stack>
-
-
                     <Button
-                        size={"m"}
                         type={"submit"}
                         onClick={handleSubmit(onSubmit)}
                     >{t.actions.create}</Button>

@@ -1,9 +1,6 @@
-import {FC, ReactNode} from "react";
+import {FC, ReactNode, useLayoutEffect} from "react";
 import {getColorScheme} from "@store/settings/settings.selector.ts";
 import {clsx} from "@utils/etc.ts";
-import {themeClassName} from "@styles/theme.css.ts";
-import {darkScheme, lightScheme} from "@styles/colorScheme.css.ts";
-import {app} from "@styles/app.css.ts";
 import useSettingsStore from "@store/settings/settings.slice.ts";
 
 interface Props {
@@ -12,7 +9,16 @@ interface Props {
 
 const ThemeProvider: FC<Props> = ({children}) => {
     const colorScheme = useSettingsStore(getColorScheme)
-    return <div className={clsx(themeClassName, colorScheme === "dark" ? darkScheme : lightScheme, app)}>
+
+    useLayoutEffect(() => {
+        if (colorScheme === "dark") {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, [colorScheme]);
+
+    return <div className={clsx("overflow-x-hidden bg-background-50 text-background-900 fill-background-900 dark:bg-background-900 dark:text-background-200 dark:fill-background-200 transition")}>
         {children}
     </div>
 }

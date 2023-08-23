@@ -10,8 +10,6 @@ import {ReactComponent as BackIcon} from "@assets/icons/chevron-left.svg";
 import {ReactComponent as SettingsIcon} from "@assets/icons/settings.svg";
 import {ReactComponent as ArrowDropdown} from "@assets/icons/arrow-dropdown.svg";
 import {ReactComponent as AccountBalance} from "@assets/icons/account-balance.svg";
-
-import * as styles from "./icon.css";
 import {clsx} from "@utils/etc.ts";
 
 export const icons = {
@@ -30,7 +28,7 @@ export const icons = {
 
 interface Props {
     icon: keyof typeof icons;
-    size?: keyof typeof styles.iconSize;
+    size?: string;
     className?: string
 }
 
@@ -39,7 +37,7 @@ const IconComponent: FC<Props> = ({
                                       size = "normal",
                                       className
                                   }) => (
-    <div className={clsx(styles.icon({size}), className)}>
+    <div className={clsx("w-7 fill-current", className)}>
         {icons[icon]({})}
     </div>
 );

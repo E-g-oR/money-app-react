@@ -3,6 +3,8 @@ import {Stack, Typography} from "@components";
 import {motion} from "framer-motion"
 import {useTranslation} from "@utils/hooks.tsx";
 
+// import * as styles from "./list.css.ts"
+
 interface Props<T> {
     data: ReadonlyArray<T> | undefined,
     isLoading: boolean,
@@ -13,7 +15,7 @@ interface Props<T> {
 
 function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
     const t = useTranslation()
-    return <Stack vertical spacing={"s"}>
+    return <Stack vertical>
         {isLoading && <motion.div
             initial={{opacity: 0, scale: 0.8}}
             animate={{opacity: 1, scale: 1}}
@@ -21,17 +23,20 @@ function List<T>({renderItem, isLoading, data, fallback, getKey}: Props<T>) {
         >
             <Typography as={"i"}>{t.common.loading}...</Typography>
         </motion.div>}
-        {!isLoading && data && data.length > 0
-            ? data.map((item, index) => <motion.div
-                key={getKey(item)}
-                initial={{opacity: 0, scale: 0.8}}
-                animate={{opacity: 1, scale: 1}}
-                exit={{opacity: 0, scale: 0.8}}
-                transition={{delay: index * 0.1}}
-            >
-                {renderItem(item)}
-            </motion.div>)
-            : <Typography as={"i"}>{fallback}</Typography>}
+        <Stack className={"grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3 flex-wrap"}>
+            {!isLoading && data && data.length > 0
+                ? data.map((item, index) => <motion.div
+                    key={getKey(item)}
+                    initial={{opacity: 0, scale: 0.8}}
+                    animate={{opacity: 1, scale: 1}}
+                    exit={{opacity: 0, scale: 0.8}}
+                    transition={{delay: index * 0.1}}
+                >
+                    {renderItem(item)}
+                </motion.div>)
+                : <Typography as={"i"}>{fallback}</Typography>}
+        </Stack>
+
     </Stack>
 }
 
